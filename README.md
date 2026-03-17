@@ -131,11 +131,11 @@ Para la Aprobación en Examen la defensa debe pactarse con los docentes y realiz
 
 **Muestra de avance**: Inicio del segundo cuatrimestre
 
-**Primer Entrega de Regularidad/AD**: 17/10/2025
+**Primer Entrega de Regularidad/AD**: 12/10 al 16/10
 
-**Primer Recuperatorio/Globalizador de Regularidad/AD**: 31/10/2025
+**Primer Recuperatorio/Globalizador de Regularidad/AD**: 26/10 al 30/10
 
-**Ultima instancia Recuperatorio/Globalizador de Regularidad/AD**: 14/11/2025
+**Ultima instancia Recuperatorio/Globalizador de Regularidad/AD**: 9/11 al 13/11
 
 ### 3.4 Documentación
 La documentación debe presentarse para la instancia de defensa.
