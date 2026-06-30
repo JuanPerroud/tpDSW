@@ -1,29 +1,31 @@
-const db = require('../config/db');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
 
-const Usuario = {
-    getAll: (callback) => {
-        db.query('SELECT * FROM usuarios', callback);
-    },
 
-    getById: (id, callback) => {
-        db.query('SELECT * FROM usuarios WHERE id = ?', [id], callback);
-    },
 
-    create: (data, callback) => {
-        const { nombre, email, password } = data;
-        db.query('INSERT INTO usuarios (nombre, email, password) VALUES (?, ?, ?)',
-            [nombre, email, password], callback);
-    },
-
-    update: (id, data, callback) => {
-        const { nombre, email, password } = data;
-        db.query('UPDATE usuarios SET nombre=?, email=?, password=? WHERE id=?',
-            [nombre, email, password, id], callback);
-    },
-
-    delete: (id, callback) => {
-        db.query('DELETE FROM usuarios WHERE id=?', [id], callback);
-    }
-};
+const Usuario = sequelize.define("Usuario" , {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        nombre: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+}, {
+    tableName: 'Usuario',
+    timestamps: true
+});
+    
 
 module.exports = Usuario;
