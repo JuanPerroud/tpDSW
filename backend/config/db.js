@@ -1,16 +1,21 @@
-const mysql = require('mysql2'); //Este es la libreria que permite conectar a MySQL desde Node.js
-require('dotenv').config();
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
-const connection = mysql.createConnection({     //Utiliza processs.env para cargar las variables de entorno desde el archivo .env
-    host: process.env.DB_HOST,          
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-});
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: "mysql",
+    logging: false,
+    port: 3306,
+  },
+);
 
-connection.connect(err => {
-    if (err) console.error('Error conectando a MySQL:', err);
-    else console.log('Conectado a MySQL ✓');
-});
+sequelize
+  .authenticate()
+  .then(() => console.log("Conectado a MySQL con Sequelize ✓"))
+  .catch((err) => console.error("Error al conectar con Sequelize:", err));
 
-module.exports = connection;
+module.exports = sequelize;
