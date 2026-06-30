@@ -1,35 +1,26 @@
-const db = require('../config/db');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+const Usuario = require('./Usuario');
 
-const Ejercicio = {
-    getAll: (callback) => {
-        db.query('SELECT * FROM ejercicios', callback);
-    },
 
-    getById: (id, callback) => {
-        db.query('SELECT * FROM ejercicios WHERE id = ?', [id], callback);
-    },
+const Ejercicio = sequelize.define("Ejercicio" , {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        nombre: {
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+        descripcion: {
+            type: DataTypes.TEXT,
+            allowNull: false
+        },
+}, {
+    tableName: 'Ejercicio',
+    timestamps: true
+});  
 
-    create: (data, callback) => {
-        const { nombre, descripcion } = data;
-        db.query(
-            'INSERT INTO ejercicios (nombre, descripcion) VALUES (?, ?)',
-            [nombre, descripcion],
-            callback
-        );
-    },
+module.exports = Usuario;
 
-    update: (id, data, callback) => {
-        const { nombre, descripcion} = data;
-        db.query(
-            'UPDATE ejercicios SET nombre=?, descripcion=? WHERE id=?',
-            [nombre, descripcion, id],
-            callback
-        );
-    },
-
-    delete: (id, callback) => {
-        db.query('DELETE FROM ejercicios WHERE id=?', [id], callback);
-    }
-};
-
-module.exports = Ejercicio;

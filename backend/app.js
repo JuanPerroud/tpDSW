@@ -16,7 +16,7 @@ const usuarioRoutes = require('./routes/usuarioRoutes');
 app.use('/api/usuarios', usuarioRoutes);
 const rutinasRoutes = require('./routes/rutinasRoutes');
 app.use('/api/rutinas', rutinasRoutes);
-const ejercicioRoutes = require('./routes/ejercicio.routes');
+const ejercicioRoutes = require('./routes/ejercicioRoutes');
 app.use('/api/ejercicios', ejercicioRoutes);
 
 
