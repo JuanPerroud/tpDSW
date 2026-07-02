@@ -2,21 +2,26 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-const sequelize = require("./config/db");
-const Usuario = require("./models/Usuario");
-const Rutinas = require("./models/Rutinas");
+//Importa los modelos
+const { sequelize, User, Routine, Exercise } = require("./models");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // Rutas
-const usuarioRoutes = require("./routes/usuarioRoutes");
-app.use("/api/usuarios", usuarioRoutes);
+const mainRoutes = require("./routes/mainRoutes");
+app.use("/", mainRoutes);
+const userRoutes = require("./routes/userRoutes");
+app.use("/api/user", userRoutes);
+const routineRoutes = require("./routes/routineRoutes");
+app.use("/api/routine", routineRoutes);
+const exerciseRoutes = require("./routes/exerciseRoutes");
+app.use("/api/exercise", exerciseRoutes);
 
 const PORT = process.env.PORT || 3306;
 sequelize
-  .sync({ alter: true })
+  .sync({ force: true })
   .then(() => {
     app.listen(PORT, () =>
       console.log(`Servidor corriendo en puerto ${PORT} ✓`),

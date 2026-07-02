@@ -1,19 +1,22 @@
-import { Card, CardBody } from "./components/Card";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/NavBar";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Exercises from "./pages/Exercises";
+import Routines from "./pages/Routines";
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <h1>GYM routines</h1>
-      <p>Mi primera pagina</p>
-
-      <Card>
-        <CardBody
-          title="Hola mundo"
-          text="Este es un ejemplo de texto para la tarjeta."
-        />
-      </Card>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/exercises" element={<Exercises />} />
+        <Route path="/routines" element={<Routines />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
