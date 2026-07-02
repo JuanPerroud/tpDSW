@@ -1,40 +1,40 @@
-const Rutinas = require('../models/Usuario');
+const Exercise = require('../models/Exercise');
 
-const RutinasController = {
+const ExerciseController = {
     getAll: (req, res) => {
-        Rutinas.getAll((err, results) => {
+        Exercise.getAll((err, results) => {
             if (err) return res.status(500).json({ error: err });
             res.json(results);
         });
     },
 
     getById: (req, res) => {
-        Rutinas.getById(req.params.idRutina, (err, result) => {
+        Exercise.getById(req.params.id, (err, result) => {
             if (err) return res.status(500).json({ error: err });
             res.json(result[0]);
         });
     },
 
     create: (req, res) => {
-        Rutinas.create(req.body, (err, result) => {
+        Exercise.create(req.body, (err, result) => {
             if (err) return res.status(500).json({ error: err });
-            res.json({ idRutina: result.insertId, ...req.body });
+            res.json({ id: result.insertId, ...req.body });
         });
     },
 
     update: (req, res) => {
-        Rutinas.update(req.params.idRutina, req.body, (err) => {
+        Exercise.update(req.params.id, req.body, (err) => {
             if (err) return res.status(500).json({ error: err });
-            res.json({ mensaje: 'Rutina actualizada ✓' });
+            res.json({ mensaje: 'Ejercicio actualizado ✓' });
         });
     },
 
     delete: (req, res) => {
-        Rutinas.delete(req.params.idRutina, (err) => {
+        Ejercicio.delete(req.params.id, (err) => {
             if (err) return res.status(500).json({ error: err });
-            res.json({ mensaje: 'Rutina eliminada ✓' });
+            res.json({ mensaje: 'Exercise delete ✓' });
         });
     }
 };
 
-module.exports = RutinasController;
+module.exports = ExerciseController;

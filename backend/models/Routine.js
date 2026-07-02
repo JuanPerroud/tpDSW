@@ -1,40 +1,35 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Usuario = require('./Usuario');
+const User = require('./User');
 
 
-const Rutinas = sequelize.define("Rutinas" , {
-        idRutina: {
+const Routine = sequelize.define("Routine" , {
+        id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        nombre: {
+        name: {
             type: DataTypes.STRING(100),
             allowNull: false,
         },
-        descRutina: {
+        description: {
             type: DataTypes.TEXT,
             allowNull: false
         },
-        grupoMuscular: {
+        muscularGroup: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        Estado: {
+        state: {
             type: DataTypes.STRING,
             allowNull: false
         },
 }, {
-    tableName: 'Rutinas',
+    tableName: 'Routine',
     timestamps: true
 });
-Usuario.associate = (models) => {
-        Usuario.hasMany(models.Rutinas, {
-            foreignKey: "creatorId",
-            onDelete: "cascade",
-        });
-};
-    
 
-module.exports = Usuario;
+Routine.belongsTo(User, { foreignKey: 'creatorId', onDelete: 'CASCADE' });
+
+module.exports = Routine;

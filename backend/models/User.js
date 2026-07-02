@@ -3,13 +3,13 @@ const sequelize = require('../config/db');
 
 
 
-const Usuario = sequelize.define("Usuario" , {
+const User = sequelize.define("User" , {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        nombre: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -23,9 +23,9 @@ const Usuario = sequelize.define("Usuario" , {
             allowNull: false,
         },
 }, {
-    tableName: 'Usuario',
+    tableName: 'User',
     timestamps: true
 });
     
 
-module.exports = Usuario;
+module.exports = User;

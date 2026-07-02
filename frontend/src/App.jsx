@@ -1,19 +1,54 @@
-import { Card, CardBody } from "./components/Card";
+import './App.css'; 
+import CreateUser from './page/CreateUser';
+import LogginUser from './page/LogginUser';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
-const App = () => {
+function App() {
   return (
     <div>
-      <h1>GYM routines</h1>
-      <p>Mi primera pagina</p>
+      <Router>
+        <div className="navbar"> //Barra de navegacion
+          <div>
+            <Link to="/"> Loggin User</Link>
+          </div>
+          <div>
+            <Link to="/createuser"> Create A User </Link>
+          </div>
+        </div>
+      
+        <Routes>
+          
+          <Route path="/" element={<LogginUser />} />
 
-      <Card>
-        <CardBody
-          title="Hola mundo"
-          text="Este es un ejemplo de texto para la tarjeta."
-        />
-      </Card>
+          <Route path="/createuser" element= {
+            <div className= "CreateAccountUser">
+              <div className= "mainBox">
+                <h1 className= "mainTitle"> Create Account User </h1>
+                <CreateUser />
+              </div>
+            </div>
+          } />
+
+        </Routes>
+      </Router>
     </div>
   );
-};
+}
+
 
 export default App;
+
+
+
+/*const App = () => {
+  return (
+    <div>
+      <div className= "CreateAccountUser">
+        <div className= "mainBox">
+        <h1 className= "mainTitle"> Create Account User </h1>
+        <CreateUser />
+        </div>
+      </div>
+    </div>
+  );
+}; */
