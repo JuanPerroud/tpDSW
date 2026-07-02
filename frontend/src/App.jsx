@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import './App.css'; 
 import CreateUser from './page/CreateUser';
 import LogginUser from './page/LogginUser';
@@ -35,6 +36,28 @@ function App() {
   );
 }
 
+=======
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/NavBar";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Exercises from "./pages/Exercises";
+import Routines from "./pages/Routines";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/exercises" element={<Exercises />} />
+        <Route path="/routines" element={<Routines />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+>>>>>>> origin/feature/JuaniPerroud
 
 export default App;
 
