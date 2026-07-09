@@ -1,3 +1,5 @@
+import "./ExercisesSelector.css";
+
 function ExercisesSelector({ exercises, selected, onToggle }) {
   return (
     <div className="exercise-selector">

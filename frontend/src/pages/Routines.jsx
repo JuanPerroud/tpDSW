@@ -2,6 +2,7 @@
 import { useState } from "react";
 import RoutineList from "../components/routines/RoutineList";
 import RoutineForm from "../components/routines/RoutineForm";
+import "./Routines.css";
 
 function Routines() {
   const [showForm, setShowForm] = useState(false);

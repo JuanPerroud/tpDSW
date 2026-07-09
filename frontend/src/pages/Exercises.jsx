@@ -2,6 +2,7 @@
 import { useState } from "react";
 import ExerciseList from "../components/exercises/ExerciseList";
 import ExerciseForm from "../components/exercises/ExerciseForm";
+import "./Exercises.css";
 
 function Exercises() {
   const [showForm, setShowForm] = useState(false);

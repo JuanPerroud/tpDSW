@@ -1,4 +1,5 @@
 import RoutineCard from "./RoutineCard";
+import "./RoutineList.css";
 
 function RoutineList({ routines }) {
   if (routines.length === 0) {

@@ -1,0 +1,238 @@
+/* ============================================================================
+   Routine Form Component - GymRoutines
+   ============================================================================ */
+
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --neutral-50: #f9fafb;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-700: #374151;
+  --neutral-900: #111827;
+  --border-radius: 12px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.routine-form {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  border: 1px solid var(--neutral-200);
+  border-top: 4px solid var(--primary-color);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.routine-form h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+/* ============================================================================
+   Form Labels
+   ============================================================================ */
+
+.routine-form label {
+  display: block;
+  margin: 1.25rem 0 0.5rem 0;
+  font-weight: 600;
+  color: var(--neutral-900);
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+}
+
+.routine-form label:first-of-type {
+  margin-top: 0;
+}
+
+/* ============================================================================
+   Form Inputs
+   ============================================================================ */
+
+.routine-form input,
+.routine-form textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--neutral-200);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: white;
+  color: var(--neutral-900);
+  transition: var(--transition-smooth);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.routine-form input::placeholder,
+.routine-form textarea::placeholder {
+  color: var(--neutral-700);
+  opacity: 0.7;
+}
+
+.routine-form input:hover,
+.routine-form textarea:hover {
+  border-color: var(--neutral-700);
+}
+
+.routine-form input:focus,
+.routine-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.routine-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ============================================================================
+   Buttons
+   ============================================================================ */
+
+.routine-form button {
+  margin-top: 1.5rem;
+  padding: 0.85rem 1.75rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.routine-form button:hover {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.routine-form button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.routine-form button:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.routine-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .routine-form {
+    padding: 1.5rem;
+  }
+
+  .routine-form h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .routine-form {
+    padding: 1.25rem;
+    border-radius: 8px;
+  }
+
+  .routine-form h2 {
+    font-size: 1.1rem;
+  }
+
+  .routine-form input,
+  .routine-form textarea {
+    font-size: 16px;
+  }
+
+  .routine-form button {
+    width: 100%;
+  }
+}
+
+/* ============================================================================
+   Dark Mode Support
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutral-50: #0f172a;
+    --neutral-100: #1e293b;
+    --neutral-200: #334155;
+    --neutral-700: #cbd5e1;
+    --neutral-900: #f1f5f9;
+  }
+
+  .routine-form {
+    background-color: var(--neutral-100);
+    border-color: var(--neutral-200);
+  }
+
+  .routine-form h2 {
+    color: var(--neutral-900);
+  }
+
+  .routine-form label {
+    color: var(--neutral-900);
+  }
+
+  .routine-form input,
+  .routine-form textarea {
+    background-color: var(--neutral-100);
+    border-color: var(--neutral-200);
+    color: var(--neutral-900);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .routine-form input:focus,
+  .routine-form textarea:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  }
+}
+
+/* ============================================================================
+   Accessibility & Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

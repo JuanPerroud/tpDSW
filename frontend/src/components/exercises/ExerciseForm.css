@@ -1,0 +1,464 @@
+/* ============================================================================
+   Exercise Form Component - GymRoutines
+   ============================================================================ */
+
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --neutral-50: #f9fafb;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-700: #374151;
+  --neutral-900: #111827;
+  --border-radius: 12px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================================
+   Form Container
+   ============================================================================ */
+
+.exercise-form {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--neutral-200);
+  border-top: 4px solid var(--primary-color);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.exercise-form h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+/* ============================================================================
+   Form Fields Container
+   ============================================================================ */
+
+.exercise-form-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================================
+   Form Labels
+   ============================================================================ */
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--neutral-900);
+  letter-spacing: 0.3px;
+}
+
+.form-group label span.required {
+  color: var(--danger-color);
+}
+
+/* ============================================================================
+   Form Inputs
+   ============================================================================ */
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  border: 2px solid var(--neutral-200);
+  border-radius: 8px;
+  background-color: white;
+  color: var(--neutral-900);
+  font-family: inherit;
+  transition: var(--transition-smooth);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: var(--neutral-700);
+  opacity: 0.7;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.form-group input:hover:not(:disabled),
+.form-group textarea:hover:not(:disabled),
+.form-group select:hover:not(:disabled) {
+  border-color: var(--neutral-700);
+}
+
+.form-group input:disabled,
+.form-group textarea:disabled,
+.form-group select:disabled {
+  background-color: var(--neutral-50);
+  color: var(--neutral-700);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ============================================================================
+   Textarea Specific
+   ============================================================================ */
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-size: 0.95rem;
+}
+
+/* ============================================================================
+   Select Dropdown
+   ============================================================================ */
+
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.form-group select:hover:not(:disabled) {
+  background-color: var(--neutral-50);
+}
+
+/* ============================================================================
+   Error Handling
+   ============================================================================ */
+
+.form-group.error input,
+.form-group.error textarea,
+.form-group.error select {
+  border-color: var(--danger-color);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-group.error label {
+  color: var(--danger-color);
+}
+
+.form-error-message {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--danger-color);
+  font-weight: 500;
+}
+
+/* ============================================================================
+   Success Message
+   ============================================================================ */
+
+.form-success-message {
+  background-color: #ecfdf5;
+  border-left: 4px solid var(--success-color);
+  color: #065f46;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ============================================================================
+   Buttons Container
+   ============================================================================ */
+
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+/* ============================================================================
+   Button Styles
+   ============================================================================ */
+
+.btn {
+  padding: 0.85rem 1.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.btn:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--neutral-200);
+  color: var(--neutral-900);
+  border: 1px solid var(--neutral-200);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--neutral-100);
+  border-color: var(--neutral-700);
+}
+
+/* Danger Button */
+.btn-danger {
+  background-color: #fecaca;
+  color: #dc2626;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #fca5a5;
+}
+
+/* ============================================================================
+   Helper Text
+   ============================================================================ */
+
+.form-help-text {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--neutral-700);
+  font-weight: 400;
+}
+
+/* ============================================================================
+   Loading State
+   ============================================================================ */
+
+.form-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.btn-loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn-loading::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .exercise-form {
+    padding: 1.5rem;
+  }
+
+  .exercise-form h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .exercise-form-fields {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-buttons {
+    width: 100%;
+  }
+
+  .btn {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .exercise-form {
+    padding: 1.25rem;
+    border-radius: 8px;
+  }
+
+  .exercise-form h2 {
+    font-size: 1.1rem;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================================
+   Dark Mode Support
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutral-50: #0f172a;
+    --neutral-100: #1e293b;
+    --neutral-200: #334155;
+    --neutral-700: #cbd5e1;
+    --neutral-900: #f1f5f9;
+  }
+
+  .exercise-form {
+    background-color: var(--neutral-100);
+    border-color: var(--neutral-200);
+  }
+
+  .exercise-form h2 {
+    color: var(--neutral-900);
+  }
+
+  .form-group label {
+    color: var(--neutral-900);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background-color: var(--neutral-100);
+    border-color: var(--neutral-200);
+    color: var(--neutral-900);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  }
+
+  .form-group input:hover:not(:disabled),
+  .form-group textarea:hover:not(:disabled),
+  .form-group select:hover:not(:disabled) {
+    background-color: var(--neutral-50);
+  }
+
+  .form-group select:hover:not(:disabled) {
+    background-color: var(--neutral-50);
+  }
+
+  .form-success-message {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #6ee7b7;
+  }
+
+  .btn-secondary {
+    background-color: var(--neutral-200);
+    color: var(--neutral-900);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--neutral-700);
+    color: var(--neutral-100);
+  }
+}
+
+/* ============================================================================
+   Accessibility & Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .btn-loading::after {
+    animation: none;
+    border-top-color: transparent;
+  }
+}
+
+@media (prefers-color-scheme: dark) and (prefers-reduced-motion: reduce) {
+  .btn-loading::after {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+}

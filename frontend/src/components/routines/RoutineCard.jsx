@@ -1,3 +1,5 @@
+import "./RoutineCard.css";
+
 function RoutineCard({ routine }) {
   return (
     <div className="routine-card">

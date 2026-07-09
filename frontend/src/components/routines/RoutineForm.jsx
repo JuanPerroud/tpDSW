@@ -1,4 +1,5 @@
-// src/components/routines/RoutineForm.jsx
+import "./RoutineForm.css";
+
 import { useState } from "react";
 import ExercisesSelector from "./ExercisesSelector";
 
