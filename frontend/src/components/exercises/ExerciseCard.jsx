@@ -1,4 +1,4 @@
-function ExerciseCard({ exercise }) {
+function ExerciseCard({ exercise, onEdit, onDelete }) {
   return (
     <li className="exercise-card">
       <div className="exercise-card-header">
@@ -17,8 +17,16 @@ function ExerciseCard({ exercise }) {
       </div>
 
       <div className="exercise-card-footer">
-        <button className="exercise-card-btn exercise-btn-edit">Edit</button>
-        <button className="exercise-card-btn exercise-btn-delete">
+        <button
+          className="exercise-card-btn exercise-btn-edit"
+          onClick={() => onEdit && onEdit(exercise)}
+        >
+          Edit
+        </button>
+        <button
+          className="exercise-card-btn exercise-btn-delete"
+          onClick={() => onDelete && onDelete(exercise.id)}
+        >
           Delete
         </button>
       </div>

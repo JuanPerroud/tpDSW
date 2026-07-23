@@ -3,7 +3,7 @@ import "./RoutineForm.css";
 import { useState } from "react";
 import ExercisesSelector from "./ExercisesSelector";
 
-function RoutineForm({ exercisesAvailable }) {
+function RoutineForm({ exercisesAvailable, onSave, onCancel }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [exercisesSelected, setExercisesSelected] = useState([]);
@@ -12,39 +12,64 @@ function RoutineForm({ exercisesAvailable }) {
     setExercisesSelected((prev) =>
       prev.includes(id)
         ? prev.filter((exerciseId) => exerciseId !== id)
-        : [...prev, id],
+        : [...prev, id]
     );
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    const selectedExercisesObjects = (exercisesAvailable || []).filter((ex) =>
+      exercisesSelected.includes(ex.id)
+    );
+    if (onSave) {
+      onSave({
+        name,
+        description,
+        exercises: selectedExercisesObjects,
+      });
+    }
+  };
+
   return (
-    <div className="routine-form">
+    <form className="routine-form" onSubmit={handleSubmit}>
       <h2>New Routine</h2>
 
-      <label>Name</label>
+      <label htmlFor="routine-name">Name</label>
       <input
+        id="routine-name"
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder="E.g: Chest and triceps routine"
+        required
       />
 
-      <label>Description</label>
+      <label htmlFor="routine-description">Description</label>
       <textarea
+        id="routine-description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="E.g: Routine for 3 times a week"
       />
 
       <ExercisesSelector
-        exercises={exercisesAvailable}
+        exercises={exercisesAvailable || []}
         selected={exercisesSelected}
         onToggle={handleToggleExercise}
       />
 
       <p>{exercisesSelected.length} exercise(s) selected</p>
 
-      <button>Save Routine</button>
-    </div>
+      <div className="routine-form-buttons" style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
+        <button type="submit" className="btn btn-primary">Save Routine</button>
+        {onCancel && (
+          <button type="button" className="btn btn-secondary" onClick={onCancel}>
+            Cancel
+          </button>
+        )}
+      </div>
+    </form>
   );
 }
 

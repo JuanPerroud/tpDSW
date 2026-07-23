@@ -1,7 +1,7 @@
 import ExerciseCard from "./ExerciseCard";
 import "./ExerciseList.css";
 
-function ExerciseList({ exercises }) {
+function ExerciseList({ exercises, onEdit, onDelete }) {
   if (exercises.length === 0) {
     return (
       <div className="exercise-list-empty">
@@ -16,7 +16,12 @@ function ExerciseList({ exercises }) {
   return (
     <ul className="exercise-list">
       {exercises.map((exercise) => (
-        <ExerciseCard key={exercise.id} exercise={exercise} />
+        <ExerciseCard
+          key={exercise.id}
+          exercise={exercise}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       ))}
     </ul>
   );

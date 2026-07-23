@@ -13,7 +13,7 @@ function Routines() {
     { id: 3, name: "Pull-ups", muscleGroup: "back" },
   ];
 
-  const testRoutines = [
+  const [routines, setRoutines] = useState([
     {
       id: 1,
       name: "Full Body Routine",
@@ -23,7 +23,16 @@ function Routines() {
         { id: 2, name: "Bench Press" },
       ],
     },
-  ];
+  ]);
+
+  const handleAddRoutine = (routineData) => {
+    const newRoutine = {
+      ...routineData,
+      id: Date.now(),
+    };
+    setRoutines((prev) => [...prev, newRoutine]);
+    setShowForm(false);
+  };
 
   return (
     <div className="routines-page">
@@ -34,9 +43,15 @@ function Routines() {
         </button>
       </div>
 
-      {showForm && <RoutineForm exercisesAvailable={testExercises} />}
+      {showForm && (
+        <RoutineForm
+          exercisesAvailable={testExercises}
+          onSave={handleAddRoutine}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
 
-      <RoutineList routines={testRoutines} />
+      <RoutineList routines={routines} />
     </div>
   );
 }

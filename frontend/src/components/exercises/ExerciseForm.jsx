@@ -1,19 +1,48 @@
 import { useState } from "react";
 import "./ExerciseForm.css";
 
-function ExerciseForm() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [muscleGroup, setMuscleGroup] = useState("");
+function ExerciseForm({ initialData, onSave, onCancel }) {
+  const [prevInitialData, setPrevInitialData] = useState(initialData);
+  const [name, setName] = useState(initialData ? initialData.name : "");
+  const [description, setDescription] = useState(
+    initialData ? initialData.description : ""
+  );
+  const [muscleGroup, setMuscleGroup] = useState(
+    initialData ? initialData.muscleGroup : ""
+  );
+
+  if (initialData !== prevInitialData) {
+    setPrevInitialData(initialData);
+    setName(initialData ? initialData.name : "");
+    setDescription(initialData ? initialData.description : "");
+    setMuscleGroup(initialData ? initialData.muscleGroup : "");
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, description, muscleGroup });
+    if (onSave) {
+      onSave({
+        ...(initialData && initialData.id ? { id: initialData.id } : {}),
+        name,
+        description,
+        muscleGroup,
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    if (onCancel) {
+      onCancel();
+    } else {
+      setName("");
+      setDescription("");
+      setMuscleGroup("");
+    }
   };
 
   return (
     <form className="exercise-form" onSubmit={handleSubmit}>
-      <h2>New Exercise</h2>
+      <h2>{initialData ? "Edit Exercise" : "New Exercise"}</h2>
 
       <div className="exercise-form-fields">
         <div className="form-group">
@@ -61,8 +90,12 @@ function ExerciseForm() {
         <button type="submit" className="btn btn-primary">
           Save
         </button>
-        <button type="reset" className="btn btn-secondary">
-          Clear
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={handleCancel}
+        >
+          Cancel
         </button>
       </div>
     </form>

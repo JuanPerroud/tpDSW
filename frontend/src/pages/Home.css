@@ -6,17 +6,12 @@
   --primary-color: #2563eb;
   --primary-dark: #1e40af;
   --primary-light: #dbeafe;
-  --success-color: #10b981;
   --neutral-50: #f9fafb;
   --neutral-100: #f3f4f6;
   --neutral-200: #e5e7eb;
   --neutral-700: #374151;
   --neutral-900: #111827;
-  --border-radius: 12px;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================================================
@@ -60,131 +55,10 @@
 .home-page p {
   font-size: 1.25rem;
   color: var(--neutral-700);
-  margin: 0 0 3rem 0;
+  margin: 0;
   max-width: 600px;
   line-height: 1.6;
   font-weight: 500;
-}
-
-/* ============================================================================
-   CTA Buttons Section
-   ============================================================================ */
-
-.home-cta-buttons {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.home-btn {
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition-smooth);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  min-height: 48px;
-  text-decoration: none;
-}
-
-.home-btn:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-.home-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Primary Button */
-.home-btn-primary {
-  background-color: var(--primary-color);
-  color: white;
-  box-shadow: var(--shadow-md);
-}
-
-.home-btn-primary:hover:not(:disabled) {
-  background-color: var(--primary-dark);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-3px);
-}
-
-.home-btn-primary:active:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
-}
-
-/* Secondary Button */
-.home-btn-secondary {
-  background-color: white;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  box-shadow: var(--shadow-sm);
-}
-
-.home-btn-secondary:hover:not(:disabled) {
-  background-color: var(--primary-light);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-}
-
-.home-btn-secondary:active:not(:disabled) {
-  transform: translateY(-1px);
-}
-
-/* ============================================================================
-   Features Section (Optional)
-   ============================================================================ */
-
-.home-features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 4rem;
-  width: 100%;
-  padding-top: 3rem;
-  border-top: 2px solid var(--neutral-200);
-}
-
-.feature-card {
-  background-color: white;
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-smooth);
-  border: 1px solid var(--neutral-200);
-}
-
-.feature-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-4px);
-}
-
-.feature-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.feature-card h3 {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--neutral-900);
-}
-
-.feature-card p {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--neutral-700);
-  line-height: 1.6;
 }
 
 /* ============================================================================
@@ -204,23 +78,6 @@
 
   .home-page p {
     font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
-
-  .home-cta-buttons {
-    gap: 1rem;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .home-btn {
-    width: 100%;
-  }
-
-  .home-features {
-    gap: 1.5rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
   }
 }
 
@@ -236,30 +93,6 @@
 
   .home-page p {
     font-size: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .home-btn {
-    padding: 0.85rem 1.5rem;
-    font-size: 0.95rem;
-    min-height: 44px;
-  }
-
-  .feature-card {
-    padding: 1.5rem;
-  }
-
-  .feature-icon {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .feature-card h3 {
-    font-size: 1rem;
-  }
-
-  .feature-card p {
-    font-size: 0.85rem;
   }
 }
 
@@ -291,33 +124,6 @@
   .home-page p {
     color: var(--neutral-700);
   }
-
-  .home-btn-secondary {
-    background-color: var(--neutral-100);
-    color: #60a5fa;
-    border-color: #60a5fa;
-  }
-
-  .home-btn-secondary:hover:not(:disabled) {
-    background-color: rgba(37, 99, 235, 0.15);
-  }
-
-  .feature-card {
-    background-color: var(--neutral-100);
-    border-color: var(--neutral-200);
-  }
-
-  .feature-card h3 {
-    color: var(--neutral-900);
-  }
-
-  .feature-card p {
-    color: var(--neutral-700);
-  }
-
-  .home-features {
-    border-top-color: var(--neutral-200);
-  }
 }
 
 /* ============================================================================
@@ -329,13 +135,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .home-btn:hover {
-    transform: none;
-  }
-
-  .feature-card:hover {
-    transform: none;
   }
 }
