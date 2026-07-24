@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-const { Sequelize } = require('sequelize');
-require('dotenv').config();
-
-=======
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
->>>>>>> origin/feature/JuaniPerroud
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,

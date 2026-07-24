@@ -16,10 +16,10 @@ function CreateUser(){
     password: Yup.string().min(6).max(10).required(),
   });
 
-  const onSubmit = (data, {setErrors}) => {
+  const onSubmit = (values, {setErrors}) => {
   
-      axios.post("http://localhost:3000/api/user", data).then((response) => {
-        alert("¡User create in the DATABASE! ");
+      axios.post("http://localhost:3000/api/user", values).then((response) => {
+        alert("el usuario ha sido creado");
         window.location.href = "/"; 
         }).catch((error) => {
 
@@ -35,7 +35,7 @@ function CreateUser(){
   };
 
   return (
-    <div className="createUserAccount"> 
+    <div className="createUser"> 
   
         <Formik
            initialValues={initialValues} 
@@ -48,7 +48,7 @@ function CreateUser(){
                 <Field 
                     id="inputCreateUser" 
                     name="name"
-                    placeholder="(example.Jhonny...)" 
+                    placeholder="ej: Lautaro.." 
                     autoComplete="off" 
                 />
           
@@ -57,7 +57,7 @@ function CreateUser(){
                 <Field 
                     id="inputCreateUser" 
                     name="email"
-                    placeholder="(example.juanjosebruzzesi@gmail.com...)" 
+                    placeholder="ej: blanco@gmail.com.." 
                     autoComplete="off" 
                 />
           
@@ -66,11 +66,11 @@ function CreateUser(){
                 <Field 
                     id="inputCreateUser" 
                     name="password"
-                    placeholder="(example.clarita123...)" 
+                    placeholder="ej: septima7.." 
                     autoComplete="off" 
                 />   
 
-                <button type="submit"> Create Account </button>
+                <button type="submit"> Crear Cuenta </button>
             </Form>
         </Formik>
     </div>

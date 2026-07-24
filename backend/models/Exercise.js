@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
-
-const Exercise = sequelize.define("Exercise" , {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        name: {
-            type: DataTypes.STRING(100),
-            allowNull: false,
-        },
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: false
-        },
-}, {
-    tableName: 'Exercise',
-    timestamps: true
-});  
-
-module.exports = Exercise;
-
-=======
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -51,4 +25,3 @@ const Exercise = sequelize.define(
 );
 
 module.exports = Exercise;
->>>>>>> origin/feature/JuaniPerroud
