@@ -21,7 +21,7 @@ app.use("/api/exercise", exerciseRoutes);
 
 const PORT = process.env.PORT || 3000;
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     app.listen(PORT, () =>
       console.log(`Servidor corriendo en puerto ${PORT} ✓`),
