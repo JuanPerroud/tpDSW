@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-
+import "./Home.css";
 
 function Home({ setIsLoggedIn }) {
 

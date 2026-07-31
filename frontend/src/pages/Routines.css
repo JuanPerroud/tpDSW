@@ -1,0 +1,221 @@
+/* ============================================================================
+   Routines Page - GymRoutines
+   ============================================================================ */
+
+/* Root variables for consistent theming */
+:root {
+  --primary-color: #2563eb; /* Deep blue - trust, focus */
+  --primary-dark: #1e40af; /* Darker blue for hover states */
+  --primary-light: #dbeafe; /* Light blue for backgrounds */
+
+  --success-color: #10b981; /* Emerald - progress, growth */
+  --neutral-50: #f9fafb; /* Almost white */
+  --neutral-100: #f3f4f6; /* Light gray */
+  --neutral-200: #e5e7eb; /* Medium gray */
+  --neutral-700: #374151; /* Dark gray text */
+  --neutral-900: #111827; /* Almost black text */
+
+  --border-radius: 12px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================================
+   Page Container
+   ============================================================================ */
+
+.routines-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background-color: var(--neutral-50);
+  min-height: 100vh;
+}
+
+/* ============================================================================
+   Header Section
+   ============================================================================ */
+
+.routines-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--neutral-200);
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.routines-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--neutral-900);
+  letter-spacing: -0.5px;
+  margin: 0;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* ============================================================================
+   Button Styles
+   ============================================================================ */
+
+.routines-header button {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.routines-header button:hover {
+  background-color: var(--primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.routines-header button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.routines-header button:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* ============================================================================
+   Form Section
+   ============================================================================ */
+
+.routines-form-wrapper {
+  margin-bottom: 2rem;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   Routine List Section
+   ============================================================================ */
+
+.routine-list-container {
+  display: grid;
+  gap: 1rem;
+}
+
+.routine-list-empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  border: 2px dashed var(--neutral-200);
+  color: var(--neutral-700);
+  font-size: 1rem;
+}
+
+.routine-list-empty p {
+  margin: 0;
+  color: var(--neutral-700);
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .routines-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .routines-header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .routines-header h1 {
+    font-size: 1.75rem;
+    width: 100%;
+  }
+
+  .routines-header button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .routines-page {
+    padding: 1rem;
+  }
+
+  .routines-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .routines-header button {
+    font-size: 0.9rem;
+    padding: 0.65rem 1.25rem;
+  }
+}
+
+/* ============================================================================
+   Accessibility & Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================================
+   Dark Mode Support
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutral-50: #0f172a;
+    --neutral-100: #1e293b;
+    --neutral-200: #334155;
+    --neutral-700: #cbd5e1;
+    --neutral-900: #f1f5f9;
+  }
+
+  .routines-page {
+    background-color: var(--neutral-50);
+  }
+
+  .routines-header {
+    border-bottom-color: var(--neutral-200);
+  }
+
+  .routine-list-empty {
+    background-color: var(--neutral-100);
+    border-color: var(--neutral-200);
+  }
+}

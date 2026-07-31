@@ -25,8 +25,9 @@ const RoutineController = {
   create: async (req, res) => {
     try {
       const newRoutine = await Routine.create(req.body);
-      res.json(newRoutine);
+      res.status(201).json(newRoutine);
     } catch (err) {
+      console.error("Ocurrió un error al crear la rutina:", err);
       res.status(500).json({ error: err.message });
     }
   },

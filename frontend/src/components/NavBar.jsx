@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import "./NavBar.css";
 
 function Navbar( {isLoggedIn , onLogout }) {
 
@@ -12,12 +13,12 @@ function Navbar( {isLoggedIn , onLogout }) {
 
   return (
     <nav className="navbar">
-      <div className="nav-brand">
+      <div className="navbar-brand">
         <Link to="/">Inicio</Link>
       </div>
       
-      <ul className="nav-links">
-        {/* al no estar loggeado - solo permite ver el inicio y el registro */}
+      <ul className="navbar-links">
+        
         {!isLoggedIn ? (
           <>
             <li>
@@ -28,7 +29,7 @@ function Navbar( {isLoggedIn , onLogout }) {
             </li>
           </>
         ) : (
-          /* si el usuario esta loggeado:  */
+
           <>
             <li>
               <Link to="/routines">Rutinas</Link>

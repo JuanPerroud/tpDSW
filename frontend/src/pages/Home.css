@@ -1,0 +1,139 @@
+/* ============================================================================
+   Home Page - GymRoutines
+   ============================================================================ */
+
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1e40af;
+  --primary-light: #dbeafe;
+  --neutral-50: #f9fafb;
+  --neutral-100: #f3f4f6;
+  --neutral-200: #e5e7eb;
+  --neutral-700: #374151;
+  --neutral-900: #111827;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================================
+   Page Container
+   ============================================================================ */
+
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  background: linear-gradient(135deg, var(--neutral-50) 0%, #f0f9ff 100%);
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* ============================================================================
+   Hero Section
+   ============================================================================ */
+
+.home-page h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--neutral-900);
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color) 0%,
+    var(--primary-dark) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.home-page p {
+  font-size: 1.25rem;
+  color: var(--neutral-700);
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .home-page {
+    padding: 3rem 1rem;
+    min-height: calc(100vh - 70px);
+  }
+
+  .home-page h1 {
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .home-page p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page {
+    padding: 2rem 1rem;
+  }
+
+  .home-page h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .home-page p {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================================================
+   Dark Mode Support
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neutral-50: #0f172a;
+    --neutral-100: #1e293b;
+    --neutral-200: #334155;
+    --neutral-700: #cbd5e1;
+    --neutral-900: #f1f5f9;
+  }
+
+  .home-page {
+    background: linear-gradient(
+      135deg,
+      var(--neutral-50) 0%,
+      rgba(37, 99, 235, 0.05) 100%
+    );
+  }
+
+  .home-page h1 {
+    color: var(--neutral-900);
+  }
+
+  .home-page p {
+    color: var(--neutral-700);
+  }
+}
+
+/* ============================================================================
+   Accessibility & Reduced Motion
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

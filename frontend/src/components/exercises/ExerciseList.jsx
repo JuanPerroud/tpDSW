@@ -1,16 +1,29 @@
 import ExerciseCard from "./ExerciseCard";
+import "./ExerciseList.css";
 
-function ExerciseList({ exercises }) {
+function ExerciseList({ exercises, onEdit, onDelete }) {
   if (exercises.length === 0) {
-    return <p>No exercises added yet.</p>;
+    return (
+      <div className="exercise-list-empty">
+        <p className="exercise-list-empty-title">No exercises yet</p>
+        <p className="exercise-list-empty-description">
+          Add your first exercise to get started! 💪
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div className="exercise-list">
+    <ul className="exercise-list">
       {exercises.map((exercise) => (
-        <ExerciseCard key={exercise.id} exercise={exercise} />
+        <ExerciseCard
+          key={exercise.id}
+          exercise={exercise}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       ))}
-    </div>
+    </ul>
   );
 }
 

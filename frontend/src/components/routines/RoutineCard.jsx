@@ -1,3 +1,5 @@
+import "./RoutineCard.css";
+
 function RoutineCard({ routine }) {
   return (
     <div className="routine-card">
@@ -7,7 +9,7 @@ function RoutineCard({ routine }) {
       <div className="routine-exercises-preview">
         <strong>Exercises:</strong>
         <ul>
-          {routine.exercises.map((exercise) => (
+          {(routine.exercises || []).map((exercise) => (
             <li key={exercise.id}>{exercise.name}</li>
           ))}
         </ul>
