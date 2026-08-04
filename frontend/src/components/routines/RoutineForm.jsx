@@ -3,10 +3,12 @@ import "./RoutineForm.css";
 import { useState } from "react";
 import ExercisesSelector from "./ExercisesSelector";
 
-function RoutineForm({ exercisesAvailable, onSave, onCancel }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [exercisesSelected, setExercisesSelected] = useState([]);
+function RoutineForm({ exercisesAvailable, initialValues, onSave, onCancel }) {
+  const [name, setName] = useState(initialValues?.name || "");
+  const [description, setDescription] = useState(initialValues?.description || "");
+  const [exercisesSelected, setExercisesSelected] = useState(
+    (initialValues?.exercises || []).map((ex) => ex.id)
+  );
 
   function handleToggleExercise(id) {
     setExercisesSelected((prev) =>
@@ -33,7 +35,7 @@ function RoutineForm({ exercisesAvailable, onSave, onCancel }) {
 
   return (
     <form className="routine-form" onSubmit={handleSubmit}>
-      <h2>New Routine</h2>
+      <h2>{initialValues ? "Edit Routine" : "New Routine"}</h2>
 
       <label htmlFor="routine-name">Name</label>
       <input
@@ -62,7 +64,9 @@ function RoutineForm({ exercisesAvailable, onSave, onCancel }) {
       <p>{exercisesSelected.length} exercise(s) selected</p>
 
       <div className="routine-form-buttons" style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
-        <button type="submit" className="btn btn-primary">Save Routine</button>
+        <button type="submit" className="btn btn-primary">
+          {initialValues ? "Update Routine" : "Save Routine"}
+        </button>
         {onCancel && (
           <button type="button" className="btn btn-secondary" onClick={onCancel}>
             Cancel

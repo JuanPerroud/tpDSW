@@ -29,19 +29,45 @@ function Routines() {
       });
   }, []);
 
+  const handleDelete = (id) => {
+    axios.delete(`${API_URL}/${id}`).then(() => {
+      setRoutines((prev) => prev.filter((routine) => routine.id !== id));
+      alert("Rutina eliminada");
+    }).catch((error) => {
+      console.error("Error al eliminar la rutina:", error);
+      alert("Ocurrio un error al intentar eliminar la rutina");
+    });
+  };
+
   const onSubmit = (values) => {
-    axios
-      .post(API_URL, values)
-      .then((response) => {
-        alert("Nueva rutina creada");
-        // Agregar la rutina creada al estado local y cerrar el form
-        setRoutines((prev) => [...prev, response.data]);
+    axios.post(API_URL, values).then((response) => {
+      alert("Nueva rutina creada");
+      // Agregar la rutina creada al estado local y cerrar el form
+      setRoutines((prev) => [...prev, response.data]);
+      setShowForm(false);
+    }).catch((error) => {
+      console.error("Error al crear la rutina:", error);
+      alert("Error al crear la rutina. Verificá que el servidor esté corriendo.");
+    });
+  };
+
+  const [editingRoutine, setEditingRoutine] = useState(null); //null o id de la rutina
+
+  const handleEditClicl = (routine) => {
+    setEditingRoutine(routine);
+    setShowForm(true);
+  };
+
+  const onSubmitEdit = (values) => {
+    if (editingRoutine) {
+      axios.put(`${API_URL}/${editingRoutine.id}`, values).then(() => {
+        alert("Rutina actualizada");
+
+        setRoutines((prev) => prev.map((routine) => routine.id === editingRoutine.id ? { ...routine, ...values } : routine));
         setShowForm(false);
-      })
-      .catch((error) => {
-        console.error("Error al crear la rutina:", error);
-        alert("Error al crear la rutina. Verificá que el servidor esté corriendo.");
-      });
+        setEditingRoutine(null);
+      }).catch((error) => console.error("Error al editar:", error));
+    };
   };
 
   return (
@@ -61,7 +87,7 @@ function Routines() {
         />
       )}
 
-      <RoutineList routines={routines} />
+      <RoutineList routines={routines} onUpdate={onSubmitEdit} onDelete={handleDelete} />
     </div>
   );
 }

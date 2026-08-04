@@ -53,8 +53,8 @@ const RoutineController = {
       }
       await routine.destroy();
       res.json({ mensaje: "Rutina eliminada ✓" });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   },
 };
