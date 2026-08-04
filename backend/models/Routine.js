@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 const User = require("./User");
-const { SET_IMMEDIATE } = require("sequelize/lib/deferrable");
 
 const Routine = sequelize.define(
   "Routine",
@@ -11,25 +10,17 @@ const Routine = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    creator: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     name: {
       type: DataTypes.STRING(100),
       allowNull: false,
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     muscularGroup: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    SET_IMMEDIATE: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
@@ -37,6 +28,8 @@ const Routine = sequelize.define(
     timestamps: true,
   },
 );
-Routine.belongsTo(User, { foreignKey: "creatorId", onDelete: "CASCADE" });
+
+// creatorId es la FK que referencia al User que creó la rutina
+Routine.belongsTo(User, { foreignKey: { name: "creatorId", allowNull: true }, onDelete: "CASCADE" });
 
 module.exports = Routine;

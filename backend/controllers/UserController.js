@@ -24,7 +24,7 @@ const UserController = {
 
   create: async (req, res) => {
     try {
-      const { email } = res.body;
+      const { email } = req.body;
       const findUser = await User.findOne({ where: { email } });
       if (findUser) {
         return res.status(400).json({ mensaje: "El usuario ya existe" });
@@ -60,6 +60,25 @@ const UserController = {
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
+  },
+
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await User.findOne({ where: { email } });
+    
+      if (!user) {
+        return res.status(404).json({ mensaje: "El usuario no existe" });
+      }
+
+      if (user.password !== password) {
+        return res.status(400).json({ mensaje: "Contraseña incorrecta" });
+      }
+
+      return res.json({ mensaje: "Inicio de sesión exitoso", user });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }  
   },
 };
 

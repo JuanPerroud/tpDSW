@@ -25,8 +25,9 @@ const RoutineController = {
   create: async (req, res) => {
     try {
       const newRoutine = await Routine.create(req.body);
-      res.json(newRoutine);
+      res.status(201).json(newRoutine);
     } catch (err) {
+      console.error("Ocurrió un error al crear la rutina:", err);
       res.status(500).json({ error: err.message });
     }
   },
@@ -52,8 +53,8 @@ const RoutineController = {
       }
       await routine.destroy();
       res.json({ mensaje: "Rutina eliminada ✓" });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   },
 };

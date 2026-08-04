@@ -28,10 +28,10 @@ const User = sequelize.define(
     timestamps: true,
   },
 );
-//User.associate = (models) => {
-//  User.hasMany(models.Routine, {
-//    foreignKey: "creatorId",
-//    onDelete: "cascade",
-//  });
-//};
+User.associate = (models) => {
+  User.hasMany(models.Routine, {
+    foreignKey: "creatorId",
+    onDelete: "CASCADE",
+  });
+};
 module.exports = User;
