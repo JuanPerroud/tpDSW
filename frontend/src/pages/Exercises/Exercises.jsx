@@ -1,7 +1,7 @@
 // src/pages/Exercises.jsx
 import { useState, useEffect } from "react";
-import ExerciseList from "../components/exercises/ExerciseList";
-import ExerciseForm from "../components/exercises/ExerciseForm";
+import ExerciseList from "../../components/exercises/ExerciseList";
+import ExerciseForm from "../../components/exercises/ExerciseForm";
 import axios from "axios";
 import "./Exercises.css";
 

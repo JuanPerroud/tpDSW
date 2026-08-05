@@ -60,7 +60,7 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="E.g: Bench press"
+            placeholder="Ejemplo: Press banca inclinado"
             required
           />
         </div>
@@ -71,7 +71,7 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="E.g: 3 sets x 10 reps"
+            placeholder="Ejemplo: Banco inclinado a 30 grados, al fallo"
           />
         </div>
 

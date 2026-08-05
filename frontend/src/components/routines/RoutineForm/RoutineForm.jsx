@@ -1,7 +1,7 @@
 import "./RoutineForm.css";
 
 import { useState } from "react";
-import ExercisesSelector from "./ExercisesSelector";
+import ExercisesSelector from "../ExercisesSelector/ExercisesSelector";
 
 function RoutineForm({ exercisesAvailable, initialValues, onSave, onCancel }) {
   const [name, setName] = useState(initialValues?.name || "");

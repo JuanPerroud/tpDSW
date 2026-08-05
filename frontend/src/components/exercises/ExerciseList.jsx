@@ -5,9 +5,9 @@ function ExerciseList({ exercises, onEdit, onDelete }) {
   if (exercises.length === 0) {
     return (
       <div className="exercise-list-empty">
-        <p className="exercise-list-empty-title">No exercises yet</p>
+        <p className="exercise-list-empty-title">No hay ejercicios cargados todavia</p>
         <p className="exercise-list-empty-description">
-          Add your first exercise to get started! 💪
+          Agrega tu primer ejercicio para empezar 💪
         </p>
       </div>
     );

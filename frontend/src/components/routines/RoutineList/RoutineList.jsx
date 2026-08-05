@@ -1,11 +1,11 @@
-import RoutineCard from "./RoutineCard";
+import RoutineCard from "../RoutineCard/RoutineCard";
 import "./RoutineList.css";
 
 function RoutineList({ routines, isMine = true, onUpdate, onDelete, onSaveToMine }) {
   if (!routines || routines.length === 0) {
     return (
       <div className="empty-routines-container">
-        <p className="empty-routines-text">
+        <p className="routine-list-empty-description">
           {isMine
             ? "Aún no tenés rutinas creadas o guardadas."
             : "No hay rutinas públicas disponibles en la comunidad."}

@@ -18,6 +18,7 @@
   --error-text: #991b1b;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  color-scheme: light;
 }
 
 .home-page {
@@ -61,7 +62,7 @@
 
 .home-hero p {
   font-size: 1.15rem;
-  color: var(--neutral-600);
+  color: var(--primary-color);
   margin: 0;
   line-height: 1.6;
 }
@@ -146,7 +147,7 @@
   text-align: left;
 }
 
-.form-group label {
+.login-card .form-group label {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--primary-color);

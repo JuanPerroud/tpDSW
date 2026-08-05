@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./components/NavBar";
-import Home from "./pages/Home";
-import Exercises from "./pages/Exercises";
-import Routines from "./pages/Routines";
-import CreateUser from "./pages/CreateUser";
+import Navbar from "../components/NavBar/NavBar";
+import Home from "../pages/Home/Home";
+import Exercises from "../pages/Exercises/Exercises";
+import Routines from "../pages/Routines/Routines";
+import CreateUser from "../pages/CreateUser/CreateUser";
 import { useState } from "react";
+import "./App.css"
 
 function getInitialUser() {
   const storedUser = localStorage.getItem("user");

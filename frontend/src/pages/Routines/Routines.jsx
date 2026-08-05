@@ -1,7 +1,7 @@
 // src/pages/Routines.jsx
 import { useState, useEffect } from "react";
-import RoutineList from "../components/routines/RoutineList";
-import RoutineForm from "../components/routines/RoutineForm";
+import RoutineList from "../../components/routines/RoutineList/RoutineList";
+import RoutineForm from "../../components/routines/RoutineForm/RoutineForm";
 import axios from "axios";
 import "./Routines.css";
 
