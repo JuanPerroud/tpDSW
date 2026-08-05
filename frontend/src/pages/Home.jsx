@@ -1,14 +1,13 @@
-import React from 'react';
+import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./Home.css";
 
-function Home({ setIsLoggedIn }) {
-
-
+function Home({ onLoginSuccess }) {
   const navigate = useNavigate();
+  const [loginError, setLoginError] = useState("");
 
   const initialValues = {
     email: "",
@@ -16,75 +15,115 @@ function Home({ setIsLoggedIn }) {
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().required('el email es obligatorio'),
-    password: Yup.string().min(6).max(10).required('password obligatoria'),
+    email: Yup.string()
+      .email('Ingresá un correo electrónico válido')
+      .required('El email es obligatorio'),
+    password: Yup.string()
+      .min(6, 'La contraseña debe tener al menos 6 caracteres')
+      .required('La contraseña es obligatoria'),
   });
 
-  const onSubmit = ( values, {setErrors}) => {
-
-      axios.post("http://localhost:3000/api/user/login", values).then((response) => {
-        alert("Usuario inicio sesion con exito");
-
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        setIsLoggedIn(true);
-        
+  const onSubmit = async (values, { setSubmitting }) => {
+    setLoginError("");
+    try {
+      const response = await axios.post("http://localhost:3000/api/user/login", values);
+      if (response.data && response.data.user) {
+        onLoginSuccess(response.data.user);
         navigate('/routines');
-        }).catch((error) => {
-          const errorMsg = error.response?.data?.mensaje || error.response?.data?.error;
-
-          if (error.response && error.response.status === 400) {
-            setErrors({
-              email: errorMsg || "Credenciales incorrectas"
-            });
-          } else {
-            alert("Ocurrió un error. Vuelva a intentarlo.");
-          }
-          console.error("Error al iniciar sesión:", error);
-      });       
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+      const serverMessage =
+        error.response?.data?.mensaje ||
+        error.response?.data?.error ||
+        "Credenciales incorrectas. Verificá tu email y contraseña.";
+      setLoginError(serverMessage);
+    } finally {
+      setSubmitting(false);
+    }
   };
+
   return (
-    <>
-      <div className="home-page">
+    <div className="home-page">
+      <div className="home-hero">
+        <span className="hero-badge">💪 Tu Gimnasio, Tu Control</span>
         <h1>Bienvenido a GymRoutines</h1>
-        <p>Organizá tus ejercicios y armá tus rutinas de entrenamiento.</p>
-        <h1>Inicio de sesion</h1>
+        <p>
+          Organizá tus ejercicios, diseñá tus rutinas de entrenamiento y
+          descubrí las mejores rutinas de la comunidad.
+        </p>
       </div>
 
-      <div className="login"> 
+      <div className="login-card-container">
+        <div className="login-card">
+          <div className="card-header">
+            <h2>Iniciar Sesión</h2>
+            <p>Ingresá a tu cuenta para continuar</p>
+          </div>
+
+          {loginError && (
+            <div className="auth-error-banner" role="alert">
+              <span className="error-icon">⚠️</span>
+              <span>{loginError}</span>
+            </div>
+          )}
+
           <Formik
-              initialValues={initialValues} 
-              onSubmit={onSubmit}
-              validationSchema={validationSchema}
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
           >
-                <Form className="formContainer">
-                  <label>Email: </label>
-                  <ErrorMessage name ="email" component="span" />
-                  <Field 
-                    id="inputEmail" 
+            {({ isSubmitting, errors, touched }) => (
+              <Form className="auth-form">
+                <div className="form-group">
+                  <label htmlFor="inputEmail">Correo Electrónico</label>
+                  <Field
+                    id="inputEmail"
                     name="email"
                     type="email"
-                    placeholder="ej: aranda@gmail.com.." 
-                    autoComplete="off" 
+                    placeholder="ejemplo@correo.com"
+                    autoComplete="email"
+                    className={errors.email && touched.email ? "input-error" : ""}
                   />
-          
-                  <label>Password: </label>
-                  <ErrorMessage name ="password" component="span" />
-                  <Field 
-                    id="inputPassword" 
+                  <ErrorMessage name="email" component="span" className="field-error" />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="inputPassword">Contraseña</label>
+                  <Field
+                    id="inputPassword"
                     name="password"
-                    type="password" // Para ocultar los caracteres al escribir la contra
-                    placeholder="******" 
-                    autoComplete="off" 
-                  />   
+                    type="password"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    className={errors.password && touched.password ? "input-error" : ""}
+                  />
+                  <ErrorMessage name="password" component="span" className="field-error" />
+                </div>
 
-                  <button type="submit"> Iniciar sesion </button>
-                </Form>
+                <button
+                  type="submit"
+                  className="auth-submit-btn"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Ingresando..." : "Iniciar Sesión"}
+                </button>
+              </Form>
+            )}
           </Formik>
-      </div>
-    </>
-  );
 
-  
+          <div className="card-footer">
+            <p>
+              ¿No tenés una cuenta?{" "}
+              <Link to="/CreateUser" className="register-link">
+                Registrate acá
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Home;

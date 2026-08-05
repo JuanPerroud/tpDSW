@@ -1,43 +1,70 @@
-import React from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 
-function Navbar({ isLoggedIn, onLogout }) {
+function Navbar({ isLoggedIn, currentUser, onLogout }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogoutClick = () => {
-    onLogout(); // resetea el localStorage y isLoggedIn = false
+    onLogout();
     navigate('/');
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <Link to="/">Inicio</Link>
+        <Link to={isLoggedIn ? "/routines" : "/"} className="brand-title">
+          <span className="brand-icon">💪</span> GymRoutines
+        </Link>
       </div>
-      
+
       <ul className="navbar-links">
-        
         {!isLoggedIn ? (
           <>
             <li>
-              <Link to="/">Inicio</Link>
+              <Link to="/" className={isActive('/') ? 'active' : ''}>
+                Iniciar Sesión
+              </Link>
             </li>
             <li>
-              <Link to="/CreateUser">Crear Cuenta</Link>
+              <Link to="/CreateUser" className={isActive('/CreateUser') ? 'active' : ''}>
+                Crear Cuenta
+              </Link>
             </li>
           </>
         ) : (
-
           <>
             <li>
-              <Link to="/routines">Rutinas</Link>
+              <Link to="/routines" className={isActive('/routines') ? 'active' : ''}>
+                📋 Mis Rutinas
+              </Link>
             </li>
             <li>
-              <Link to="/exercises">Ejercicios</Link>
+              <Link to="/community-routines" className={isActive('/community-routines') ? 'active' : ''}>
+                🌐 Comunidad
+              </Link>
             </li>
             <li>
-              <button onClick={handleLogoutClick} className="logout-btn">Cerrar sesion</button>
+              <Link to="/create-routine" className={`create-routine-nav-btn ${isActive('/create-routine') ? 'active' : ''}`}>
+                ➕ Crear Rutina
+              </Link>
+            </li>
+            <li>
+              <Link to="/exercises" className={isActive('/exercises') ? 'active' : ''}>
+                🏋️ Ejercicios
+              </Link>
+            </li>
+            {currentUser && (
+              <li className="user-greeting">
+                <span>Hola, <strong>{currentUser.name || currentUser.email}</strong></span>
+              </li>
+            )}
+            <li>
+              <button onClick={handleLogoutClick} className="logout-btn">
+                Cerrar sesión
+              </button>
             </li>
           </>
         )}
@@ -45,7 +72,5 @@ function Navbar({ isLoggedIn, onLogout }) {
     </nav>
   );
 }
-
-// crear css - validacion de no poder loggearse desde otra cuenta cuando ya estoy conectado en una
 
 export default Navbar;

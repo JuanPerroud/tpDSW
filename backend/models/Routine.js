@@ -22,6 +22,10 @@ const Routine = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    exercises: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
   },
   {
     tableName: "Routine",

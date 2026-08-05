@@ -1,38 +1,87 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import Home from "./pages/Home";
 import Exercises from "./pages/Exercises";
 import Routines from "./pages/Routines";
 import CreateUser from "./pages/CreateUser";
-import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useState } from "react";
 
+function getInitialUser() {
+  const storedUser = localStorage.getItem("user");
+  if (storedUser) {
+    try {
+      return JSON.parse(storedUser);
+    } catch {
+      localStorage.removeItem("user");
+      return null;
+    }
+  }
+  return null;
+}
 
 function App() {
-  const [ isLoggedIn , setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(getInitialUser);
+  const isLoggedIn = currentUser !== null;
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      setIsLoggedIn(true);
-    }
-  }, []);
+  const handleLoginSuccess = (user) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    setCurrentUser(user);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setIsLoggedIn(false);
+    setCurrentUser(null);
   };
 
   return (
     <BrowserRouter>
-      <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+      <Navbar isLoggedIn={isLoggedIn} currentUser={currentUser} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Home setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="/CreateUser" element= {< CreateUser />} />
+        {/* Rutas Públicas (Auth) - Redirigen a /routines si ya inició sesión */}
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? <Navigate to="/routines" replace /> : <Home onLoginSuccess={handleLoginSuccess} />
+          }
+        />
+        <Route
+          path="/CreateUser"
+          element={
+            isLoggedIn ? <Navigate to="/routines" replace /> : <CreateUser />
+          }
+        />
 
-        <Route path="/exercises" element={isLoggedIn ? <Exercises /> : <Navigate to="/" replace />} />
-        <Route path="/routines" element={isLoggedIn ? <Routines /> : <Navigate to= "/" replace />} />
-        <Route path="*" element={<Navigate to="/" replace /> } />
+        {/* Rutas Protegidas - Solo accesibles si isLoggedIn es true */}
+        <Route
+          path="/routines"
+          element={
+            isLoggedIn ? <Routines mode="my" currentUser={currentUser} /> : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="/community-routines"
+          element={
+            isLoggedIn ? <Routines mode="community" currentUser={currentUser} /> : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="/create-routine"
+          element={
+            isLoggedIn ? <Routines mode="create" currentUser={currentUser} /> : <Navigate to="/" replace />
+          }
+        />
+        <Route
+          path="/exercises"
+          element={
+            isLoggedIn ? <Exercises /> : <Navigate to="/" replace />
+          }
+        />
+
+        {/* Fallback general */}
+        <Route
+          path="*"
+          element={<Navigate to={isLoggedIn ? "/routines" : "/"} replace />}
+        />
       </Routes>
     </BrowserRouter>
   );

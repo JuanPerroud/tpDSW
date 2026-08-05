@@ -1,24 +1,108 @@
+import { useState } from "react";
 import "./RoutineCard.css";
 
-function RoutineCard({ routine, onUpdate, onDelete }) {
-  return (
-    <div className="routine-card">
-      <h3>{routine.name}</h3>
-      <p>{routine.description}</p>
+const MUSCLE_GROUP_LABELS = {
+  chest: "Pecho",
+  back: "Espalda",
+  legs: "Piernas",
+  biceps: "Bíceps",
+  triceps: "Tríceps",
+  core: "Core",
+};
 
-      <div className="routine-exercises-preview">
-        <strong>Exercises:</strong>
-        <ul>
-          {(routine.exercises || []).map((exercise) => (
-            <li key={exercise.id}>{exercise.name}</li>
-          ))}
-        </ul>
+function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const exercises = routine.exercises || [];
+
+  return (
+    <div className={`routine-card ${expanded ? "routine-card--expanded" : ""}`}>
+      <div className="routine-card-header">
+        <h3>{routine.name}</h3>
+        <span className={`routine-badge ${isMine ? "badge-mine" : "badge-community"}`}>
+          {isMine ? "Mi Rutina" : "Comunidad"}
+        </span>
       </div>
 
+      {routine.description && <p className="routine-desc">{routine.description}</p>}
+
+      {/* Preview collapsed */}
+      {!expanded && (
+        <div className="routine-exercises-preview">
+          <strong>Ejercicios:</strong>
+          <ul>
+            {exercises.length > 0 ? (
+              exercises.map((exercise, idx) => (
+                <li key={exercise.id || idx}>{exercise.name}</li>
+              ))
+            ) : (
+              <li className="no-ex">Sin ejercicios asignados</li>
+            )}
+          </ul>
+        </div>
+      )}
+
+      {/* Detail expanded */}
+      {expanded && (
+        <div className="routine-detail">
+          <h4>Detalle de ejercicios</h4>
+          {exercises.length > 0 ? (
+            <div className="routine-detail-list">
+              {exercises.map((exercise, idx) => (
+                <div key={exercise.id || idx} className="routine-detail-item">
+                  <div className="detail-item-header">
+                    <span className="detail-exercise-name">{exercise.name}</span>
+                    {exercise.muscleGroup && (
+                      <span className="detail-muscle-tag">
+                        {MUSCLE_GROUP_LABELS[exercise.muscleGroup] || exercise.muscleGroup}
+                      </span>
+                    )}
+                  </div>
+                  {exercise.description && (
+                    <p className="detail-exercise-desc">{exercise.description}</p>
+                  )}
+                  <div className="detail-stats">
+                    <div className="detail-stat">
+                      <span className="stat-value">{exercise.sets ?? 3}</span>
+                      <span className="stat-label">Series</span>
+                    </div>
+                    <div className="detail-stat-divider">×</div>
+                    <div className="detail-stat">
+                      <span className="stat-value">{exercise.reps ?? 10}</span>
+                      <span className="stat-label">Reps</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="no-ex">Esta rutina no tiene ejercicios asignados.</p>
+          )}
+        </div>
+      )}
+
       <div className="routine-actions">
-        <button>View details</button>
-        <button onClick={() => onUpdate && onUpdate(routine)}>Edit</button>
-        <button onClick={() => onDelete && onDelete(routine.id)}>Delete</button>
+        <button
+          className="btn-detail"
+          onClick={() => setExpanded((prev) => !prev)}
+        >
+          {expanded ? "▲ Ocultar detalle" : "▼ Ver detalle"}
+        </button>
+
+        {isMine ? (
+          <>
+            <button className="btn-edit" onClick={() => onUpdate && onUpdate(routine)}>
+              ✏️ Editar
+            </button>
+            <button className="btn-delete" onClick={() => onDelete && onDelete(routine.id)}>
+              🗑️ Eliminar
+            </button>
+          </>
+        ) : (
+          <button className="btn-save-community" onClick={() => onSaveToMine && onSaveToMine(routine)}>
+            ⭐ Guardar en Mis Rutinas
+          </button>
+        )}
       </div>
     </div>
   );

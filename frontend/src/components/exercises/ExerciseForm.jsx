@@ -10,12 +10,16 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
   const [muscleGroup, setMuscleGroup] = useState(
     initialData ? initialData.muscleGroup : ""
   );
+  const [sets, setSets] = useState(initialData ? (initialData.sets ?? 3) : 3);
+  const [reps, setReps] = useState(initialData ? (initialData.reps ?? 10) : 10);
 
   if (initialData !== prevInitialData) {
     setPrevInitialData(initialData);
     setName(initialData ? initialData.name : "");
     setDescription(initialData ? initialData.description : "");
     setMuscleGroup(initialData ? initialData.muscleGroup : "");
+    setSets(initialData ? (initialData.sets ?? 3) : 3);
+    setReps(initialData ? (initialData.reps ?? 10) : 10);
   }
 
   const handleSubmit = (e) => {
@@ -26,6 +30,8 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
         name,
         description,
         muscleGroup,
+        sets: Number(sets),
+        reps: Number(reps),
       });
     }
   };
@@ -37,6 +43,8 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
       setName("");
       setDescription("");
       setMuscleGroup("");
+      setSets(3);
+      setReps(10);
     }
   };
 
@@ -83,6 +91,31 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             <option value="triceps">Triceps</option>
             <option value="core">Core</option>
           </select>
+        </div>
+
+        <div className="form-group form-row">
+          <div className="form-group">
+            <label htmlFor="sets">Series (sets)</label>
+            <input
+              id="sets"
+              type="number"
+              min="1"
+              max="20"
+              value={sets}
+              onChange={(e) => setSets(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="reps">Repeticiones (reps)</label>
+            <input
+              id="reps"
+              type="number"
+              min="1"
+              max="100"
+              value={reps}
+              onChange={(e) => setReps(e.target.value)}
+            />
+          </div>
         </div>
       </div>
 

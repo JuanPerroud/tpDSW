@@ -1,16 +1,27 @@
 // src/pages/Exercises.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ExerciseList from "../components/exercises/ExerciseList";
 import ExerciseForm from "../components/exercises/ExerciseForm";
+import axios from "axios";
 import "./Exercises.css";
+
+const EXERCISE_API = "http://localhost:3000/api/exercise";
 
 function Exercises() {
   const [showForm, setShowForm] = useState(false);
   const [editingExercise, setEditingExercise] = useState(null);
-  const [exercises, setExercises] = useState([
-    { id: 1, name: "Squat", description: "3x12", muscleGroup: "legs" },
-    { id: 2, name: "Bench Press", description: "4x8", muscleGroup: "chest" },
-  ]);
+  const [exercises, setExercises] = useState([]);
+
+  const fetchExercises = () => {
+    axios
+      .get(EXERCISE_API)
+      .then((res) => setExercises(res.data || []))
+      .catch((err) => console.error("Error al cargar ejercicios:", err));
+  };
+
+  useEffect(() => {
+    fetchExercises();
+  }, []);
 
   const handleToggleForm = () => {
     if (showForm) {
@@ -24,20 +35,32 @@ function Exercises() {
 
   const handleSaveExercise = (exerciseData) => {
     if (exerciseData.id) {
-      // Update existing
-      setExercises((prev) =>
-        prev.map((ex) => (ex.id === exerciseData.id ? exerciseData : ex))
-      );
+      // Editar existente
+      axios
+        .put(`${EXERCISE_API}/${exerciseData.id}`, exerciseData)
+        .then(() => {
+          fetchExercises();
+          setShowForm(false);
+          setEditingExercise(null);
+        })
+        .catch((err) => {
+          console.error("Error al actualizar ejercicio:", err);
+          alert("No se pudo actualizar el ejercicio.");
+        });
     } else {
-      // Create new
-      const newExercise = {
-        ...exerciseData,
-        id: Date.now(),
-      };
-      setExercises((prev) => [...prev, newExercise]);
+      // Crear nuevo
+      axios
+        .post(EXERCISE_API, exerciseData)
+        .then(() => {
+          fetchExercises();
+          setShowForm(false);
+          setEditingExercise(null);
+        })
+        .catch((err) => {
+          console.error("Error al crear ejercicio:", err);
+          alert("No se pudo crear el ejercicio.");
+        });
     }
-    setShowForm(false);
-    setEditingExercise(null);
   };
 
   const handleEditExercise = (exercise) => {
@@ -46,11 +69,19 @@ function Exercises() {
   };
 
   const handleDeleteExercise = (id) => {
-    setExercises((prev) => prev.filter((ex) => ex.id !== id));
-    if (editingExercise && editingExercise.id === id) {
-      setEditingExercise(null);
-      setShowForm(false);
-    }
+    axios
+      .delete(`${EXERCISE_API}/${id}`)
+      .then(() => {
+        fetchExercises();
+        if (editingExercise && editingExercise.id === id) {
+          setEditingExercise(null);
+          setShowForm(false);
+        }
+      })
+      .catch((err) => {
+        console.error("Error al eliminar ejercicio:", err);
+        alert("No se pudo eliminar el ejercicio.");
+      });
   };
 
   return (

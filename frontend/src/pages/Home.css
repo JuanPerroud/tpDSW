@@ -1,139 +1,236 @@
 /* ============================================================================
-   Home Page - GymRoutines
+   Home Page & Login - GymRoutines
    ============================================================================ */
 
 :root {
   --primary-color: #2563eb;
   --primary-dark: #1e40af;
   --primary-light: #dbeafe;
-  --neutral-50: #f9fafb;
-  --neutral-100: #f3f4f6;
-  --neutral-200: #e5e7eb;
-  --neutral-700: #374151;
-  --neutral-900: #111827;
+  --neutral-50: #f8fafc;
+  --neutral-100: #f1f5f9;
+  --neutral-200: #e2e8f0;
+  --neutral-300: #cbd5e1;
+  --neutral-600: #475569;
+  --neutral-700: #334155;
+  --neutral-900: #0f172a;
+  --error-bg: #fef2f2;
+  --error-border: #fca5a5;
+  --error-text: #991b1b;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 }
-
-/* ============================================================================
-   Page Container
-   ============================================================================ */
 
 .home-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
-  background: linear-gradient(135deg, var(--neutral-50) 0%, #f0f9ff 100%);
+  padding: 3rem 1.5rem;
   min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  gap: 2.5rem;
 }
 
-/* ============================================================================
-   Hero Section
-   ============================================================================ */
+/* Hero Section */
+.home-hero {
+  text-align: center;
+  max-width: 650px;
+}
 
-.home-page h1 {
-  font-size: 3rem;
+.hero-badge {
+  display: inline-block;
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.home-hero h1 {
+  font-size: 2.75rem;
   font-weight: 800;
-  color: var(--neutral-900);
-  margin: 0 0 1.5rem 0;
+  color: var(--primary-color);
+  margin: 0 0 1rem 0;
   letter-spacing: -1px;
   line-height: 1.2;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color) 0%,
-    var(--primary-dark) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
-.home-page p {
-  font-size: 1.25rem;
-  color: var(--neutral-700);
+.home-hero p {
+  font-size: 1.15rem;
+  color: var(--neutral-600);
   margin: 0;
-  max-width: 600px;
   line-height: 1.6;
-  font-weight: 500;
 }
 
-/* ============================================================================
-   Responsive Design
-   ============================================================================ */
+/* Card Container */
+.login-card-container {
+  width: 100%;
+  max-width: 440px;
+}
 
-@media (max-width: 768px) {
-  .home-page {
-    padding: 3rem 1rem;
-    min-height: calc(100vh - 70px);
+.login-card {
+  background-color: #ffffff;
+  border: 1px solid var(--neutral-200);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.card-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 0.5rem 0;
+}
+
+.card-header p {
+  font-size: 0.95rem;
+  color: var(--neutral-600);
+  margin: 0;
+}
+
+/* Alert Banner for Invalid Credentials */
+.auth-error-banner {
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translateX(0);
   }
 
-  .home-page h1 {
-    font-size: 2.25rem;
-    margin-bottom: 1rem;
+  20%,
+  60% {
+    transform: translateX(-4px);
   }
 
-  .home-page p {
-    font-size: 1.1rem;
+  40%,
+  80% {
+    transform: translateX(4px);
   }
 }
 
-@media (max-width: 480px) {
-  .home-page {
-    padding: 2rem 1rem;
-  }
-
-  .home-page h1 {
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .home-page p {
-    font-size: 1rem;
-  }
+/* Auth Form */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-/* ============================================================================
-   Dark Mode Support
-   ============================================================================ */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --neutral-50: #0f172a;
-    --neutral-100: #1e293b;
-    --neutral-200: #334155;
-    --neutral-700: #cbd5e1;
-    --neutral-900: #f1f5f9;
-  }
-
-  .home-page {
-    background: linear-gradient(
-      135deg,
-      var(--neutral-50) 0%,
-      rgba(37, 99, 235, 0.05) 100%
-    );
-  }
-
-  .home-page h1 {
-    color: var(--neutral-900);
-  }
-
-  .home-page p {
-    color: var(--neutral-700);
-  }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
 }
 
-/* ============================================================================
-   Accessibility & Reduced Motion
-   ============================================================================ */
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+.form-group input {
+  height: 46px;
+  padding: 0 1rem;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background-color: var(--neutral-50);
+  transition: var(--transition-smooth);
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-color);
+  background-color: var(--primary-dark);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.form-group input.input-error {
+  border-color: #ef4444;
+  background-color: #fff5f5;
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: #dc2626;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+.auth-submit-btn {
+  margin-top: 0.75rem;
+  height: 48px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Card Footer */
+.card-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--neutral-600);
+  border-top: 1px solid var(--neutral-200);
+  padding-top: 1.25rem;
+}
+
+.register-link {
+  color: var(--primary-color);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .home-hero h1 {
+    font-size: 2rem;
+  }
+
+  .login-card {
+    padding: 2rem 1.5rem;
   }
 }

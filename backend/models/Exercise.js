@@ -15,7 +15,22 @@ const Exercise = sequelize.define(
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
+    },
+    muscleGroup: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+      field: "muscleGroup",
+    },
+    sets: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 3,
+    },
+    reps: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 10,
     },
   },
   {
