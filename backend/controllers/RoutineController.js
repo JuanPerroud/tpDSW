@@ -39,7 +39,7 @@ const RoutineController = {
         return res.status(404).json({ mensaje: "Rutina no encontrada" });
       }
       await routine.update(req.body);
-      res.json({ mensaje: "Rutina actualizada ✓" });
+      res.json({ mensaje: "Rutina actualizada " });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -52,7 +52,7 @@ const RoutineController = {
         return res.status(404).json({ mensaje: "Rutina no encontrada" });
       }
       await routine.destroy();
-      res.json({ mensaje: "Rutina eliminada ✓" });
+      res.json({ mensaje: "Rutina eliminada " });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
