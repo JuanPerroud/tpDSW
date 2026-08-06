@@ -69,6 +69,9 @@ function Exercises() {
   };
 
   const handleDeleteExercise = (id) => {
+    if (!window.confirm("¿Estás seguro de que querés eliminar este ejercicio?")) {
+      return;
+    }
     axios
       .delete(`${EXERCISE_API}/${id}`)
       .then(() => {

@@ -52,6 +52,9 @@ function Routines({ mode = "my", currentUser }) {
   }, []);
 
   const handleDelete = (id) => {
+    if (!window.confirm("¿Estás seguro de que querés eliminar esta rutina?")) {
+      return;
+    }
     axios
       .delete(`${API_URL}/${id}`)
       .then(() => {
@@ -106,10 +109,22 @@ function Routines({ mode = "my", currentUser }) {
   };
 
   const handleSaveCommunityRoutine = (communityRoutine) => {
+    // Preparar RoutineExercises eliminando IDs para que se creen como nuevos registros
+    const newRoutineExercises = (communityRoutine.RoutineExercises || []).map((re) => ({
+      exerciseId: re.exerciseId,
+      orderIndex: re.orderIndex,
+      restSeconds: re.restSeconds,
+      ExerciseSets: (re.ExerciseSets || []).map((set) => ({
+        setNumber: set.setNumber,
+        reps: set.reps,
+        weightKg: set.weightKg,
+      })),
+    }));
+
     const newRoutineData = {
       name: `${communityRoutine.name} (Guardada)`,
       description: communityRoutine.description || "Rutina guardada de la comunidad",
-      exercises: communityRoutine.exercises || [],
+      RoutineExercises: newRoutineExercises,
       creatorId: currentUser?.id || null,
     };
 

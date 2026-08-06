@@ -1,13 +1,18 @@
+// models/index.js
 const sequelize = require("../config/db");
 
 const User = require("./User");
 const Routine = require("./Routine");
 const Exercise = require("./Exercise");
+const RoutineExercise = require("./RoutineExercise");
+const ExerciseSet = require("./ExerciseSet");
 
 const models = {
   User,
   Routine,
   Exercise,
+  RoutineExercise,
+  ExerciseSet,
 };
 
 // Ejecuta las asociaciones de cada modelo que las tenga definidas

@@ -1,3 +1,4 @@
+// models/Exercise.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -22,21 +23,19 @@ const Exercise = sequelize.define(
       allowNull: true,
       field: "muscleGroup",
     },
-    sets: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 3,
-    },
-    reps: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      defaultValue: 10,
-    },
   },
   {
     tableName: "Exercise",
     timestamps: true,
-  },
+  }
 );
+
+Exercise.associate = (models) => {
+  // Un ejercicio puede estar asignado en muchas rutinas a través de RoutineExercise
+  Exercise.hasMany(models.RoutineExercise, {
+    foreignKey: "exerciseId",
+    onDelete: "CASCADE",
+  });
+};
 
 module.exports = Exercise;

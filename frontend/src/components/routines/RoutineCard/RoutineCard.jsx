@@ -13,7 +13,20 @@ const MUSCLE_GROUP_LABELS = {
 function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine }) {
   const [expanded, setExpanded] = useState(false);
 
-  const exercises = routine.exercises || [];
+  const routineExercises = routine.RoutineExercises || [];
+  const exercises = routineExercises.length > 0
+    ? routineExercises.map((re) => ({
+        id: re.Exercise?.id || re.exerciseId,
+        name: re.Exercise?.name || "Ejercicio desconocido",
+        muscleGroup: re.Exercise?.muscleGroup,
+        description: re.Exercise?.description,
+        restSeconds: re.restSeconds,
+        setsData: re.ExerciseSets || [],
+        // Fallbacks para preview
+        sets: re.ExerciseSets ? re.ExerciseSets.length : 0,
+        reps: re.ExerciseSets && re.ExerciseSets.length > 0 ? re.ExerciseSets[0].reps : 0,
+      }))
+    : (routine.exercises || []);
 
   return (
     <div className={`routine-card ${expanded ? "routine-card--expanded" : ""}`}>
@@ -62,15 +75,32 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
                     <p className="detail-exercise-desc">{exercise.description}</p>
                   )}
                   <div className="detail-stats">
-                    <div className="detail-stat">
-                      <span className="stat-value">{exercise.sets ?? 3}</span>
-                      <span className="stat-label">Series</span>
-                    </div>
-                    <div className="detail-stat-divider">×</div>
-                    <div className="detail-stat">
-                      <span className="stat-value">{exercise.reps ?? 10}</span>
-                      <span className="stat-label">Reps</span>
-                    </div>
+                    {exercise.setsData && exercise.setsData.length > 0 ? (
+                      <div className="sets-detail-list">
+                        {exercise.restSeconds > 0 && (
+                          <div className="rest-time-badge">⏱️ Descanso: {exercise.restSeconds}s</div>
+                        )}
+                        {exercise.setsData.map((set, i) => (
+                          <div key={i} className="set-detail-item">
+                            <span className="set-detail-num">Set {set.setNumber || i + 1}:</span>
+                            <span className="set-detail-reps">{set.reps} reps</span>
+                            {set.weightKg ? <span className="set-detail-weight">@ {set.weightKg} kg</span> : null}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <>
+                        <div className="detail-stat">
+                          <span className="stat-value">{exercise.sets ?? 0}</span>
+                          <span className="stat-label">Series</span>
+                        </div>
+                        <div className="detail-stat-divider">×</div>
+                        <div className="detail-stat">
+                          <span className="stat-value">{exercise.reps ?? 0}</span>
+                          <span className="stat-label">Reps</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               ))}
