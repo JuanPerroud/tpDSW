@@ -1,26 +1,53 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a;
+  /* el azul oscuro que se ve en Routines */
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+
 /* 1. Contenedor principal (El padre de todo) */
 .CreateAccountUser {
   display: flex;
-  flex-direction: column;   /* Apila el título arriba y el formulario abajo */
-  justify-content: center;   /* Centra todo verticalmente en la pantalla */
-  align-items: center;       /* Centra todo horizontalmente */
-  min-height: 100vh;         /* Ocupa exactamente el 100% del alto de la pantalla */
+  flex-direction: column;
+  /* Apila el título arriba y el formulario abajo */
+  justify-content: center;
+  /* Centra todo verticalmente en la pantalla */
+  align-items: center;
+  /* Centra todo horizontalmente */
+  min-height: 100vh;
+  /* Ocupa exactamente el 100% del alto de la pantalla */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f6f9; /* Color de fondo sutil */
+  background-color: #f4f6f9;
+  /* Color de fondo sutil */
   padding: 20px;
   box-sizing: border-box;
 }
 
 .mainBox {
-  background-color: #00bfff;    /* Fondo para la caja principal */
-  padding: 40px;                /* Espacio interno */
-  border-radius: 16px;          /* Bordes redondeados */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra */
+  background-color: #00bfff;
+  /* Fondo para la caja principal */
+  padding: 40px;
+  /* Espacio interno */
+  border-radius: 16px;
+  /* Bordes redondeados */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* Sombra */
   width: 100%;
-  max-width: 500px;             /* Ancho máximo de tu caja */
+  max-width: 500px;
+  /* Ancho máximo de tu caja */
   display: flex;
-  flex-direction: column;       /* Apila el título arriba y el formulario abajo */
-  align-items: center;          /* Centra los elementos de adentro horizontalmente */
+  flex-direction: column;
+  /* Apila el título arriba y el formulario abajo */
+  align-items: center;
+  /* Centra los elementos de adentro horizontalmente */
 }
 
 /* 2. El título principal */
@@ -28,7 +55,8 @@
   font-size: 28px;
   font-weight: 600;
   color: #222222;
-  margin-bottom: 20px;      /* Espacio prolijo entre el título y la tarjeta blanca */
+  margin-bottom: 20px;
+  /* Espacio prolijo entre el título y la tarjeta blanca */
   margin-top: 0;
 }
 
@@ -47,7 +75,7 @@
   max-width: 420px;
   padding: 35px;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(2, 0, 15, 0.25); 
+  box-shadow: 0 8px 24px rgba(2, 0, 15, 0.25);
   display: flex;
   flex-direction: column;
 }
@@ -91,7 +119,8 @@
 /* El botón de crear cuenta */
 .formContainer button {
   margin-top: 30px;
-  height: 50px;             /* 50px de alto suele ser el estándar ideal para mobile y desktop */
+  height: 50px;
+  /* 50px de alto suele ser el estándar ideal para mobile y desktop */
   border: none;
   background-color: #00bfff;
   color: white;

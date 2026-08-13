@@ -1,6 +1,6 @@
+// models/Routine.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const User = require("./User");
 
 const Routine = sequelize.define(
   "Routine",
@@ -18,7 +18,7 @@ const Routine = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    muscularGroup: {
+    muscleGroup: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -26,10 +26,21 @@ const Routine = sequelize.define(
   {
     tableName: "Routine",
     timestamps: true,
-  },
+  }
 );
 
-// creatorId es la FK que referencia al User que creó la rutina
-Routine.belongsTo(User, { foreignKey: { name: "creatorId", allowNull: true }, onDelete: "CASCADE" });
+Routine.associate = (models) => {
+  // 1. Relación con el Usuario creador
+  Routine.belongsTo(models.User, {
+    foreignKey: "creatorId",
+    onDelete: "CASCADE",
+  });
+
+  // 2. Relación con los ejercicios asignados a esta rutina
+  Routine.hasMany(models.RoutineExercise, {
+    foreignKey: "routineId",
+    onDelete: "CASCADE",
+  });
+};
 
 module.exports = Routine;

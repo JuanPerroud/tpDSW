@@ -11,11 +11,13 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
     initialData ? initialData.muscleGroup : ""
   );
 
+
   if (initialData !== prevInitialData) {
     setPrevInitialData(initialData);
     setName(initialData ? initialData.name : "");
     setDescription(initialData ? initialData.description : "");
     setMuscleGroup(initialData ? initialData.muscleGroup : "");
+
   }
 
   const handleSubmit = (e) => {
@@ -52,7 +54,7 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="E.g: Bench press"
+            placeholder="Ejemplo: Press banca inclinado"
             required
           />
         </div>
@@ -63,7 +65,7 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="E.g: 3 sets x 10 reps"
+            placeholder="Ejemplo: Banco inclinado a 30 grados, al fallo"
           />
         </div>
 
@@ -84,6 +86,8 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             <option value="core">Core</option>
           </select>
         </div>
+
+
       </div>
 
       <div className="form-buttons">

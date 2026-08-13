@@ -1,3 +1,4 @@
+// models/User.js
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
@@ -22,16 +23,23 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    status: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+    },
   },
   {
     tableName: "User",
     timestamps: true,
-  },
+  }
 );
+
 User.associate = (models) => {
   User.hasMany(models.Routine, {
     foreignKey: "creatorId",
     onDelete: "CASCADE",
   });
 };
+
 module.exports = User;
