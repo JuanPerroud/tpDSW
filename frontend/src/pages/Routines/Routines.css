@@ -4,16 +4,25 @@
 
 /* Root variables for consistent theming */
 :root {
-  --primary-color: #2563eb; /* Deep blue - trust, focus */
-  --primary-dark: #1e40af; /* Darker blue for hover states */
-  --primary-light: #dbeafe; /* Light blue for backgrounds */
+  --primary-color: #2563eb;
+  /* Deep blue - trust, focus */
+  --primary-dark: #1e40af;
+  /* Darker blue for hover states */
+  --primary-light: #dbeafe;
+  /* Light blue for backgrounds */
 
-  --success-color: #10b981; /* Emerald - progress, growth */
-  --neutral-50: #f9fafb; /* Almost white */
-  --neutral-100: #f3f4f6; /* Light gray */
-  --neutral-200: #e5e7eb; /* Medium gray */
-  --neutral-700: #374151; /* Dark gray text */
-  --neutral-900: #111827; /* Almost black text */
+  --success-color: #10b981;
+  /* Emerald - progress, growth */
+  --neutral-50: #f9fafb;
+  /* Almost white */
+  --neutral-100: #f3f4f6;
+  /* Light gray */
+  --neutral-200: #e5e7eb;
+  /* Medium gray */
+  --neutral-700: #374151;
+  /* Dark gray text */
+  --neutral-900: #111827;
+  /* Almost black text */
 
   --border-radius: 12px;
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -139,6 +148,7 @@
     opacity: 0;
     transform: translateY(-1rem);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -247,4 +257,131 @@
     background-color: var(--neutral-100);
     border-color: var(--neutral-200);
   }
+}
+
+/* ============================================================================
+   Filters Section & Sidebar Layout
+   ============================================================================ */
+
+.routines-content-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.routines-sidebar {
+  flex: 0 0 250px;
+  background-color: rgb(255, 255, 255);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--neutral-200);
+  box-shadow: var(--shadow-sm);
+}
+
+.routines-sidebar h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--neutral-200);
+  border-bottom: 1px solid var(--neutral-200);
+  padding-bottom: 0.5rem;
+}
+
+.filter-group h4 {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: var(--neutral-100);
+}
+
+.routines-main {
+  flex: 1;
+  min-width: 0;
+  /* Prevents overflow issues */
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  /* Cambiado a columna para el sidebar vertical */
+  gap: 12px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+
+.checkbox-container label {
+  margin-left: 8px;
+  color: var(--primary-color);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Order Section inside Sidebar */
+
+.order-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.order-selector label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-100);
+  margin-top: 20px;
+}
+
+.order-selector select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1.5px solid var(--neutral-100);
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.order-selector select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Older Section inside Sidebar */
+
+.older-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.older-selector label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-100);
+  margin-top: 20px;
+}
+
+.older-selector select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1.5px solid var(--neutral-100);
+  background-color: var(--neutral-50);
+  color: var(--neutral-900);
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.older-selector select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }

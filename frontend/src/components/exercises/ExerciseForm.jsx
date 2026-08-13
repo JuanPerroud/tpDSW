@@ -84,6 +84,7 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             <option value="biceps">Biceps</option>
             <option value="triceps">Triceps</option>
             <option value="core">Core</option>
+            <option value="shoulder">shoulder</option>
           </select>
         </div>
 

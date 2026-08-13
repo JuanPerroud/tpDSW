@@ -13,8 +13,30 @@ function Routines({ mode = "my", currentUser }) {
   const [showForm, setShowForm] = useState(mode === "create");
   const [routines, setRoutines] = useState([]);
   const [editingRoutine, setEditingRoutine] = useState(null);
+  const [sortOrder, setSortOrder] = useState("desc");
   const [exercises, setExercises] = useState([]);
 
+  const [muscularGroupSelected, setMuscularGroupSelected] = useState({
+    legs: false,
+    back: false,
+    shoulder: false,
+    chest: false,
+    biceps: false,
+    triceps: false,
+    core: false,
+  });
+
+  const handleOnCheckeckbox = (e) => {
+    const { value, checked } = e.target;
+    setMuscularGroupSelected((prev) => ({
+      ...prev,
+      [value]: checked,
+    }));
+  };
+
+  const handleOrder = (e) => {
+    setSortOrder(e.target.value);
+  };
 
 
   const [prevMode, setPrevMode] = useState(mode);
@@ -141,7 +163,6 @@ function Routines({ mode = "my", currentUser }) {
       });
   };
 
-  // Filtrado de rutinas
   const currentUserId = currentUser?.id;
 
   const myRoutines = routines.filter((r) => {
@@ -150,7 +171,33 @@ function Routines({ mode = "my", currentUser }) {
   });
 
   const communityRoutines = routines.filter((r) => {
-    return r.creatorId && r.creatorId !== currentUserId;
+    const isCommunity = r.creatorId && r.creatorId !== currentUserId;
+    if (!isCommunity) return false;
+
+    const activeFilters = Object.keys(muscularGroupSelected).filter(
+      (key) => muscularGroupSelected[key]
+    );
+
+    // Si no hay filtros activos, mostrar todas
+    if (activeFilters.length === 0) return true;
+
+    // Si hay filtros, la rutina debe tener al menos un ejercicio de ese grupo
+    if (!r.RoutineExercises) return false;
+
+    return r.RoutineExercises.some((re) => {
+      return re.Exercise && activeFilters.includes(re.Exercise.muscleGroup);
+    });
+  });
+
+  const sortedCommunityRoutines = [...communityRoutines].sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return sortOrder === "asc" ? 1 : -1;
+    } if (nameA > nameB) {
+      return sortOrder === "desc" ? 1 : -1;
+    }
+    return 0;
   });
 
   return (
@@ -229,11 +276,114 @@ function Routines({ mode = "my", currentUser }) {
             <h2>Rutinas de la Comunidad</h2>
             <p>Descubrí rutinas creadas por otros atletas y guardalas en tu perfil.</p>
           </div>
-          <RoutineList
-            routines={communityRoutines}
-            isMine={false}
-            onSaveToMine={handleSaveCommunityRoutine}
-          />
+
+          <div className="routines-content-layout">
+            <aside className="routines-sidebar">
+              <h3>Ordenar Rutinas</h3>
+              <div className="filter-group">
+                <h4>Grupo Muscular</h4>
+                <div className='filters-container'>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='legs'
+                      id='legs'
+                    />
+                    <label htmlFor='legs'>Legs</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='back'
+                      id='back'
+                    />
+                    <label htmlFor='back'>Back</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='chest'
+                      id='chest'
+                    />
+                    <label htmlFor='chest'>Chest</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='shoulder'
+                      id='shoulder'
+                    />
+                    <label htmlFor='shoulder'>Shoulder</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='core'
+                      id='core'
+                    />
+                    <label htmlFor='core'>Core</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='biceps'
+                      id='biceps'
+                    />
+                    <label htmlFor='biceps'>Biceps</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='triceps'
+                      id='triceps'
+                    />
+                    <label htmlFor='triceps'>Triceps</label>
+                  </div>
+                </div>
+                <div className="order-selector">
+                  <label htmlFor="sort">Ordenar por nombre: </label>
+                  <select id="sort" onChange={handleOrder} value={sortOrder}>
+                    <option value={"desc"}>A-Z (Menor a Mayor)</option>
+                    <option value={"asc"}>Z-A (Mayor a menor)</option>
+                  </select>
+                </div>
+                <div className="older-selector">
+                  <label htmlFor="sort">Ordenar por fecha: </label>
+                  <select id="sort" onChange={handleOrder} value={sortOrder}>
+                    <option value={"desc"}>Mas recientes primero</option>
+                    <option value={"asc"}>Mas antiguas primero</option>
+                  </select>
+                </div>
+
+              </div>
+            </aside>
+            <main className="routines-main">
+              <RoutineList
+                routines={sortedCommunityRoutines}
+                isMine={false}
+                onSaveToMine={handleSaveCommunityRoutine}
+                handleOnCheckeckbox={handleOnCheckeckbox}
+                handleOrder={handleOrder}
+              />
+              <div className="container-info-selected">
+
+              </div>
+            </main>
+          </div>
         </section>
       )}
     </div>
