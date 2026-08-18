@@ -78,12 +78,16 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             required
           >
             <option value="">Select...</option>
-            <option value="chest">Chest</option>
-            <option value="back">Back</option>
-            <option value="legs">Legs</option>
+            <option value="chest">Pecho</option>
+            <option value="back">Espalda</option>
+            <option value="legs">Piernas</option>
             <option value="biceps">Biceps</option>
             <option value="triceps">Triceps</option>
-            <option value="core">Core</option>
+            <option value="core">Core/Abdomen</option>
+            <option value="calves">Gemelo</option>
+            <option value="shoulders">Hombros</option>
+            <option value="cardio">Cardio</option>
+            <option value="other">Otro</option>
           </select>
         </div>
 
