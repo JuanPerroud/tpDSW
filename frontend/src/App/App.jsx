@@ -5,7 +5,7 @@ import Exercises from "../pages/Exercises/Exercises";
 import Routines from "../pages/Routines/Routines";
 import CreateUser from "../pages/CreateUser/CreateUser";
 import { useState } from "react";
-import "./App.css"
+import "./App.css";
 
 function getInitialUser() {
   const storedUser = localStorage.getItem("user");

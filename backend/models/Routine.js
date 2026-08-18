@@ -18,7 +18,7 @@ const Routine = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    muscularGroup: {
+    muscleGroup: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -117,10 +117,10 @@ const RoutineController = {
     try {
       const routine = await Routine.findByPk(req.params.id);
       if (!routine) {
-        return res.status(404).json({ mensaje: "Rutina no encontrada" });
+        return res.status(404).json({ mensaje: "Rutina no encontrada " });
       }
       await routine.destroy();
-      res.json({ mensaje: "Rutina eliminada ✓" });
+      res.json({ mensaje: "Rutina eliminada " });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
