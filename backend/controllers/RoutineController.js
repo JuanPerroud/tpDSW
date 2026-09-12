@@ -1,4 +1,5 @@
 const Routine = require("../models/Routine");
+const RoutineExercise = require("../models/RoutineExercise");
 
 const RoutineController = {
   getAll: async (req, res) => {
@@ -6,12 +7,15 @@ const RoutineController = {
       const routine = await Routine.findAll({
         include: [
           {
-            model: require("../models/RoutineExercise"),
+            model: RoutineExercise,
             include: [
               require("../models/Exercise"),
               require("../models/ExerciseSet"),
             ],
           },
+        ],
+        order: [
+          [RoutineExercise, 'orderIndex', 'ASC'],
         ],
       });
       res.json(routine);
@@ -25,12 +29,15 @@ const RoutineController = {
       const routine = await Routine.findByPk(req.params.id, {
         include: [
           {
-            model: require("../models/RoutineExercise"),
+            model: RoutineExercise,
             include: [
               require("../models/Exercise"),
               require("../models/ExerciseSet"),
             ],
           },
+        ],
+        order: [
+          [RoutineExercise, 'orderIndex', 'ASC'],
         ],
       });
       if (!routine) {

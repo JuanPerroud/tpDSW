@@ -219,3 +219,135 @@
     border-color: var(--neutral-200);
   }
 }
+
+/* ============================================================================
+   Filters Section & Sidebar Layout (Homogeneous with Routines page)
+   ============================================================================ */
+
+.exercises-content-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.exercises-sidebar {
+  flex: 0 0 250px;
+  background-color: #1e293b;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #334155;
+  box-shadow: var(--shadow-md);
+}
+
+.exercises-sidebar h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 1.5rem 0;
+  color: #ffffff !important;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.5rem;
+}
+
+.filter-group h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+  color: #ffffff !important;
+}
+
+.exercises-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--primary-color);
+  cursor: pointer;
+}
+
+.checkbox-container label {
+  margin-left: 10px;
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.checkbox-container label:hover {
+  color: #60a5fa !important;
+}
+
+.order-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 20px;
+}
+
+.order-selector label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff !important;
+}
+
+.order-selector select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1.5px solid #475569;
+  background-color: #0f172a;
+  color: #ffffff !important;
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.order-selector select option {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.order-selector select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+@media (max-width: 768px) {
+  .exercises-content-layout {
+    flex-direction: column;
+  }
+
+  .exercises-sidebar {
+    width: 100%;
+    flex: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .exercises-sidebar {
+    background-color: #1e293b;
+    border-color: #334155;
+  }
+
+  .order-selector select {
+    background-color: #0f172a;
+    border-color: #475569;
+    color: #ffffff;
+  }
+}

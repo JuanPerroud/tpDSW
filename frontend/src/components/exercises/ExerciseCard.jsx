@@ -1,3 +1,28 @@
+const MUSCLE_GROUP_LABELS = {
+  cuadriceps: "Cuádriceps",
+  isquiotibiales: "Isquiotibiales",
+  gluteos: "Glúteos",
+  gemelos: "Gemelos",
+  calves: "Gemelos",
+  legs: "Piernas",
+  piernas: "Piernas",
+  chest: "Pecho",
+  pecho: "Pecho",
+  back: "Espalda",
+  espalda: "Espalda",
+  biceps: "Bíceps",
+  triceps: "Tríceps",
+  shoulders: "Hombros",
+  shoulder: "Hombros",
+  hombros: "Hombros",
+  antebrazos: "Antebrazos",
+  core: "Abdomen",
+  abdomen: "Abdomen",
+  cardio: "Cardio",
+  other: "Otro",
+  otro: "Otro",
+};
+
 function ExerciseCard({ exercise, onEdit, onDelete }) {
   return (
     <li className="exercise-card">
@@ -10,8 +35,10 @@ function ExerciseCard({ exercise, onEdit, onDelete }) {
         <div className="exercise-info">
           <div className="exercise-info-icon">💪</div>
           <div className="exercise-info-content">
-            <span className="exercise-info-label">Muscle Group</span>
-            <span className="exercise-info-value">{exercise.muscleGroup}</span>
+            <span className="exercise-info-label">Grupo Muscular</span>
+            <span className="exercise-info-value">
+              {MUSCLE_GROUP_LABELS[exercise.muscleGroup] || exercise.muscleGroup || "No especificado"}
+            </span>
           </div>
         </div>
       </div>
@@ -21,13 +48,13 @@ function ExerciseCard({ exercise, onEdit, onDelete }) {
           className="exercise-card-btn exercise-btn-edit"
           onClick={() => onEdit && onEdit(exercise)}
         >
-          Edit
+          Editar
         </button>
         <button
           className="exercise-card-btn exercise-btn-delete"
           onClick={() => onDelete && onDelete(exercise.id)}
         >
-          Delete
+          Eliminar
         </button>
       </div>
     </li>

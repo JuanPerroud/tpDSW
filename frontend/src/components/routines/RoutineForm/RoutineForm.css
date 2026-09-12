@@ -49,8 +49,8 @@
 }
 
 .routine-form p {
-  color: var(--primary-light);
-  font-weight: 500;
+  color: var(--neutral-900);
+  font-weight: 600;
   margin-top: 1rem;
 }
 
@@ -69,7 +69,7 @@
 
 .routine-form label:first-of-type {
   margin-top: 0;
-  color: var(--neutral-100);
+  color: var(--neutral-900);
 }
 
 

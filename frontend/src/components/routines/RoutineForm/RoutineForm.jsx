@@ -36,10 +36,10 @@ function RoutineForm({ exercisesAvailable, initialValues, onSave, onCancel }) {
       if (exists) {
         return prev.filter((e) => e.id !== id);
       } else {
-        return [...prev, { 
-          id, 
-          restSeconds: 90, 
-          sets: [{ reps: 10, weightKg: '' }, { reps: 10, weightKg: '' }, { reps: 10, weightKg: '' }] 
+        return [...prev, {
+          id,
+          restSeconds: 90,
+          sets: [{ reps: 10, weightKg: '' }, { reps: 10, weightKg: '' }, { reps: 10, weightKg: '' }]
         }];
       }
     });
@@ -80,11 +80,29 @@ function RoutineForm({ exercisesAvailable, initialValues, onSave, onCancel }) {
     }));
   }
 
+  function handleReorderExercises(fromIndex, toIndex) {
+    setExercisesSelected((prev) => {
+      if (
+        fromIndex === toIndex ||
+        fromIndex < 0 ||
+        toIndex < 0 ||
+        fromIndex >= prev.length ||
+        toIndex >= prev.length
+      ) {
+        return prev;
+      }
+      const newArr = [...prev];
+      const [movedItem] = newArr.splice(fromIndex, 1);
+      newArr.splice(toIndex, 0, movedItem);
+      return newArr;
+    });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!name.trim()) return;
 
-    // Construir RoutineExercises según el nuevo modelo
+    // Construir RoutineExercises manteniendo el orden actual en exercisesSelected
     const routineExercisesObjects = exercisesSelected.map((sel, idx) => {
       const setsArray = sel.sets.map((s, i) => ({
         setNumber: i + 1,
@@ -139,9 +157,10 @@ function RoutineForm({ exercisesAvailable, initialValues, onSave, onCancel }) {
         onAddSet={handleAddSet}
         onRemoveSet={handleRemoveSet}
         onUpdateSet={handleUpdateSet}
+        onReorder={handleReorderExercises}
       />
 
-      <p>{exercisesSelected.length} ejercicio(s) seleccionado(s)</p>
+      <p className="selected-count-badge">{exercisesSelected.length} ejercicio(s) seleccionado(s)</p>
 
       <div className="routine-form-buttons" style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
         <button type="submit" className="btn btn-primary">

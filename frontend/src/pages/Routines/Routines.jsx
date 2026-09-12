@@ -1,5 +1,5 @@
 // src/pages/Routines.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import RoutineList from "../../components/routines/RoutineList/RoutineList";
 import RoutineForm from "../../components/routines/RoutineForm/RoutineForm";
 import axios from "axios";
@@ -15,15 +15,25 @@ function Routines({ mode = "my", currentUser }) {
   const [editingRoutine, setEditingRoutine] = useState(null);
   const [sortOrder, setSortOrder] = useState("desc");
   const [exercises, setExercises] = useState([]);
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (showForm && formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [showForm, editingRoutine]);
 
   const [muscularGroupSelected, setMuscularGroupSelected] = useState({
-    legs: false,
-    back: false,
-    shoulder: false,
-    chest: false,
+    cuadriceps: false,
+    isquiotibiales: false,
+    gluteos: false,
+    gemelos: false,
+    espalda: false,
+    hombros: false,
+    pecho: false,
     biceps: false,
     triceps: false,
-    core: false,
+    abdomen: false,
   });
 
   const handleOnCheckeckbox = (e) => {
@@ -182,11 +192,29 @@ function Routines({ mode = "my", currentUser }) {
     // Si no hay filtros activos, mostrar todas
     if (activeFilters.length === 0) return true;
 
-    // Si hay filtros, la rutina debe tener al menos un ejercicio de ese grupo
+    // Mapa de equivalencias entre filtros y posibles valores en BD
+    const FILTER_ALIASES = {
+      cuadriceps: ["cuadriceps", "legs", "piernas"],
+      isquiotibiales: ["isquiotibiales", "legs", "piernas"],
+      gluteos: ["gluteos", "legs", "piernas"],
+      gemelos: ["gemelos", "calves", "legs", "piernas"],
+      pecho: ["pecho", "chest"],
+      espalda: ["espalda", "back"],
+      hombros: ["hombros", "shoulder", "shoulders"],
+      biceps: ["biceps"],
+      triceps: ["triceps"],
+      abdomen: ["abdomen", "core"],
+    };
+
     if (!r.RoutineExercises) return false;
 
     return r.RoutineExercises.some((re) => {
-      return re.Exercise && activeFilters.includes(re.Exercise.muscleGroup);
+      if (!re.Exercise || !re.Exercise.muscleGroup) return false;
+      const exerciseGroup = re.Exercise.muscleGroup.toLowerCase();
+      return activeFilters.some((filterKey) => {
+        const allowedValues = FILTER_ALIASES[filterKey] || [filterKey];
+        return allowedValues.includes(exerciseGroup);
+      });
     });
   });
 
@@ -247,7 +275,7 @@ function Routines({ mode = "my", currentUser }) {
       </div>
 
       {showForm ? (
-        <div className="routine-form-wrapper">
+        <div className="routine-form-wrapper" ref={formRef} style={{ scrollMarginTop: "20px" }}>
           <RoutineForm
             exercisesAvailable={exercises}
             initialValues={editingRoutine}
@@ -288,50 +316,70 @@ function Routines({ mode = "my", currentUser }) {
                       onChange={handleOnCheckeckbox}
                       type='checkbox'
                       name='muscularGroup'
-                      value='legs'
-                      id='legs'
+                      value='cuadriceps'
+                      id='cuadriceps'
                     />
-                    <label htmlFor='legs'>Legs</label>
+                    <label htmlFor='cuadriceps'>Cuádriceps</label>
                   </div>
                   <div className='checkbox-container'>
                     <input
                       onChange={handleOnCheckeckbox}
                       type='checkbox'
                       name='muscularGroup'
-                      value='back'
-                      id='back'
+                      value='isquiotibiales'
+                      id='isquiotibiales'
                     />
-                    <label htmlFor='back'>Back</label>
+                    <label htmlFor='isquiotibiales'>Isquiotibiales</label>
                   </div>
                   <div className='checkbox-container'>
                     <input
                       onChange={handleOnCheckeckbox}
                       type='checkbox'
                       name='muscularGroup'
-                      value='chest'
-                      id='chest'
+                      value='gluteos'
+                      id='gluteos'
                     />
-                    <label htmlFor='chest'>Chest</label>
+                    <label htmlFor='gluteos'>Glúteos</label>
                   </div>
                   <div className='checkbox-container'>
                     <input
                       onChange={handleOnCheckeckbox}
                       type='checkbox'
                       name='muscularGroup'
-                      value='shoulder'
-                      id='shoulder'
+                      value='gemelos'
+                      id='gemelos'
                     />
-                    <label htmlFor='shoulder'>Shoulder</label>
+                    <label htmlFor='gemelos'>Gemelos</label>
                   </div>
                   <div className='checkbox-container'>
                     <input
                       onChange={handleOnCheckeckbox}
                       type='checkbox'
                       name='muscularGroup'
-                      value='core'
-                      id='core'
+                      value='pecho'
+                      id='pecho'
                     />
-                    <label htmlFor='core'>Core</label>
+                    <label htmlFor='pecho'>Pecho</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='espalda'
+                      id='espalda'
+                    />
+                    <label htmlFor='espalda'>Espalda</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='hombros'
+                      id='hombros'
+                    />
+                    <label htmlFor='hombros'>Hombros</label>
                   </div>
                   <div className='checkbox-container'>
                     <input
@@ -341,7 +389,7 @@ function Routines({ mode = "my", currentUser }) {
                       value='biceps'
                       id='biceps'
                     />
-                    <label htmlFor='biceps'>Biceps</label>
+                    <label htmlFor='biceps'>Bíceps</label>
                   </div>
                   <div className='checkbox-container'>
                     <input
@@ -351,7 +399,17 @@ function Routines({ mode = "my", currentUser }) {
                       value='triceps'
                       id='triceps'
                     />
-                    <label htmlFor='triceps'>Triceps</label>
+                    <label htmlFor='triceps'>Tríceps</label>
+                  </div>
+                  <div className='checkbox-container'>
+                    <input
+                      onChange={handleOnCheckeckbox}
+                      type='checkbox'
+                      name='muscularGroup'
+                      value='abdomen'
+                      id='abdomen'
+                    />
+                    <label htmlFor='abdomen'>Abdomen</label>
                   </div>
                 </div>
                 <div className="order-selector">

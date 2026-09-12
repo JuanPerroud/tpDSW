@@ -2,18 +2,34 @@ import { useState } from "react";
 import "./RoutineCard.css";
 
 const MUSCLE_GROUP_LABELS = {
-  chest: "Pecho",
-  back: "Espalda",
+  cuadriceps: "Cuádriceps",
+  isquiotibiales: "Isquiotibiales",
+  gluteos: "Glúteos",
+  gemelos: "Gemelos",
+  calves: "Gemelos",
   legs: "Piernas",
+  piernas: "Piernas",
+  chest: "Pecho",
+  pecho: "Pecho",
+  back: "Espalda",
+  espalda: "Espalda",
   biceps: "Bíceps",
   triceps: "Tríceps",
-  core: "Core",
+  shoulders: "Hombros",
+  shoulder: "Hombros",
+  hombros: "Hombros",
+  antebrazos: "Antebrazos",
+  core: "Abdomen",
+  abdomen: "Abdomen",
+  cardio: "Cardio",
+  other: "Otro",
+  otro: "Otro",
 };
 
 function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine }) {
   const [expanded, setExpanded] = useState(false);
 
-  const routineExercises = routine.RoutineExercises || [];
+  const routineExercises = [...(routine.RoutineExercises || [])].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
   const exercises = routineExercises.length > 0
     ? routineExercises.map((re) => ({
         id: re.Exercise?.id || re.exerciseId,

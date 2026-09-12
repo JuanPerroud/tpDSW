@@ -22,9 +22,9 @@
    ============================================================================ */
 
 .navbar {
-  background-color: white;
-  border-bottom: 2px solid var(--neutral-200);
-  box-shadow: var(--shadow-sm);
+  background-color: #0f172a;
+  border-bottom: 2px solid #334155;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   padding: 1rem 1.5rem;
   position: sticky;
   top: 0;
@@ -49,7 +49,7 @@
 
 .navbar a {
   text-decoration: none;
-  color: var(--neutral-700);
+  color: #f8fafc;
   font-weight: 600;
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
@@ -61,25 +61,25 @@
 }
 
 .navbar a:hover {
-  color: var(--primary-color);
-  background-color: var(--primary-light);
+  color: #60a5fa;
+  background-color: rgba(37, 99, 235, 0.15);
 }
 
 .navbar a:active {
-  color: var(--primary-dark);
+  color: #93c5fd;
 }
 
 .navbar a:focus {
-  outline: 2px solid var(--primary-color);
+  outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
 
 /* Active Link State */
 .navbar a.active,
 .navbar a[aria-current="page"] {
-  color: var(--primary-color);
-  background-color: var(--primary-light);
-  border-bottom: 3px solid var(--primary-color);
+  color: #60a5fa;
+  background-color: rgba(37, 99, 235, 0.18);
+  border-bottom: 3px solid #3b82f6;
 }
 
 /* Botón de Cerrar Sesión */
@@ -107,7 +107,7 @@
 .navbar-brand .brand-title {
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--primary-color);
+  color: #60a5fa;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -538,6 +538,7 @@
   .navbar a:hover {
     background-color: transparent;
   }
+
   .admin-panel {
     animation: none;
   }
