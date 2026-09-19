@@ -20,7 +20,7 @@ const Exercise = sequelize.define(
     },
     muscleGroup: {
       type: DataTypes.STRING(100),
-      allowNull: true,
+      allowNull: false,
       field: "muscleGroup",
     },
   },

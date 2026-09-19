@@ -1,13 +1,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "../components/NavBar/NavBar";
-import Home from "../pages/Home/Home";
-import Exercises from "../pages/Exercises/Exercises";
-import Routines from "../pages/Routines/Routines";
-import CreateUser from "../pages/CreateUser/CreateUser";
 import { useState } from "react";
+import Navbar from "./components/Shared/NavBar/NavBar";
+import Home from "./pages/Home/Home";
+import Exercises from "./pages/Exercises/Exercises";
+import Routines from "./pages/Routines/Routines";
+import CreateUser from "./pages/CreateUser/CreateUser";
 import "./App.css";
 
-function getInitialUser() {
+// Esta funcion se encarga de obtener el usuario que ya habia iniciado sesion
+const getInitialUser = () => {
   const storedUser = localStorage.getItem("user");
   if (storedUser) {
     try {
@@ -20,7 +21,7 @@ function getInitialUser() {
   return null;
 }
 
-function App() {
+const App = () => {
   const [currentUser, setCurrentUser] = useState(getInitialUser);
   const isLoggedIn = currentUser !== null;
 
@@ -56,19 +57,19 @@ function App() {
         <Route
           path="/routines"
           element={
-            isLoggedIn ? <Routines mode="my" currentUser={currentUser} /> : <Navigate to="/" replace />
+            isLoggedIn ? <Routines key="my" mode="my" currentUser={currentUser} /> : <Navigate to="/" replace />
           }
         />
         <Route
           path="/community-routines"
           element={
-            isLoggedIn ? <Routines mode="community" currentUser={currentUser} /> : <Navigate to="/" replace />
+            isLoggedIn ? <Routines key="community" mode="community" currentUser={currentUser} /> : <Navigate to="/" replace />
           }
         />
         <Route
           path="/create-routine"
           element={
-            isLoggedIn ? <Routines mode="create" currentUser={currentUser} /> : <Navigate to="/" replace />
+            isLoggedIn ? <Routines key="create" mode="create" currentUser={currentUser} /> : <Navigate to="/" replace />
           }
         />
         <Route

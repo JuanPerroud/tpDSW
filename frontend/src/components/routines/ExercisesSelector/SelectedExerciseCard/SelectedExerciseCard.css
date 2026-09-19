@@ -1,0 +1,329 @@
+/* ============================================================================
+   Selected Exercise Card Component - GymRoutines (Drag Card & Config Details)
+   ============================================================================ */
+
+.selected-exercise-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  overflow: hidden;
+}
+
+.selected-exercise-card:hover {
+  border-color: #475569;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.selected-exercise-card.dragging {
+  opacity: 0.4;
+  border: 2px dashed #3b82f6;
+  background-color: #0f172a;
+}
+
+.selected-exercise-card.drag-over {
+  border-top: 3px solid #60a5fa;
+  transform: translateY(-2px);
+}
+
+/* ============================================================================
+   Card Header (Drag Handle, Order Badge, Info & Actions)
+   ============================================================================ */
+
+.selected-exercise-card .exercise-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #1e293b;
+  border-radius: 10px;
+  border-left: none;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #64748b;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0.2rem 0.3rem;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  color: #60a5fa;
+}
+
+.exercise-order-badge {
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: #60a5fa;
+  background-color: rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.exercise-info-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.selected-exercise-card .exercise-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #f8fafc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected-exercise-card .group-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #60a5fa;
+  background-color: rgba(37, 99, 235, 0.18);
+  padding: 0.2rem 0.55rem;
+  border-radius: 10px;
+  flex-shrink: 0;
+  text-transform: capitalize;
+}
+
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+.btn-toggle-accordion {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: unset !important;
+  background-color: #334155;
+  border: 1px solid #475569;
+  color: #f8fafc;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: none;
+}
+
+.btn-toggle-accordion:hover {
+  background-color: #2563eb;
+  border-color: #3b82f6;
+  color: #ffffff;
+  transform: none;
+}
+
+.btn-remove-exercise {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: unset !important;
+  background-color: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: none;
+}
+
+.btn-remove-exercise:hover {
+  background-color: rgba(220, 38, 38, 0.4);
+  border-color: #ef4444;
+  transform: none;
+}
+
+/* ============================================================================
+   Accordion Config Details (Rest, Sets, Reps, Weight)
+   ============================================================================ */
+
+.exercise-config.advanced-config {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem;
+  border-top: 1px dashed #334155;
+  background-color: rgba(15, 23, 42, 0.6);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  animation: fadeSlideIn 0.2s ease;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.config-header label {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 !important;
+}
+
+.sets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #0f172a;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  transition: all 0.2s ease;
+}
+
+.set-row:hover {
+  border-color: #475569;
+  background-color: #1e293b;
+}
+
+.set-number {
+  font-weight: 700;
+  color: #93c5fd;
+  background-color: #1e3a8a;
+  font-size: 0.82rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+}
+
+.set-row label {
+  display: flex !important;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 !important;
+}
+
+.exercise-config input[type="number"] {
+  width: 72px !important;
+  padding: 0.35rem 0.5rem !important;
+  border: 1.5px solid #475569;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  text-align: center;
+  background-color: #1e293b !important;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.exercise-config input[type="number"]::placeholder {
+  color: #94a3b8;
+}
+
+.exercise-config input[type="number"]:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+  background-color: #0f172a !important;
+}
+
+.btn-add-set {
+  align-self: flex-start;
+  margin: 0 !important;
+  min-height: unset !important;
+  background-color: rgba(37, 99, 235, 0.2);
+  border: 1.5px dashed #3b82f6;
+  color: #60a5fa !important;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.85rem !important;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: none;
+}
+
+.btn-add-set:hover {
+  background-color: rgba(37, 99, 235, 0.35);
+  border-color: #60a5fa;
+  color: #93c5fd !important;
+  transform: none;
+}
+
+.btn-remove-set {
+  margin: 0 !important;
+  margin-left: auto !important;
+  min-height: unset !important;
+  background-color: rgba(220, 38, 38, 0.2);
+  border: 1px solid #ef4444;
+  color: #fca5a5 !important;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0.25rem 0.45rem !important;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.btn-remove-set:hover {
+  background-color: rgba(220, 38, 38, 0.4);
+  border-color: #f87171;
+  transform: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .selected-exercise-card .exercise-card-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .set-row {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

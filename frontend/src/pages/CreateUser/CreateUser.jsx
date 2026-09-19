@@ -1,48 +1,10 @@
-import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import axios from "axios";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useCreateUser } from '../../hooks/useCreateUser';
 import "../Home/Home.css";
 
-function CreateUser() {
-  const navigate = useNavigate();
-  const [registerError, setRegisterError] = useState("");
-
-  const initialValues = {
-    name: "",
-    email: "",
-    password: "",
-  };
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required('El nombre es obligatorio'),
-    email: Yup.string()
-      .email('Ingresá un correo electrónico válido')
-      .required('El email es obligatorio'),
-    password: Yup.string()
-      .min(6, 'La contraseña debe tener al menos 6 caracteres')
-      .max(20, 'La contraseña no puede superar los 20 caracteres')
-      .required('La contraseña es obligatoria'),
-  });
-
-  const onSubmit = async (values, { setSubmitting }) => {
-    setRegisterError("");
-    try {
-      await axios.post("http://localhost:3000/api/user", values);
-      alert("¡Cuenta creada con éxito! Ahora podés iniciar sesión.");
-      navigate("/");
-    } catch (error) {
-      console.error("Error al crear usuario:", error);
-      const serverMessage =
-        error.response?.data?.mensaje ||
-        error.response?.data?.error ||
-        "Ocurrió un error al crear la cuenta. Intentalo de nuevo.";
-      setRegisterError(serverMessage);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+const CreateUser = () => {
+  const { registerError, initialValues, validationSchema, onSubmit } = useCreateUser();
 
   return (
     <div className="home-page">
@@ -110,6 +72,19 @@ function CreateUser() {
                     className={errors.password && touched.password ? "input-error" : ""}
                   />
                   <ErrorMessage name="password" component="span" className="field-error" />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="inputConfirmPassword">Confirmar Contraseña</label>
+                  <Field
+                    id="inputConfirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Repetí tu contraseña"
+                    autoComplete="new-password"
+                    className={errors.confirmPassword && touched.confirmPassword ? "input-error" : ""}
+                  />
+                  <ErrorMessage name="confirmPassword" component="span" className="field-error" />
                 </div>
 
                 <button

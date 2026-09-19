@@ -29,6 +29,9 @@ app.use("/api/routine", routineRoutes);
 const exerciseRoutes = require("./routes/exerciseRoutes");
 app.use("/api/exercise", exerciseRoutes);
 
+const aiRoutes = require("./routes/aiRoutes");
+app.use("/api/ai", aiRoutes);
+
 const PORT = process.env.PORT || 3000;
 
 // Sincronización de la base de datos

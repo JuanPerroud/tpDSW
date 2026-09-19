@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import "./ExerciseForm.css";
 
-function ExerciseForm({ initialData, onSave, onCancel }) {
+const ExerciseForm = ({ initialData, onSave, onCancel }) => {
+  // 1. Estados locales para los campos y control de props
   const [prevInitialData, setPrevInitialData] = useState(initialData);
   const [name, setName] = useState(initialData ? initialData.name : "");
   const [description, setDescription] = useState(
@@ -10,22 +11,26 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
   const [muscleGroup, setMuscleGroup] = useState(
     initialData ? initialData.muscleGroup : ""
   );
+
+  // 2. Referencia para el foco del input
   const inputRef = useRef(null);
 
+  // Auto-foco en el campo Nombre al montar el componente
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
 
+  // Sincronización de estado si 'initialData' cambia desde el padre mientras el componente sigue montado
   if (initialData !== prevInitialData) {
     setPrevInitialData(initialData);
     setName(initialData ? initialData.name : "");
     setDescription(initialData ? initialData.description : "");
     setMuscleGroup(initialData ? initialData.muscleGroup : "");
-
   }
 
+  // 3. Manejo del envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSave) {
@@ -38,6 +43,7 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
     }
   };
 
+  // 4. Manejo de cancelación / reseteo
   const handleCancel = () => {
     if (onCancel) {
       onCancel();
@@ -94,14 +100,10 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
             <option value="gemelos">Gemelos</option>
             <option value="biceps">Bíceps</option>
             <option value="triceps">Tríceps</option>
-            <option value="antebrazos">Antebrazos</option>
-            <option value="abdomen">Abdomen / Core</option>
+            <option value="abdomen">Abdomen</option>
             <option value="cardio">Cardio</option>
-            <option value="otro">Otro</option>
           </select>
         </div>
-
-
       </div>
 
       <div className="form-buttons">
@@ -118,6 +120,6 @@ function ExerciseForm({ initialData, onSave, onCancel }) {
       </div>
     </form>
   );
-}
+};
 
 export default ExerciseForm;

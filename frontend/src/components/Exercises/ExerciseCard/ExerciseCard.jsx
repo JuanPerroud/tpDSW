@@ -1,29 +1,6 @@
-const MUSCLE_GROUP_LABELS = {
-  cuadriceps: "Cuádriceps",
-  isquiotibiales: "Isquiotibiales",
-  gluteos: "Glúteos",
-  gemelos: "Gemelos",
-  calves: "Gemelos",
-  legs: "Piernas",
-  piernas: "Piernas",
-  chest: "Pecho",
-  pecho: "Pecho",
-  back: "Espalda",
-  espalda: "Espalda",
-  biceps: "Bíceps",
-  triceps: "Tríceps",
-  shoulders: "Hombros",
-  shoulder: "Hombros",
-  hombros: "Hombros",
-  antebrazos: "Antebrazos",
-  core: "Abdomen",
-  abdomen: "Abdomen",
-  cardio: "Cardio",
-  other: "Otro",
-  otro: "Otro",
-};
+import MuscleGroupLabels from "../../../constants/MuscleGroupLabels";
 
-function ExerciseCard({ exercise, onEdit, onDelete }) {
+const ExerciseCard = ({ exercise, onEdit, onDelete }) => {
   return (
     <li className="exercise-card">
       <div className="exercise-card-header">
@@ -37,7 +14,7 @@ function ExerciseCard({ exercise, onEdit, onDelete }) {
           <div className="exercise-info-content">
             <span className="exercise-info-label">Grupo Muscular</span>
             <span className="exercise-info-value">
-              {MUSCLE_GROUP_LABELS[exercise.muscleGroup] || exercise.muscleGroup || "No especificado"}
+              {MuscleGroupLabels[exercise.muscleGroup] || "No especificado"}
             </span>
           </div>
         </div>
@@ -59,6 +36,6 @@ function ExerciseCard({ exercise, onEdit, onDelete }) {
       </div>
     </li>
   );
-}
+};
 
 export default ExerciseCard;

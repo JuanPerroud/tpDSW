@@ -1,7 +1,7 @@
-import ExerciseCard from "./ExerciseCard";
+import ExerciseCard from "../ExerciseCard/ExerciseCard";
 import "./ExerciseList.css";
 
-function ExerciseList({ exercises, totalCount, onResetFilter, onEdit, onDelete }) {
+const ExerciseList = ({ exercises, totalCount, onResetFilter, onEdit, onDelete }) => {
   if (exercises.length === 0) {
     if (totalCount > 0) {
       return (

@@ -1,6 +1,7 @@
 const Exercise = require("../models/Exercise");
 
 const ExerciseController = {
+
   getAll: async (req, res) => {
     try {
       const exercises = await Exercise.findAll();

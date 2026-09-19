@@ -1,0 +1,279 @@
+/* ============================================================================
+   Exercise Catalog Modal Component - GymRoutines
+   ============================================================================ */
+
+/* Modal Overlay & Container */
+.catalog-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.catalog-modal-content {
+  background-color: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 650px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* Modal Header */
+.catalog-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #334155;
+  background-color: #0f172a;
+}
+
+.catalog-modal-header h4 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.catalog-modal-subtitle {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-close-modal:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Filters Bar */
+.catalog-filters {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: #1e293b;
+  border-bottom: 1px solid #334155;
+}
+
+.catalog-search-input {
+  flex: 1;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.catalog-search-input:focus {
+  outline: none;
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.catalog-search-input::placeholder {
+  color: #64748b;
+}
+
+.catalog-muscle-select {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #475569;
+  border-radius: 8px;
+  background-color: #0f172a;
+  color: #ffffff;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.catalog-muscle-select:focus {
+  outline: none;
+  border-color: #60a5fa;
+}
+
+.catalog-muscle-select option {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+/* Catalog Exercises Grid / List */
+.catalog-exercises-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  max-height: 450px;
+}
+
+.no-catalog-results {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.catalog-exercise-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.catalog-exercise-card:hover {
+  background-color: #1e293b;
+  border-color: #475569;
+}
+
+.catalog-exercise-card.already-added {
+  border-color: rgba(16, 185, 129, 0.4);
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+.catalog-card-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.catalog-exercise-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.catalog-card-info .group-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #60a5fa;
+  background-color: rgba(37, 99, 235, 0.18);
+  padding: 0.2rem 0.55rem;
+  border-radius: 10px;
+  flex-shrink: 0;
+  text-transform: capitalize;
+}
+
+.btn-select-catalog {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #3b82f6;
+  background-color: rgba(37, 99, 235, 0.2);
+  color: #60a5fa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-select-catalog:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-select-catalog.selected {
+  background-color: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #34d399;
+}
+
+.btn-select-catalog.selected:hover {
+  background-color: rgba(220, 38, 38, 0.3);
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+/* Modal Footer */
+.catalog-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: #0f172a;
+  border-top: 1px solid #334155;
+}
+
+.catalog-count-info {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.catalog-modal-footer .btn-primary {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.catalog-modal-footer .btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* Responsive Rules */
+@media (max-width: 600px) {
+  .catalog-filters {
+    flex-direction: column;
+  }
+
+  .catalog-modal-content {
+    max-height: 92vh;
+  }
+}

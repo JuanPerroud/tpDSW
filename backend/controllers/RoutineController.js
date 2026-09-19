@@ -62,7 +62,11 @@ const RoutineController = {
         include: [
           {
             model: require("../models/RoutineExercise"),
-            include: [require("../models/ExerciseSet")]
+            include: [
+              {
+                model: require("../models/ExerciseSet")
+              }
+            ]
           }
         ]
       });

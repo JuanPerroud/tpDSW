@@ -1,0 +1,29 @@
+/* ============================================================================
+   Selected Exercises List Component - GymRoutines
+   ============================================================================ */
+
+.selected-exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.empty-selected-state {
+  text-align: center;
+  padding: 1.75rem 1rem;
+  background-color: rgba(30, 41, 59, 0.4);
+  border: 2px dashed #334155;
+  border-radius: 12px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.empty-selected-state p {
+  margin: 0;
+}
+
+.empty-hint {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-top: 0.35rem !important;
+}

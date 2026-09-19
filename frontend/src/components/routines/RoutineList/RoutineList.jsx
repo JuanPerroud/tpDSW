@@ -1,7 +1,7 @@
 import RoutineCard from "../RoutineCard/RoutineCard";
 import "./RoutineList.css";
 
-function RoutineList({ routines, isMine = true, onUpdate, onDelete, onSaveToMine }) {
+const RoutineList = ({ routines, isMine = true, onUpdate, onDelete, onSaveToMine }) => {
   if (!routines || routines.length === 0) {
     return (
       <div className="empty-routines-container">

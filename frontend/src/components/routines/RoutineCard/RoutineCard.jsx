@@ -1,30 +1,6 @@
 import { useState } from "react";
 import "./RoutineCard.css";
-
-const MUSCLE_GROUP_LABELS = {
-  cuadriceps: "Cuádriceps",
-  isquiotibiales: "Isquiotibiales",
-  gluteos: "Glúteos",
-  gemelos: "Gemelos",
-  calves: "Gemelos",
-  legs: "Piernas",
-  piernas: "Piernas",
-  chest: "Pecho",
-  pecho: "Pecho",
-  back: "Espalda",
-  espalda: "Espalda",
-  biceps: "Bíceps",
-  triceps: "Tríceps",
-  shoulders: "Hombros",
-  shoulder: "Hombros",
-  hombros: "Hombros",
-  antebrazos: "Antebrazos",
-  core: "Abdomen",
-  abdomen: "Abdomen",
-  cardio: "Cardio",
-  other: "Otro",
-  otro: "Otro",
-};
+import MuscleGroupLabels from "../../../constants/MuscleGroupLabels";
 
 function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine }) {
   const [expanded, setExpanded] = useState(false);
@@ -32,16 +8,16 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
   const routineExercises = [...(routine.RoutineExercises || [])].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
   const exercises = routineExercises.length > 0
     ? routineExercises.map((re) => ({
-        id: re.Exercise?.id || re.exerciseId,
-        name: re.Exercise?.name || "Ejercicio desconocido",
-        muscleGroup: re.Exercise?.muscleGroup,
-        description: re.Exercise?.description,
-        restSeconds: re.restSeconds,
-        setsData: re.ExerciseSets || [],
-        // Fallbacks para preview
-        sets: re.ExerciseSets ? re.ExerciseSets.length : 0,
-        reps: re.ExerciseSets && re.ExerciseSets.length > 0 ? re.ExerciseSets[0].reps : 0,
-      }))
+      id: re.Exercise?.id || re.exerciseId,
+      name: re.Exercise?.name || "Ejercicio desconocido",
+      muscleGroup: re.Exercise?.muscleGroup,
+      description: re.Exercise?.description,
+      restSeconds: re.restSeconds,
+      setsData: re.ExerciseSets || [],
+      // Fallbacks para preview
+      sets: re.ExerciseSets ? re.ExerciseSets.length : 0,
+      reps: re.ExerciseSets && re.ExerciseSets.length > 0 ? re.ExerciseSets[0].reps : 0,
+    }))
     : (routine.exercises || []);
 
   return (
@@ -83,7 +59,7 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
                     <span className="detail-exercise-name">{exercise.name}</span>
                     {exercise.muscleGroup && (
                       <span className="detail-muscle-tag">
-                        {MUSCLE_GROUP_LABELS[exercise.muscleGroup] || exercise.muscleGroup}
+                        {MuscleGroupLabels[exercise.muscleGroup] || exercise.muscleGroup}
                       </span>
                     )}
                   </div>

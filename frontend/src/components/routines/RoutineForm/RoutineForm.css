@@ -159,6 +159,22 @@
   cursor: not-allowed;
 }
 
+.routine-form .btn-secondary {
+  background-color: #475569;
+  color: #ffffff;
+}
+
+.routine-form .btn-secondary:hover {
+  background-color: #334155;
+}
+
+.routine-form .selected-count-badge {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--neutral-700);
+  margin-top: 1rem;
+}
+
 /* ============================================================================
    Responsive Design
    ============================================================================ */
