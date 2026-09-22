@@ -1,10 +1,12 @@
 import { useState } from "react";
 import ExercisesSelector from "../ExercisesSelector/ExercisesSelector";
+import AISuggester from "../AISuggester/AISuggester";
 import "./RoutineForm.css";
 
 const RoutineForm = ({ exercisesAvailable, initialValues, onSave, onCancel }) => {
   const [name, setName] = useState(initialValues?.name || "");
   const [description, setDescription] = useState(initialValues?.description || "");
+  const [showAI, setShowAI] = useState(false);
 
   // Estado: array de { id, restSeconds, sets: [{ reps, weightKg }] }
   const [exercisesSelected, setExercisesSelected] = useState(() => {
@@ -127,51 +129,73 @@ const RoutineForm = ({ exercisesAvailable, initialValues, onSave, onCancel }) =>
   };
 
   return (
-    <form className="routine-form" onSubmit={handleSubmit}>
-      <h2>{initialValues ? "Editar Rutina" : "Nueva Rutina"}</h2>
+    <div className={`routine-page-layout ${showAI ? 'with-ai' : ''}`}>
+      <div className="form-content">
 
-      <label htmlFor="routine-name">Nombre</label>
-      <input
-        id="routine-name"
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Ej: Rutina de pecho y tríceps"
-        required
-      />
+        <form className="routine-form" onSubmit={handleSubmit}>
+          <div className="routine-form-header">
+            <h2>{initialValues ? "Editar Rutina" : "Nueva Rutina"}</h2>
+            {!showAI && (
+              <button
+                type="button"
+                className="btn btn-ai-suggest"
+                onClick={() => setShowAI(true)}
+              >
+                ✨ Sugerir con IA
+              </button>
+            )}
+          </div>
 
-      <label htmlFor="routine-description">Descripción</label>
-      <textarea
-        id="routine-description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Ej: Rutina 3 veces por semana"
-      />
 
-      <ExercisesSelector
-        exercises={exercisesAvailable || []}
-        selected={exercisesSelected}
-        onToggle={handleToggleExercise}
-        onUpdateConfig={handleUpdateConfig}
-        onAddSet={handleAddSet}
-        onRemoveSet={handleRemoveSet}
-        onUpdateSet={handleUpdateSet}
-        onReorder={handleReorderExercises}
-      />
+          <label htmlFor="routine-name">Nombre</label>
+          <input
+            id="routine-name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Ej: Rutina de pecho y tríceps"
+            required
+          />
 
-      <p className="selected-count-badge">{exercisesSelected.length} ejercicio(s) seleccionado(s)</p>
+          <label htmlFor="routine-description">Descripción</label>
+          <textarea
+            id="routine-description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Ej: Rutina enfocada en fuerza e hipertrofia"
+          />
 
-      <div className="routine-form-buttons" style={{ display: "flex", gap: "10px", marginTop: "15px" }}>
-        <button type="submit" className="btn btn-primary">
-          {initialValues ? "Actualizar Rutina" : "Guardar Rutina"}
-        </button>
-        {onCancel && (
-          <button type="button" className="btn btn-secondary" onClick={onCancel}>
-            Cancelar
-          </button>
-        )}
+          <ExercisesSelector
+            exercises={exercisesAvailable || []}
+            selected={exercisesSelected}
+            onToggle={handleToggleExercise}
+            onUpdateConfig={handleUpdateConfig}
+            onAddSet={handleAddSet}
+            onRemoveSet={handleRemoveSet}
+            onUpdateSet={handleUpdateSet}
+            onReorder={handleReorderExercises}
+          />
+
+          <p className="selected-count-badge">{exercisesSelected.length} ejercicio(s) seleccionado(s)</p>
+
+          <div className="routine-form-buttons">
+            <button type="submit" className="btn btn-primary">
+              {initialValues ? "Actualizar Rutina" : "Guardar Rutina"}
+            </button>
+            {onCancel && (
+              <button type="button" className="btn btn-secondary" onClick={onCancel}>
+                Cancelar
+              </button>
+            )}
+          </div>
+        </form>
       </div>
-    </form>
+      {showAI && (
+        <aside className="ai-sidebar">
+          <AISuggester onClose={() => setShowAI(false)} />
+        </aside>
+      )}
+    </div>
   );
 }
 

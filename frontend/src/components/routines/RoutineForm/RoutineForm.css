@@ -261,3 +261,79 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================================================
+   Routine Page Layout & AI Sidebar Integration
+   ============================================================================ */
+
+.routine-page-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.routine-page-layout .form-content {
+  flex: 1;
+  min-width: 400px;
+  transition: all 0.3s ease;
+}
+
+.routine-page-layout.with-ai .form-content {
+  flex: 2;
+}
+
+.routine-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.btn-ai-suggest {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(106, 17, 203, 0.25);
+}
+
+.btn-ai-suggest:hover {
+  background: linear-gradient(135deg, #590ebd 0%, #1d64db 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(106, 17, 203, 0.35);
+}
+
+.routine-form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.ai-sidebar {
+  flex: 1;
+  min-width: 350px;
+  position: sticky;
+  top: 20px;
+  height: 85vh;
+  border: 1px solid var(--neutral-200);
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 900px) {
+  .routine-page-layout {
+    flex-direction: column;
+  }
+
+  .routine-page-layout .form-content,
+  .ai-sidebar {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .ai-sidebar {
+    position: static;
+    height: 70vh;
+  }
+}
