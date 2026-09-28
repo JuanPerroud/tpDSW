@@ -9,6 +9,8 @@ export function useCreateUser() {
 
   const initialValues = {
     name: "",
+    surname: "",
+    age: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -16,6 +18,8 @@ export function useCreateUser() {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('El nombre es obligatorio'),
+    surname: Yup.string().required('El apellido es obligatorio'),
+    age: Yup.number().required('La edad es obligatoria'),
     email: Yup.string()
       .email('Ingresá un correo electrónico válido')
       .required('El email es obligatorio'),
@@ -33,6 +37,8 @@ export function useCreateUser() {
     try {
       const userData = {
         name: values.name,
+        surname: values.surname,
+        age: values.age,
         email: values.email,
         password: values.password,
       };

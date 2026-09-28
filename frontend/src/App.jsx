@@ -5,6 +5,7 @@ import Home from "./pages/Home/Home";
 import Exercises from "./pages/Exercises/Exercises";
 import Routines from "./pages/Routines/Routines";
 import CreateUser from "./pages/CreateUser/CreateUser";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import "./App.css";
 
 // Esta funcion se encarga de obtener el usuario que ya habia iniciado sesion
@@ -37,7 +38,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Navbar isLoggedIn={isLoggedIn} currentUser={currentUser} onLogout={handleLogout} />
+      <Navbar isLoggedIn={isLoggedIn} currentUser={currentUser} onLogout={handleLogout} onUserUpdated={handleLoginSuccess} />
       <Routes>
         {/* Rutas Públicas (Auth) - Redirigen a /routines si ya inició sesión */}
         <Route
@@ -50,6 +51,12 @@ const App = () => {
           path="/CreateUser"
           element={
             isLoggedIn ? <Navigate to="/routines" replace /> : <CreateUser />
+          }
+        />
+        <Route
+          path="/ChangePassword"
+          element={
+            isLoggedIn ? <Navigate to="/routines" replace /> : <ChangePassword />
           }
         />
 
