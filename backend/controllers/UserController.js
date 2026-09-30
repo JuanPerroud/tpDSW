@@ -1,8 +1,6 @@
 const { Op } = require("sequelize");
 const User = require("../models/User");
 
-const ADMIN_ID = 1;
-
 const UserController = {
   getAll: async (req, res) => {
     try {
@@ -55,8 +53,16 @@ const UserController = {
       if (!user) {
         return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
-      await user.update(req.body);
-      res.json({ mensaje: "Usuario actualizado " });
+
+      const { name, surname, age, password } = req.body;
+      const updateData = {};
+      if (name !== undefined) updateData.name = name;
+      if (surname !== undefined) updateData.surname = surname;
+      if (age !== undefined && age !== "") updateData.age = age;
+      if (password && password.trim() !== "") updateData.password = password;
+
+      await user.update(updateData);
+      res.json({ mensaje: "Usuario actualizado exitosamente", user });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -65,21 +71,27 @@ const UserController = {
   delete: async (req, res) => {
     try {
       const adminId = parseInt(req.query.adminId);
-      if (adminId !== ADMIN_ID) {
+      if (isNaN(adminId)) {
+        return res.status(400).json({ mensaje: "ID de administrador no válido" });
+      }
+
+      const adminUser = await User.findByPk(adminId);
+      if (!adminUser || !adminUser.isAdmin) {
         return res.status(403).json({ mensaje: "No tenés permisos para esta acción" });
       }
 
       const userId = parseInt(req.params.id);
-      if (userId === ADMIN_ID) {
-        return res.status(400).json({ mensaje: "No se puede eliminar al administrador" });
-      }
-
-      const user = await User.findByPk(userId);
-      if (!user) {
+      const targetUser = await User.findByPk(userId);
+      if (!targetUser) {
         return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
-      await user.destroy();
-      res.json({ mensaje: "Usuario eliminado " });
+
+      if (targetUser.isAdmin) {
+        return res.status(400).json({ mensaje: "No se puede eliminar a un usuario administrador" });
+      }
+
+      await targetUser.destroy();
+      res.json({ mensaje: "Usuario eliminado" });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -88,24 +100,29 @@ const UserController = {
   toggleActive: async (req, res) => {
     try {
       const adminId = parseInt(req.query.adminId);
-      if (adminId !== ADMIN_ID) {
+      if (isNaN(adminId)) {
+        return res.status(400).json({ mensaje: "ID de administrador no válido" });
+      }
+
+      const adminUser = await User.findByPk(adminId);
+      if (!adminUser || !adminUser.isAdmin) {
         return res.status(403).json({ mensaje: "No tenés permisos para esta acción" });
       }
 
       const userId = parseInt(req.params.id);
-      if (userId === ADMIN_ID) {
-        return res.status(400).json({ mensaje: "No se puede desactivar al administrador" });
-      }
-
-      const user = await User.findByPk(userId);
-      if (!user) {
+      const targetUser = await User.findByPk(userId);
+      if (!targetUser) {
         return res.status(404).json({ mensaje: "Usuario no encontrado" });
       }
 
-      await user.update({ status: !user.status });
+      if (targetUser.isAdmin) {
+        return res.status(400).json({ mensaje: "No se puede desactivar a un usuario administrador" });
+      }
+
+      await targetUser.update({ status: !targetUser.status });
       res.json({
-        mensaje: user.status ? "Usuario activado" : "Usuario desactivado",
-        user,
+        mensaje: targetUser.status ? "Usuario activado" : "Usuario desactivado",
+        user: targetUser,
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -130,6 +147,25 @@ const UserController = {
       }
 
       return res.json({ mensaje: "Inicio de sesión exitoso", user });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
+
+  changePassword: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ mensaje: "El correo y la nueva contraseña son obligatorios" });
+      }
+
+      const user = await User.findOne({ where: { email } });
+      if (!user) {
+        return res.status(404).json({ mensaje: "No existe ningún usuario registrado con ese correo" });
+      }
+
+      await user.update({ password });
+      return res.json({ mensaje: "Contraseña modificada con éxito" });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

@@ -3,9 +3,8 @@ import axios from "axios";
 import { useDebounce } from "./useDebounce";
 
 const API_URL = "http://localhost:3000/api/user";
-const ADMIN_ID = 1;
 
-export const useAdminUsers = () => {
+export const useAdminUsers = (currentUser) => {
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -14,6 +13,8 @@ export const useAdminUsers = () => {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const debouncedSearchQuery = useDebounce(searchQuery, 400);
+
+    const adminId = currentUser?.id;
 
     // 2. Toda la lógica de obtención de datos vive DENTRO del useEffect
     useEffect(() => {
@@ -24,7 +25,8 @@ export const useAdminUsers = () => {
                     ? `${API_URL}?search=${encodeURIComponent(debouncedSearchQuery)}`
                     : API_URL;
                 const res = await axios.get(url);
-                setUsers(res.data.filter(u => u.id !== ADMIN_ID));
+                // Filtramos a los admins para que no aparezcan en la lista de gestión
+                setUsers(res.data.filter(u => !u.isAdmin));
             } catch (err) {
                 console.error("Error al cargar usuarios:", err);
             } finally {
@@ -37,7 +39,7 @@ export const useAdminUsers = () => {
 
     const handleToggleActive = async (userId) => {
         try {
-            await axios.patch(`${API_URL}/${userId}/toggle-active?adminId=${ADMIN_ID}`);
+            await axios.patch(`${API_URL}/${userId}/toggle-active?adminId=${adminId}`);
             // 4. En vez de llamar a la función, actualizamos el estado para disparar el useEffect
             setRefreshTrigger(prev => prev + 1);
         } catch (err) {
@@ -50,7 +52,7 @@ export const useAdminUsers = () => {
         if (!window.confirm(`¿Estás seguro de eliminar a "${userName}"? Esta acción no se puede deshacer.`)) return;
 
         try {
-            await axios.delete(`${API_URL}/${userId}?adminId=${ADMIN_ID}`);
+            await axios.delete(`${API_URL}/${userId}?adminId=${adminId}`);
             // 4. Disparamos la recarga reactivamente
             setRefreshTrigger(prev => prev + 1);
         } catch (err) {

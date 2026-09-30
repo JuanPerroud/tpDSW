@@ -49,6 +49,32 @@ const CreateUser = () => {
                 </div>
 
                 <div className="form-group">
+                  <label htmlFor="inputSurname">Apellido</label>
+                  <Field
+                    id="inputSurname"
+                    name="surname"
+                    type="text"
+                    placeholder="Ej: Blanco"
+                    autoComplete="surname"
+                    className={errors.surname && touched.surname ? "input-error" : ""}
+                  />
+                  <ErrorMessage name="surname" component="span" className="field-error" />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="inputAge">Edad</label>
+                  <Field
+                    id="inputAge"
+                    name="age"
+                    type="number"
+                    placeholder="Ej: 25"
+                    autoComplete="age"
+                    className={errors.age && touched.age ? "input-error" : ""}
+                  />
+                  <ErrorMessage name="age" component="span" className="field-error" />
+                </div>
+
+                <div className="form-group">
                   <label htmlFor="inputEmail">Correo Electrónico</label>
                   <Field
                     id="inputEmail"

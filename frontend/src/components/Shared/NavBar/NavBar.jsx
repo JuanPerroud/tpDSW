@@ -1,16 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import AdminUserPanel from "./AdminUserPanel";
+import UserProfileModal from "./UserProfileModal";
 import "./NavBar.css";
 
-const ADMIN_ID = 1;
-
-const Navbar = ({ isLoggedIn, currentUser, onLogout }) => {
+const Navbar = ({ isLoggedIn, currentUser, onLogout, onUserUpdated }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isAdmin = currentUser?.id === ADMIN_ID;
+  const isAdmin = currentUser?.isAdmin === true;
   const [showUserPanel, setShowUserPanel] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const panelWrapperRef = useRef(null);
 
   const handleLogoutClick = () => {
@@ -90,14 +90,21 @@ const Navbar = ({ isLoggedIn, currentUser, onLogout }) => {
                 </button>
 
                 {/* Se renderiza el panel solo si showUserPanel es true */}
-                {showUserPanel && <AdminUserPanel />}
+                {showUserPanel && <AdminUserPanel currentUser={currentUser} />}
               </li>
             )}
 
             {currentUser && (
-              <li className="user-greeting">
-                <span>Hola, <strong>{currentUser.name || currentUser.email}</strong></span>
-              </li>
+              <>
+                <li className="user-greeting">
+                  <span>Hola, <strong>{currentUser.name || currentUser.email}</strong></span>
+                </li>
+                <li>
+                  <button onClick={() => setShowProfileModal(true)} className="profile-btn" title="Mi Perfil">
+                    👤 Mi Perfil
+                  </button>
+                </li>
+              </>
             )}
             <li>
               <button onClick={handleLogoutClick} className="logout-btn">
@@ -107,6 +114,17 @@ const Navbar = ({ isLoggedIn, currentUser, onLogout }) => {
           </>
         )}
       </ul>
+
+      {showProfileModal && (
+        <UserProfileModal
+          currentUser={currentUser}
+          onClose={() => setShowProfileModal(false)}
+          onUserUpdated={(updatedUser) => {
+            if (onUserUpdated) onUserUpdated(updatedUser);
+            setShowProfileModal(false);
+          }}
+        />
+      )}
     </nav>
   );
 };
