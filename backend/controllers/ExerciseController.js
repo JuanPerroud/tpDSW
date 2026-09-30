@@ -1,10 +1,29 @@
+const { Op } = require("sequelize");
 const Exercise = require("../models/Exercise");
+
+const ADMIN_ID = 1;
 
 const ExerciseController = {
 
   getAll: async (req, res) => {
     try {
-      const exercises = await Exercise.findAll();
+      const userId = parseInt(req.query.userId);
+      let whereClause;
+
+      if (userId) {
+        // Ejercicios públicos + los privados creados por este usuario
+        whereClause = {
+          [Op.or]: [
+            { isPublic: true },
+            { isPublic: false, creatorId: userId },
+          ],
+        };
+      } else {
+        // Sin userId, solo públicos
+        whereClause = { isPublic: true };
+      }
+
+      const exercises = await Exercise.findAll({ where: whereClause });
       res.json(exercises);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -25,7 +44,17 @@ const ExerciseController = {
 
   create: async (req, res) => {
     try {
-      const newExercise = await Exercise.create(req.body);
+      const { name, description, muscleGroup, userId } = req.body;
+      const creatorId = userId || null;
+      const isPublic = creatorId === ADMIN_ID;
+
+      const newExercise = await Exercise.create({
+        name,
+        description,
+        muscleGroup,
+        isPublic,
+        creatorId,
+      });
       res.json(newExercise);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -60,3 +89,4 @@ const ExerciseController = {
 };
 
 module.exports = ExerciseController;
+

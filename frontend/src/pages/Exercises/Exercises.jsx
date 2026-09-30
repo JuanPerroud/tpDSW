@@ -6,7 +6,7 @@ import SortOptios from "../../constants/SortOptions";
 import { useExercises } from "../../hooks/useExercises";
 import "./Exercises.css";
 
-const Exercises = () => {
+const Exercises = ({ currentUser }) => {
   const [showForm, setShowForm] = useState(false);
   const [editingExercise, setEditingExercise] = useState(null);
   const formRef = useRef(null);
@@ -21,7 +21,7 @@ const Exercises = () => {
     resetFilters,
     saveExercise,
     deleteExercise,
-  } = useExercises();
+  } = useExercises(currentUser?.id);
 
   // Ref para hacer scroll al formulario
   useEffect(() => {

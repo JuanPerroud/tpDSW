@@ -75,7 +75,7 @@ const App = () => {
         <Route
           path="/exercises"
           element={
-            isLoggedIn ? <Exercises /> : <Navigate to="/" replace />
+            isLoggedIn ? <Exercises currentUser={currentUser} /> : <Navigate to="/" replace />
           }
         />
 

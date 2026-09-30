@@ -42,8 +42,11 @@ export function useRoutines(mode, currentUser) {
 
   useEffect(() => {
     fetchRoutines();
+    const exerciseUrl = currentUser?.id
+      ? `${EXERCISE_API}?userId=${currentUser.id}`
+      : EXERCISE_API;
     axios
-      .get(EXERCISE_API)
+      .get(exerciseUrl)
       .then((res) => setExercises(res.data || []))
       .catch((err) => console.error("Error al cargar ejercicios:", err));
   }, []);

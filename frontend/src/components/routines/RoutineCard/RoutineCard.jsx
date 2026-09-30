@@ -31,22 +31,6 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
 
       {routine.description && <p className="routine-desc">{routine.description}</p>}
 
-      {/* Preview collapsed */}
-      {!expanded && (
-        <div className="routine-exercises-preview">
-          <strong>Ejercicios:</strong>
-          <ul>
-            {exercises.length > 0 ? (
-              exercises.map((exercise, idx) => (
-                <li key={exercise.id || idx}>{exercise.name}</li>
-              ))
-            ) : (
-              <li className="no-ex">Sin ejercicios asignados</li>
-            )}
-          </ul>
-        </div>
-      )}
-
       {/* Detail expanded */}
       {expanded && (
         <div className="routine-detail">

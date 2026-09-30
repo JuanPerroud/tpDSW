@@ -3,7 +3,7 @@ import axios from "axios";
 
 const EXERCISE_API = "http://localhost:3000/api/exercise";
 
-export function useExercises() {
+export function useExercises(userId) {
   const [exercises, setExercises] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
   const [muscularGroupSelected, setMuscularGroupSelected] = useState({
@@ -20,8 +20,11 @@ export function useExercises() {
   });
 
   const fetchExercises = () => {
+    const url = userId
+      ? `${EXERCISE_API}?userId=${userId}`
+      : EXERCISE_API;
     axios
-      .get(EXERCISE_API)
+      .get(url)
       .then((res) => setExercises(res.data || []))
       .catch((err) => console.error("Error al cargar ejercicios:", err));
   };
@@ -54,9 +57,10 @@ export function useExercises() {
   };
 
   const saveExercise = (exerciseData, onSuccess) => {
+    const dataToSend = { ...exerciseData, userId };
     const request = exerciseData.id
-      ? axios.put(`${EXERCISE_API}/${exerciseData.id}`, exerciseData)
-      : axios.post(EXERCISE_API, exerciseData);
+      ? axios.put(`${EXERCISE_API}/${exerciseData.id}`, dataToSend)
+      : axios.post(EXERCISE_API, dataToSend);
 
     request
       .then(() => {

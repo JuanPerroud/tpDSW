@@ -1,4 +1,3 @@
-// AISuggester.jsx
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
@@ -6,7 +5,7 @@ import './AISuggester.css';
 
 const AISuggester = ({ onClose }) => {
   const [messages, setMessages] = useState([
-    { role: 'ai', content: '¡Hola! Soy tu preparador físico de IA. Cuéntame qué tipo de rutina necesitas (objetivo, deporte, nivel, días disponibles, etc.) y te armaré algo a medida.' }
+    { role: 'ai', content: '¡Hola! Soy tu preparador físico de IA. Cuéntame qué tipo de rutina necesitas (objetivo, deporte, etc.) y te armaré algo a medida.' }
   ]);
   const [userInput, setUserInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
