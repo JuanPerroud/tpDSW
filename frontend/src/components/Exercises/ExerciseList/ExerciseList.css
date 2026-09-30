@@ -87,6 +87,30 @@
 }
 
 /* ============================================================================
+   Card Badges
+   ============================================================================ */
+
+.exercise-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.exercise-badge-public {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.exercise-badge-private {
+  background-color: #fef3c7; /* Amber light */
+  color: #92400e; /* Amber dark */
+}
+
+/* ============================================================================
    Card Body
    ============================================================================ */
 

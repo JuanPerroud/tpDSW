@@ -1,10 +1,17 @@
 import MuscleGroupLabels from "../../../constants/MuscleGroupLabels";
 
-const ExerciseCard = ({ exercise, onEdit, onDelete }) => {
+const ExerciseCard = ({ exercise, onEdit, onDelete, canModify }) => {
   return (
     <li className="exercise-card">
       <div className="exercise-card-header">
-        <h3>{exercise.name}</h3>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <h3>{exercise.name}</h3>
+          <span
+            className={`exercise-badge ${exercise.isPublic ? "exercise-badge-public" : "exercise-badge-private"}`}
+          >
+            {exercise.isPublic ? "Global" : "Privado"}
+          </span>
+        </div>
         <p>{exercise.description}</p>
       </div>
 
@@ -20,22 +27,24 @@ const ExerciseCard = ({ exercise, onEdit, onDelete }) => {
         </div>
       </div>
 
-      <div className="exercise-card-footer">
-        <button
-          className="exercise-card-btn exercise-btn-edit"
-          onClick={() => onEdit && onEdit(exercise)}
-        >
-          Editar
-        </button>
-        <button
-          className="exercise-card-btn exercise-btn-delete"
-          onClick={() => onDelete && onDelete(exercise.id)}
-        >
-          Eliminar
-        </button>
-      </div>
+      {canModify && (
+        <div className="exercise-card-footer">
+          <button
+            className="exercise-card-btn exercise-btn-edit"
+            onClick={() => onEdit && onEdit(exercise)}
+          >
+            Editar
+          </button>
+          <button
+            className="exercise-card-btn exercise-btn-delete"
+            onClick={() => onDelete && onDelete(exercise.id)}
+          >
+            Eliminar
+          </button>
+        </div>
+      )}
     </li>
   );
 };
 
-export default ExerciseCard;
+export default ExerciseCard;

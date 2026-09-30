@@ -82,12 +82,7 @@ const Home = ({ onLoginSuccess }) => {
                 Registrate acá
               </Link>
             </p>
-            <p>
-              olvide mi clave{" "}
-              <Link to="/ChangePassword" className="register-link">
-                cambiar contraseña
-              </Link>
-            </p>
+
           </div>
         </div>
       </div>

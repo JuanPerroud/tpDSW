@@ -3,7 +3,8 @@ import axios from "axios";
 
 const EXERCISE_API = "http://localhost:3000/api/exercise";
 
-export function useExercises(userId) {
+export function useExercises(currentUser) {
+  const userId = currentUser?.id;
   const [exercises, setExercises] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
   const [muscularGroupSelected, setMuscularGroupSelected] = useState({
@@ -56,6 +57,15 @@ export function useExercises(userId) {
     });
   };
 
+  // Determina si el usuario actual puede editar/eliminar un ejercicio
+  const canModifyExercise = (exercise) => {
+    if (!currentUser || !exercise) return false;
+    // Admin puede modificar ejercicios globales (públicos)
+    if (exercise.isPublic) return currentUser.isAdmin === true;
+    // Usuario común solo puede modificar sus propios ejercicios privados
+    return exercise.creatorId === currentUser.id;
+  };
+
   const saveExercise = (exerciseData, onSuccess) => {
     const dataToSend = { ...exerciseData, userId };
     const request = exerciseData.id
@@ -69,7 +79,8 @@ export function useExercises(userId) {
       })
       .catch((err) => {
         console.error("Error al guardar ejercicio:", err);
-        alert("No se pudo guardar el ejercicio.");
+        const msg = err.response?.data?.mensaje || "No se pudo guardar el ejercicio.";
+        alert(msg);
       });
   };
 
@@ -78,14 +89,15 @@ export function useExercises(userId) {
       return;
     }
     axios
-      .delete(`${EXERCISE_API}/${id}`)
+      .delete(`${EXERCISE_API}/${id}?userId=${userId}`)
       .then(() => {
         fetchExercises();
         if (onSuccess) onSuccess();
       })
       .catch((err) => {
         console.error("Error al eliminar ejercicio:", err);
-        alert("No se pudo eliminar el ejercicio.");
+        const msg = err.response?.data?.mensaje || "No se pudo eliminar el ejercicio.";
+        alert(msg);
       });
   };
 
@@ -117,5 +129,6 @@ export function useExercises(userId) {
     resetFilters,
     saveExercise,
     deleteExercise,
+    canModifyExercise,
   };
 }

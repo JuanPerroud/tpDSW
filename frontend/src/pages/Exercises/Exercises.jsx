@@ -21,7 +21,8 @@ const Exercises = ({ currentUser }) => {
     resetFilters,
     saveExercise,
     deleteExercise,
-  } = useExercises(currentUser?.id);
+    canModifyExercise,
+  } = useExercises(currentUser);
 
   // Ref para hacer scroll al formulario
   useEffect(() => {
@@ -102,6 +103,7 @@ const Exercises = ({ currentUser }) => {
             onResetFilter={resetFilters}
             onEdit={handleEditExercise}
             onDelete={handleDelete}
+            canModifyExercise={canModifyExercise}
           />
         </main>
       </div>

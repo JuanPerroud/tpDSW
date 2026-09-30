@@ -33,14 +33,14 @@ export function useRoutines(mode, currentUser) {
     }));
   };
 
-  const fetchRoutines = () => {
-    axios
-      .get(API_URL)
-      .then((response) => setRoutines(response.data || []))
-      .catch((error) => console.error("Error al cargar las rutinas:", error));
-  };
-
   useEffect(() => {
+    const fetchRoutines = () => {
+      axios
+        .get(API_URL)
+        .then((response) => setRoutines(response.data || []))
+        .catch((error) => console.error("Error al cargar las rutinas:", error));
+    };
+
     fetchRoutines();
     const exerciseUrl = currentUser?.id
       ? `${EXERCISE_API}?userId=${currentUser.id}`
@@ -49,7 +49,7 @@ export function useRoutines(mode, currentUser) {
       .get(exerciseUrl)
       .then((res) => setExercises(res.data || []))
       .catch((err) => console.error("Error al cargar ejercicios:", err));
-  }, []);
+  }, [currentUser?.id]);
 
   const handleDelete = (id) => {
     if (!window.confirm("¿Estás seguro de que querés eliminar esta rutina?")) {

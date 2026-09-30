@@ -1,7 +1,7 @@
 import ExerciseCard from "../ExerciseCard/ExerciseCard";
 import "./ExerciseList.css";
 
-const ExerciseList = ({ exercises, totalCount, onResetFilter, onEdit, onDelete }) => {
+const ExerciseList = ({ exercises, totalCount, onResetFilter, onEdit, onDelete, canModifyExercise }) => {
   if (exercises.length === 0) {
     if (totalCount > 0) {
       return (
@@ -48,6 +48,7 @@ const ExerciseList = ({ exercises, totalCount, onResetFilter, onEdit, onDelete }
           exercise={exercise}
           onEdit={onEdit}
           onDelete={onDelete}
+          canModify={canModifyExercise ? canModifyExercise(exercise) : true}
         />
       ))}
     </ul>
