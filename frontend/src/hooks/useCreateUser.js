@@ -20,7 +20,7 @@ export function useCreateUser() {
     name: Yup.string().required('El nombre es obligatorio'),
     surname: Yup.string().required('El apellido es obligatorio'),
     age: Yup.number()
-      .min(0, 'La edad debe ser mayor a 0')
+      .min(1, 'La edad debe ser mayor a 0')
       .max(120, 'La edad debe ser menor a 120')
       .required('La edad es obligatoria'),
     email: Yup.string()
