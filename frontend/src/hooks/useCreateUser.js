@@ -19,14 +19,16 @@ export function useCreateUser() {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('El nombre es obligatorio'),
     surname: Yup.string().required('El apellido es obligatorio'),
-    age: Yup.number().required('La edad es obligatoria'),
+    age: Yup.number()
+      .min(0, 'La edad debe ser mayor a 0')
+      .max(120, 'La edad debe ser menor a 120')
+      .required('La edad es obligatoria'),
     email: Yup.string()
       .email('Ingresá un correo electrónico válido')
       .required('El email es obligatorio'),
     password: Yup.string()
       .min(6, 'La contraseña debe tener al menos 6 caracteres')
-      .max(20, 'La contraseña no puede superar los 20 caracteres')
-      .required('La contraseña es obligatoria'),
+      .max(20, 'La contraseña no puede superar los 20 caracteres'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
       .required('La confirmación de contraseña es obligatoria'),

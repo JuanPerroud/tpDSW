@@ -1,4 +1,4 @@
-import { useAdminUsers } from "../../../hooks/userAdminUsers";
+import { useAdminUsers } from "../../../hooks/useAdminUsers";
 import SearchBar from "../../Shared/SearchBar";
 
 const AdminUserPanel = ({ currentUser }) => {
