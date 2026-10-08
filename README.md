@@ -119,5 +119,17 @@ npm test
 
 > El servidor ahora arranca desde `backend/server.js` (`npm run dev` / `npm start`); `backend/app.js` solo exporta la app de Express.
 
+## 🧪 Tests automáticos del frontend
+
+```bash
+cd frontend
+npm test            # test unitario de componente (Vitest + React Testing Library)
+npx playwright install chromium   # solo la primera vez
+npm run test:e2e    # test end-to-end (Playwright)
+```
+
+* `src/components/routines/RoutineCard/RoutineCard.test.jsx`: test unitario de `RoutineCard` (render, detalle expandible ordenado por `orderIndex`, acciones de rutina propia vs. comunidad, rutina vacía).
+* `e2e/auth-routines.spec.js`: flujo E2E en Chromium (redirección si no hay sesión, login con error, login correcto, ver rutinas, detalle y pestaña Comunidad). Playwright levanta el frontend automáticamente y simula la API del backend, por lo que no requiere MySQL ni el backend.
+
 
 
