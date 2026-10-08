@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import * as Yup from 'yup';
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import authService from '../services/authService';
+import { getErrorMessage } from '../services/api';
 
 export function useCreateUser() {
   const navigate = useNavigate();
@@ -28,7 +29,8 @@ export function useCreateUser() {
       .required('El email es obligatorio'),
     password: Yup.string()
       .min(6, 'La contraseña debe tener al menos 6 caracteres')
-      .max(20, 'La contraseña no puede superar los 20 caracteres'),
+      .max(20, 'La contraseña no puede superar los 20 caracteres')
+      .required('La contraseña es obligatoria'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Las contraseñas deben coincidir')
       .required('La confirmación de contraseña es obligatoria'),
@@ -37,23 +39,20 @@ export function useCreateUser() {
   const onSubmit = async (values, { setSubmitting }) => {
     setRegisterError("");
     try {
-      const userData = {
+      await authService.register({
         name: values.name,
         surname: values.surname,
         age: values.age,
         email: values.email,
         password: values.password,
-      };
-      await axios.post("http://localhost:3000/api/user", userData);
+      });
       alert("¡Cuenta creada con éxito! Ahora podés iniciar sesión.");
       navigate("/");
     } catch (error) {
       console.error("Error al crear usuario:", error);
-      const serverMessage =
-        error.response?.data?.mensaje ||
-        error.response?.data?.error ||
-        "Ocurrió un error al crear la cuenta. Intentalo de nuevo.";
-      setRegisterError(serverMessage);
+      setRegisterError(
+        getErrorMessage(error, "Ocurrió un error al crear la cuenta. Intentalo de nuevo."),
+      );
     } finally {
       setSubmitting(false);
     }

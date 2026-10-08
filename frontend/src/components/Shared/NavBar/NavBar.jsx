@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import AdminUserPanel from "./AdminUserPanel";
+import { useState } from "react";
 import UserProfileModal from "./UserProfileModal";
 import "./NavBar.css";
 
@@ -9,9 +8,7 @@ const Navbar = ({ isLoggedIn, currentUser, onLogout, onUserUpdated }) => {
   const location = useLocation();
 
   const isAdmin = currentUser?.isAdmin === true;
-  const [showUserPanel, setShowUserPanel] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const panelWrapperRef = useRef(null);
 
   const handleLogoutClick = () => {
     onLogout();
@@ -19,19 +16,6 @@ const Navbar = ({ isLoggedIn, currentUser, onLogout, onUserUpdated }) => {
   };
 
   const isActive = (path) => location.pathname === path;
-
-  // Lógica para cerrar el panel si se hace clic afuera
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (panelWrapperRef.current && !panelWrapperRef.current.contains(e.target)) {
-        setShowUserPanel(false);
-      }
-    };
-    if (showUserPanel) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showUserPanel]);
 
   return (
     <nav className="navbar">
@@ -78,19 +62,16 @@ const Navbar = ({ isLoggedIn, currentUser, onLogout, onUserUpdated }) => {
               </Link>
             </li>
 
-            {/* Admin Panel Restructurado */}
+            {/* Solo visible para el nivel de acceso admin (la ruta además está protegida) */}
             {isAdmin && (
-              <li className="admin-users-wrapper" ref={panelWrapperRef}>
-                <button
-                  className={`admin-users-btn ${showUserPanel ? 'admin-btn-active' : ''}`}
-                  onClick={() => setShowUserPanel(!showUserPanel)}
+              <li className="admin-users-wrapper">
+                <Link
+                  to="/admin/users"
+                  className={`admin-users-btn ${isActive('/admin/users') ? 'admin-btn-active' : ''}`}
                   title="Gestionar Usuarios"
                 >
                   👥 Usuarios
-                </button>
-
-                {/* Se renderiza el panel solo si showUserPanel es true */}
-                {showUserPanel && <AdminUserPanel currentUser={currentUser} />}
+                </Link>
               </li>
             )}
 

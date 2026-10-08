@@ -1,14 +1,14 @@
 import { useAdminUsers } from "../../../hooks/useAdminUsers";
 import SearchBar from "../../Shared/SearchBar";
 
-const AdminUserPanel = ({ currentUser }) => {
+const AdminUserPanel = () => {
     const {
         users,
         loadingUsers,
         setSearchQuery,
         handleToggleActive,
         handleDeleteUser
-    } = useAdminUsers(currentUser);
+    } = useAdminUsers();
 
     return (
         <div className="admin-panel">

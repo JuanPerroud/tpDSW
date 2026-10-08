@@ -53,7 +53,7 @@
 
 .routine-card {
   background-color: white;
-  border-radius: var(--border-radius);
+  border-radius: 10px;
   border: 1px solid var(--neutral-200);
   box-shadow: var(--shadow-sm);
   transition: var(--transition-smooth);
@@ -76,7 +76,7 @@
    ============================================================================ */
 
 .routine-card-header {
-  padding: 1.5rem;
+  padding: 1.25rem;
   border-left: 4px solid var(--primary-color);
   background: linear-gradient(135deg,
       var(--primary-light) 0%,
@@ -103,13 +103,13 @@
    ============================================================================ */
 
 .routine-exercises-preview {
-  padding: 1.5rem;
+  padding: 1.25rem;
   border-top: 1px solid var(--neutral-200);
 }
 
 .routine-exercises-preview h4 {
   margin: 0 0 0.75rem 0;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--neutral-900);
   text-transform: uppercase;
@@ -126,12 +126,12 @@
 }
 
 .routine-exercises-preview li {
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.65rem;
   background-color: var(--primary-light);
   border-left: 3px solid var(--primary-color);
   border-radius: 4px;
   color: var(--neutral-900);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 500;
 }
 
@@ -140,15 +140,17 @@
    ============================================================================ */
 
 .routine-actions {
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.25rem;
   background-color: var(--neutral-50);
   border-top: 1px solid var(--neutral-200);
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 
 .routine-actions button {
+  width: 100%;
   padding: 0.65rem 1.25rem;
   border: none;
   border-radius: 8px;
@@ -191,45 +193,56 @@
    Responsive Design
    ============================================================================ */
 
-@media (max-width: 768px) {
-  .routine-card {
-    border-radius: 10px;
-  }
-
-  .routine-card-header {
-    padding: 1.25rem;
-  }
-
-  .routine-exercises-preview {
-    padding: 1.25rem;
-  }
-
-  .routine-actions {
-    padding: 1rem 1.25rem;
-    flex-direction: column;
-  }
-
-  .routine-actions button {
-    width: 100%;
-  }
+/* Mobile-first: base = smallest screens */
+.routine-card-header h3 {
+  font-size: 1.1rem;
 }
 
-@media (max-width: 480px) {
+.routine-card-header p {
+  font-size: 0.85rem;
+}
+
+/* SM */
+@media (min-width: 576px) {
   .routine-card-header h3 {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 
   .routine-card-header p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .routine-exercises-preview h4 {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 
   .routine-exercises-preview li {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.65rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* LG */
+@media (min-width: 992px) {
+  .routine-card {
+    border-radius: var(--border-radius);
+  }
+
+  .routine-card-header {
+    padding: 1.5rem;
+  }
+
+  .routine-exercises-preview {
+    padding: 1.5rem;
+  }
+
+  .routine-actions {
+    padding: 1rem 1.5rem;
+    flex-direction: row;
+  }
+
+  .routine-actions button {
+    width: auto;
   }
 }
 

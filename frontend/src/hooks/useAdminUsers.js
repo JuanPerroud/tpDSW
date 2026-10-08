@@ -1,32 +1,25 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import userService from "../services/userService";
+import { getErrorMessage } from "../services/api";
 import { useDebounce } from "./useDebounce";
 
-const API_URL = "http://localhost:3000/api/user";
-
-export const useAdminUsers = (currentUser) => {
+export const useAdminUsers = () => {
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
-    // 1. Creamos un "disparador" para forzar recargas
+    // Disparador para forzar recargas tras activar, desactivar o eliminar
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const debouncedSearchQuery = useDebounce(searchQuery, 400);
 
-    const adminId = currentUser?.id;
-
-    // 2. Toda la lógica de obtención de datos vive DENTRO del useEffect
     useEffect(() => {
         const fetchUsers = async () => {
             setLoadingUsers(true);
             try {
-                const url = debouncedSearchQuery
-                    ? `${API_URL}?search=${encodeURIComponent(debouncedSearchQuery)}`
-                    : API_URL;
-                const res = await axios.get(url);
-                // Filtramos a los admins para que no aparezcan en la lista de gestión
-                setUsers(res.data.filter(u => !u.isAdmin));
+                const list = await userService.list(debouncedSearchQuery);
+                // Los admins no aparecen en la lista de gestión
+                setUsers(list.filter(u => !u.isAdmin));
             } catch (err) {
                 console.error("Error al cargar usuarios:", err);
             } finally {
@@ -35,16 +28,15 @@ export const useAdminUsers = (currentUser) => {
         };
 
         fetchUsers();
-    }, [debouncedSearchQuery, refreshTrigger]); // 3. Dependencias perfectas y sin advertencias
+    }, [debouncedSearchQuery, refreshTrigger]);
 
     const handleToggleActive = async (userId) => {
         try {
-            await axios.patch(`${API_URL}/${userId}/toggle-active?adminId=${adminId}`);
-            // 4. En vez de llamar a la función, actualizamos el estado para disparar el useEffect
+            await userService.toggleActive(userId);
             setRefreshTrigger(prev => prev + 1);
         } catch (err) {
             console.error("Error al cambiar estado:", err);
-            alert(err.response?.data?.mensaje || "Error al cambiar estado del usuario");
+            alert(getErrorMessage(err, "Error al cambiar estado del usuario"));
         }
     };
 
@@ -52,12 +44,11 @@ export const useAdminUsers = (currentUser) => {
         if (!window.confirm(`¿Estás seguro de eliminar a "${userName}"? Esta acción no se puede deshacer.`)) return;
 
         try {
-            await axios.delete(`${API_URL}/${userId}?adminId=${adminId}`);
-            // 4. Disparamos la recarga reactivamente
+            await userService.remove(userId);
             setRefreshTrigger(prev => prev + 1);
         } catch (err) {
             console.error("Error al eliminar usuario:", err);
-            alert(err.response?.data?.mensaje || "Error al eliminar usuario");
+            alert(getErrorMessage(err, "Error al eliminar usuario"));
         }
     };
 

@@ -1,0 +1,24 @@
+/* Mobile-first: el panel de administración ocupa todo el ancho en móvil
+   y se centra con un ancho máximo desde MD */
+.admin-page {
+  padding: 1rem;
+}
+
+.admin-page .admin-panel {
+  position: static;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0 auto;
+  animation: none;
+}
+
+@media (min-width: 768px) {
+  .admin-page {
+    padding: 2rem 1rem;
+  }
+
+  .admin-page .admin-panel {
+    max-width: 720px;
+  }
+}

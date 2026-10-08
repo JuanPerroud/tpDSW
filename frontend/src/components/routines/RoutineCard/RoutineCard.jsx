@@ -1,11 +1,35 @@
 import { useState } from "react";
 import "./RoutineCard.css";
 import MuscleGroupLabels from "../../../constants/MuscleGroupLabels";
+import routineService from "../../../services/routineService";
 
 function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine }) {
   const [expanded, setExpanded] = useState(false);
+  // Detalle completo traído del backend al expandir (rutina + ejercicios + series + creador)
+  const [detail, setDetail] = useState(null);
+  const [loadingDetail, setLoadingDetail] = useState(false);
+  const [detailError, setDetailError] = useState(false);
 
-  const routineExercises = [...(routine.RoutineExercises || [])].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+  const handleToggleDetail = () => {
+    const willExpand = !expanded;
+    setExpanded(willExpand);
+
+    if (willExpand && !detail && routine.id) {
+      setLoadingDetail(true);
+      setDetailError(false);
+      routineService
+        .getById(routine.id)
+        .then(setDetail)
+        .catch((error) => {
+          console.error("Error al cargar el detalle de la rutina:", error);
+          setDetailError(true);
+        })
+        .finally(() => setLoadingDetail(false));
+    }
+  };
+
+  const source = detail ?? routine;
+  const routineExercises = [...(source.RoutineExercises || [])].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
   const exercises = routineExercises.length > 0
     ? routineExercises.map((re) => ({
       id: re.Exercise?.id || re.exerciseId,
@@ -18,7 +42,7 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
       sets: re.ExerciseSets ? re.ExerciseSets.length : 0,
       reps: re.ExerciseSets && re.ExerciseSets.length > 0 ? re.ExerciseSets[0].reps : 0,
     }))
-    : (routine.exercises || []);
+    : (source.exercises || []);
 
   return (
     <div className={`routine-card ${expanded ? "routine-card--expanded" : ""}`}>
@@ -35,6 +59,17 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
       {expanded && (
         <div className="routine-detail">
           <h4>Detalle de ejercicios</h4>
+          {loadingDetail && <p className="no-ex">Cargando detalle...</p>}
+          {detailError && (
+            <p className="no-ex" role="alert">
+              No se pudo actualizar el detalle desde el servidor. Se muestran los datos disponibles.
+            </p>
+          )}
+          {detail?.creator && (
+            <p className="routine-creator">
+              Creada por {detail.creator.name} {detail.creator.surname}
+            </p>
+          )}
           {exercises.length > 0 ? (
             <div className="routine-detail-list">
               {exercises.map((exercise, idx) => (
@@ -90,7 +125,7 @@ function RoutineCard({ routine, isMine = true, onUpdate, onDelete, onSaveToMine 
       <div className="routine-actions">
         <button
           className="btn-detail"
-          onClick={() => setExpanded((prev) => !prev)}
+          onClick={handleToggleDetail}
         >
           {expanded ? "▲ Ocultar detalle" : "▼ Ver detalle"}
         </button>

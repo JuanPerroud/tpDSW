@@ -33,6 +33,7 @@ Routine.associate = (models) => {
   // 1. Relación con el Usuario creador
   Routine.belongsTo(models.User, {
     foreignKey: "creatorId",
+    as: "creator",
     onDelete: "CASCADE",
   });
 

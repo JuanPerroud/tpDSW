@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import aiService from '../../../services/aiService';
+import { getErrorMessage } from '../../../services/api';
 import './AISuggester.css';
 
 const AISuggester = ({ onClose }) => {
@@ -29,15 +30,16 @@ const AISuggester = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      // Enviamos el "prompt" al backend 
-      const response = await axios.post('http://localhost:3000/api/ai/generate', {
-        prompt: textToSend
-      });
+      // Enviamos el "prompt" al backend
+      const generatedRoutine = await aiService.generateRoutine(textToSend);
 
-      setMessages((prev) => [...prev, { role: 'ai', content: response.data.generatedRoutine }]);
+      setMessages((prev) => [...prev, { role: 'ai', content: generatedRoutine }]);
     } catch (error) {
       console.error("Error al generar rutina:", error);
-      setMessages((prev) => [...prev, { role: 'ai', content: 'Lo siento, hubo un error al procesar tu solicitud.' }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: 'ai', content: getErrorMessage(error, 'Lo siento, hubo un error al procesar tu solicitud.') },
+      ]);
     } finally {
       setIsLoading(false);
     }

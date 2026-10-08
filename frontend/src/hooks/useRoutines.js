@@ -1,8 +1,20 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, useCallback } from "react";
+import routineService from "../services/routineService";
+import exerciseService from "../services/exerciseService";
+import { getErrorMessage } from "../services/api";
 
-const API_URL = "http://localhost:3000/api/routine";
-const EXERCISE_API = "http://localhost:3000/api/exercise";
+const EMPTY_FILTERS = {
+  cuadriceps: false,
+  isquiotibiales: false,
+  gluteos: false,
+  gemelos: false,
+  espalda: false,
+  hombros: false,
+  pecho: false,
+  biceps: false,
+  triceps: false,
+  abdomen: false,
+};
 
 export function useRoutines(mode, currentUser) {
   const [activeTab, setActiveTab] = useState(mode === "community" ? "community" : "my");
@@ -11,19 +23,7 @@ export function useRoutines(mode, currentUser) {
   const [editingRoutine, setEditingRoutine] = useState(null);
   const [sortBy, setSortBy] = useState("name-asc");
   const [exercises, setExercises] = useState([]);
-
-  const [muscularGroupSelected, setMuscularGroupSelected] = useState({
-    cuadriceps: false,
-    isquiotibiales: false,
-    gluteos: false,
-    gemelos: false,
-    espalda: false,
-    hombros: false,
-    pecho: false,
-    biceps: false,
-    triceps: false,
-    abdomen: false,
-  });
+  const [muscularGroupSelected, setMuscularGroupSelected] = useState(EMPTY_FILTERS);
 
   const handleOnCheckbox = (e) => {
     const { value, checked } = e.target;
@@ -33,73 +33,67 @@ export function useRoutines(mode, currentUser) {
     }));
   };
 
-  useEffect(() => {
-    const fetchRoutines = () => {
-      axios
-        .get(API_URL)
-        .then((response) => setRoutines(response.data || []))
-        .catch((error) => console.error("Error al cargar las rutinas:", error));
-    };
+  const fetchRoutines = useCallback(() => {
+    routineService
+      .list()
+      .then(setRoutines)
+      .catch((error) => console.error("Error al cargar las rutinas:", error));
+  }, []);
 
+  useEffect(() => {
     fetchRoutines();
-    const exerciseUrl = currentUser?.id
-      ? `${EXERCISE_API}?userId=${currentUser.id}`
-      : EXERCISE_API;
-    axios
-      .get(exerciseUrl)
-      .then((res) => setExercises(res.data || []))
+    exerciseService
+      .list()
+      .then(setExercises)
       .catch((err) => console.error("Error al cargar ejercicios:", err));
-  }, [currentUser?.id]);
+  }, [currentUser?.id, fetchRoutines]);
 
   const handleDelete = (id) => {
     if (!window.confirm("¿Estás seguro de que querés eliminar esta rutina?")) {
       return;
     }
-    axios
-      .delete(`${API_URL}/${id}`)
+    routineService
+      .remove(id)
       .then(() => {
         setRoutines((prev) => prev.filter((routine) => routine.id !== id));
         alert("Rutina eliminada correctamente");
       })
       .catch((error) => {
         console.error("Error al eliminar la rutina:", error);
-        alert("Ocurrió un error al intentar eliminar la rutina");
+        alert(getErrorMessage(error, "Ocurrió un error al intentar eliminar la rutina"));
       });
   };
 
+  // El dueño de la rutina lo define el backend a partir del token
   const onSubmit = (values) => {
-    const payload = {
-      ...values,
-      creatorId: currentUser?.id || null,
-    };
-
-    axios
-      .post(API_URL, payload)
-      .then((response) => {
+    routineService
+      .create(values)
+      .then(() => {
         alert("¡Rutina creada con éxito!");
-        setRoutines((prev) => [...prev, response.data]);
+        fetchRoutines();
         setShowForm(false);
         setActiveTab("my");
       })
       .catch((error) => {
         console.error("Error al crear la rutina:", error);
-        alert("Error al crear la rutina. Verificá la conexión.");
+        alert(getErrorMessage(error, "Error al crear la rutina. Verificá la conexión."));
       });
   };
 
   const onSubmitEdit = (values) => {
     if (editingRoutine) {
-      axios
-        .put(`${API_URL}/${editingRoutine.id}`, values)
+      routineService
+        .update(editingRoutine.id, values)
         .then(() => {
           alert("Rutina actualizada correctamente");
-          setRoutines((prev) =>
-            prev.map((r) => (r.id === editingRoutine.id ? { ...r, ...values } : r))
-          );
+          fetchRoutines();
           setShowForm(false);
           setEditingRoutine(null);
         })
-        .catch((error) => console.error("Error al editar:", error));
+        .catch((error) => {
+          console.error("Error al editar:", error);
+          alert(getErrorMessage(error, "No se pudo actualizar la rutina."));
+        });
     }
   };
 
@@ -119,19 +113,18 @@ export function useRoutines(mode, currentUser) {
       name: `${communityRoutine.name} (Guardada)`,
       description: communityRoutine.description || "Rutina guardada de la comunidad",
       RoutineExercises: newRoutineExercises,
-      creatorId: currentUser?.id || null,
     };
 
-    axios
-      .post(API_URL, newRoutineData)
-      .then((response) => {
+    routineService
+      .create(newRoutineData)
+      .then(() => {
         alert(`¡Guardaste "${communityRoutine.name}" en tus rutinas!`);
-        setRoutines((prev) => [...prev, response.data]);
+        fetchRoutines();
         setActiveTab("my");
       })
       .catch((error) => {
         console.error("Error al guardar rutina de la comunidad:", error);
-        alert("No se pudo guardar la rutina.");
+        alert(getErrorMessage(error, "No se pudo guardar la rutina."));
       });
   };
 

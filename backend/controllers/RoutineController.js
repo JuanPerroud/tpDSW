@@ -1,140 +1,26 @@
-const Routine = require("../models/Routine");
-const RoutineExercise = require("../models/RoutineExercise");
+const RoutineService = require("../services/RoutineService");
 
 const RoutineController = {
   getAll: async (req, res) => {
-    try {
-      const routine = await Routine.findAll({
-        include: [
-          {
-            model: RoutineExercise,
-            include: [
-              require("../models/Exercise"),
-              require("../models/ExerciseSet"),
-            ],
-          },
-        ],
-        order: [
-          [RoutineExercise, 'orderIndex', 'ASC'],
-        ],
-      });
-      res.json(routine);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
+    res.json(await RoutineService.list());
   },
 
   getById: async (req, res) => {
-    try {
-      const routine = await Routine.findByPk(req.params.id, {
-        include: [
-          {
-            model: RoutineExercise,
-            include: [
-              require("../models/Exercise"),
-              require("../models/ExerciseSet"),
-            ],
-          },
-        ],
-        order: [
-          [RoutineExercise, 'orderIndex', 'ASC'],
-        ],
-      });
-      if (!routine) {
-        return res.status(404).json({ mensaje: "Rutina no encontrada" });
-      }
-      res.json(routine);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
+    res.json(await RoutineService.getById(Number(req.params.id)));
   },
 
   create: async (req, res) => {
-    try {
-      const { name, description, muscularGroup, creatorId, RoutineExercises } = req.body;
-      const newRoutine = await Routine.create({
-        name,
-        description,
-        muscularGroup,
-        creatorId,
-        RoutineExercises: RoutineExercises || []
-      }, {
-        include: [
-          {
-            model: require("../models/RoutineExercise"),
-            include: [
-              {
-                model: require("../models/ExerciseSet")
-              }
-            ]
-          }
-        ]
-      });
-      res.status(201).json(newRoutine);
-    } catch (err) {
-      console.error("Ocurrió un error al crear la rutina:", err);
-      res.status(500).json({ error: err.message });
-    }
+    res.status(201).json(await RoutineService.create(req.body, req.user));
   },
 
   update: async (req, res) => {
-    const sequelize = require("../config/db");
-    const t = await sequelize.transaction();
-    try {
-      const routine = await Routine.findByPk(req.params.id);
-      if (!routine) {
-        await t.rollback();
-        return res.status(404).json({ mensaje: "Rutina no encontrada" });
-      }
-
-      const { name, description, muscularGroup, RoutineExercises } = req.body;
-      await routine.update({ name, description, muscularGroup }, { transaction: t });
-
-      if (RoutineExercises) {
-        const RoutineExerciseModel = require("../models/RoutineExercise");
-        const ExerciseSetModel = require("../models/ExerciseSet");
-
-        await RoutineExerciseModel.destroy({ where: { routineId: routine.id }, transaction: t });
-
-        for (const re of RoutineExercises) {
-          const newRe = await RoutineExerciseModel.create({
-            routineId: routine.id,
-            exerciseId: re.exerciseId,
-            orderIndex: re.orderIndex || 1,
-            restSeconds: re.restSeconds || 90
-          }, { transaction: t });
-
-          if (re.ExerciseSets && re.ExerciseSets.length > 0) {
-            const setsToCreate = re.ExerciseSets.map(set => ({
-              routineExerciseId: newRe.id,
-              setNumber: set.setNumber,
-              reps: set.reps,
-              weightKg: set.weightKg
-            }));
-            await ExerciseSetModel.bulkCreate(setsToCreate, { transaction: t });
-          }
-        }
-      }
-
-      await t.commit();
-      res.json({ mensaje: "Rutina actualizada ✓" });
-    } catch (err) {
-      await t.rollback();
-      res.status(500).json({ error: err.message });
-    }
+    await RoutineService.update(Number(req.params.id), req.body, req.user);
+    res.json({ mensaje: "Rutina actualizada ✓" });
   },
 
   delete: async (req, res) => {
-    try {
-      const routine = await Routine.findByPk(req.params.id);
-      if (!routine) {
-        return res.status(404).json({ mensaje: "Rutina no encontrada " });
-      }
-      await routine.destroy();
-      res.json({ mensaje: "Rutina eliminada " });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
+    await RoutineService.remove(Number(req.params.id), req.user);
+    res.json({ mensaje: "Rutina eliminada" });
   },
 };
 

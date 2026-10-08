@@ -1,32 +1,29 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import exerciseService from "../services/exerciseService";
+import { getErrorMessage } from "../services/api";
 
-const EXERCISE_API = "http://localhost:3000/api/exercise";
+const EMPTY_FILTERS = {
+  cuadriceps: false,
+  isquiotibiales: false,
+  gluteos: false,
+  gemelos: false,
+  espalda: false,
+  hombros: false,
+  pecho: false,
+  biceps: false,
+  triceps: false,
+  abdomen: false,
+};
 
 export function useExercises(currentUser) {
-  const userId = currentUser?.id;
   const [exercises, setExercises] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
-  const [muscularGroupSelected, setMuscularGroupSelected] = useState({
-    cuadriceps: false,
-    isquiotibiales: false,
-    gluteos: false,
-    gemelos: false,
-    espalda: false,
-    hombros: false,
-    pecho: false,
-    biceps: false,
-    triceps: false,
-    abdomen: false,
-  });
+  const [muscularGroupSelected, setMuscularGroupSelected] = useState(EMPTY_FILTERS);
 
   const fetchExercises = () => {
-    const url = userId
-      ? `${EXERCISE_API}?userId=${userId}`
-      : EXERCISE_API;
-    axios
-      .get(url)
-      .then((res) => setExercises(res.data || []))
+    exerciseService
+      .list()
+      .then(setExercises)
       .catch((err) => console.error("Error al cargar ejercicios:", err));
   };
 
@@ -43,18 +40,7 @@ export function useExercises(currentUser) {
   };
 
   const resetFilters = () => {
-    setMuscularGroupSelected({
-      cuadriceps: false,
-      isquiotibiales: false,
-      gluteos: false,
-      gemelos: false,
-      espalda: false,
-      hombros: false,
-      pecho: false,
-      biceps: false,
-      triceps: false,
-      abdomen: false,
-    });
+    setMuscularGroupSelected(EMPTY_FILTERS);
   };
 
   // Determina si el usuario actual puede editar/eliminar un ejercicio
@@ -67,10 +53,11 @@ export function useExercises(currentUser) {
   };
 
   const saveExercise = (exerciseData, onSuccess) => {
-    const dataToSend = { ...exerciseData, userId };
-    const request = exerciseData.id
-      ? axios.put(`${EXERCISE_API}/${exerciseData.id}`, dataToSend)
-      : axios.post(EXERCISE_API, dataToSend);
+    const { id, name, description, muscleGroup } = exerciseData;
+    const data = { name, description, muscleGroup };
+    const request = id
+      ? exerciseService.update(id, data)
+      : exerciseService.create(data);
 
     request
       .then(() => {
@@ -79,8 +66,7 @@ export function useExercises(currentUser) {
       })
       .catch((err) => {
         console.error("Error al guardar ejercicio:", err);
-        const msg = err.response?.data?.mensaje || "No se pudo guardar el ejercicio.";
-        alert(msg);
+        alert(getErrorMessage(err, "No se pudo guardar el ejercicio."));
       });
   };
 
@@ -88,16 +74,15 @@ export function useExercises(currentUser) {
     if (!window.confirm("¿Estás seguro de que querés eliminar este ejercicio?")) {
       return;
     }
-    axios
-      .delete(`${EXERCISE_API}/${id}?userId=${userId}`)
+    exerciseService
+      .remove(id)
       .then(() => {
         fetchExercises();
         if (onSuccess) onSuccess();
       })
       .catch((err) => {
         console.error("Error al eliminar ejercicio:", err);
-        const msg = err.response?.data?.mensaje || "No se pudo eliminar el ejercicio.";
-        alert(msg);
+        alert(getErrorMessage(err, "No se pudo eliminar el ejercicio."));
       });
   };
 

@@ -26,9 +26,9 @@
 
 .exercise-form {
   background-color: white;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
   box-shadow: var(--shadow-md);
-  padding: 2rem;
+  padding: 1.25rem;
   margin-bottom: 2rem;
   border: 1px solid var(--neutral-200);
   border-top: 4px solid var(--primary-color);
@@ -47,8 +47,8 @@
 }
 
 .exercise-form h2 {
-  margin: 0 0 1.5rem 0;
-  font-size: 1.5rem;
+  margin: 0 0 1.25rem 0;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--neutral-900);
 }
@@ -59,8 +59,8 @@
 
 .exercise-form-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
   margin-bottom: 2rem;
 }
 
@@ -218,6 +218,8 @@
 
 .form-buttons {
   display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 1rem;
   justify-content: flex-start;
   flex-wrap: wrap;
@@ -228,6 +230,9 @@
    ============================================================================ */
 
 .btn {
+  flex: 1;
+  min-width: 140px;
+  width: 100%;
   padding: 0.85rem 1.75rem;
   font-size: 0.95rem;
   font-weight: 600;
@@ -340,47 +345,49 @@
    Responsive Design
    ============================================================================ */
 
-@media (max-width: 768px) {
+/* SM */
+@media (min-width: 576px) {
   .exercise-form {
     padding: 1.5rem;
+    border-radius: var(--border-radius);
   }
 
   .exercise-form h2 {
     font-size: 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .exercise-form-fields {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
   }
 
   .form-buttons {
-    width: 100%;
+    flex-direction: row;
   }
 
   .btn {
-    flex: 1;
-    min-width: 140px;
+    width: auto;
   }
 }
 
-@media (max-width: 480px) {
+/* LG */
+@media (min-width: 992px) {
   .exercise-form {
-    padding: 1.25rem;
-    border-radius: 8px;
+    padding: 2rem;
   }
 
   .exercise-form h2 {
-    font-size: 1.1rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .exercise-form-fields {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
 
   .form-buttons {
-    flex-direction: column;
+    width: auto;
   }
 
   .btn {
-    width: 100%;
+    flex: 0 1 auto;
+    min-width: auto;
   }
 }
 

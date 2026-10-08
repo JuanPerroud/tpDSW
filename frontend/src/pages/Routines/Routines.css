@@ -38,7 +38,7 @@
 .routines-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 1rem;
   background-color: var(--neutral-50);
   min-height: 100vh;
 }
@@ -183,40 +183,58 @@
    Responsive Design
    ============================================================================ */
 
-@media (max-width: 768px) {
+/* Mobile-first: base = smallest screens */
+.routines-header {
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.routines-header h1 {
+  font-size: 1.5rem;
+  width: 100%;
+}
+
+.routines-header button {
+  width: 100%;
+  justify-content: center;
+  font-size: 0.9rem;
+  padding: 0.65rem 1.25rem;
+}
+
+/* SM */
+@media (min-width: 576px) {
   .routines-page {
     padding: 1.5rem 1rem;
   }
 
-  .routines-header {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-  }
-
   .routines-header h1 {
     font-size: 1.75rem;
-    width: 100%;
   }
 
   .routines-header button {
-    width: 100%;
-    justify-content: center;
+    font-size: 0.95rem;
   }
 }
 
-@media (max-width: 480px) {
+/* LG */
+@media (min-width: 992px) {
   .routines-page {
-    padding: 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .routines-header {
+    align-items: stretch;
+    margin-bottom: 2rem;
   }
 
   .routines-header h1 {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
+    width: auto;
   }
 
   .routines-header button {
-    font-size: 0.9rem;
-    padding: 0.65rem 1.25rem;
+    width: auto;
+    justify-content: normal;
   }
 }
 

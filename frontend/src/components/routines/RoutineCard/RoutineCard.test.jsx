@@ -1,7 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import RoutineCard from "./RoutineCard";
+import routineService from "../../../services/routineService";
+
+vi.mock("../../../services/routineService", () => ({
+  default: { getById: vi.fn() },
+}));
 
 const routine = {
   id: 7,
@@ -28,7 +33,15 @@ const routine = {
   ],
 };
 
+// Respuesta de GET /api/routine/:id: la rutina más el creador
+const routineDetail = { ...routine, creator: { id: 5, name: "Ana", surname: "Pérez" } };
+
 describe("RoutineCard", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    routineService.getById.mockResolvedValue(routineDetail);
+  });
+
   it("muestra el nombre, la descripción y el badge 'Mi Rutina'", () => {
     render(<RoutineCard routine={routine} isMine />);
 
@@ -36,14 +49,17 @@ describe("RoutineCard", () => {
     expect(screen.getByText("Rutina de fuerza")).toBeInTheDocument();
     expect(screen.getByText("Mi Rutina")).toBeInTheDocument();
     expect(screen.queryByText("Detalle de ejercicios")).not.toBeInTheDocument();
+    expect(routineService.getById).not.toHaveBeenCalled();
   });
 
-  it("expande el detalle con ejercicios ordenados por orderIndex, series y peso", async () => {
+  it("al expandir pide el detalle al backend y muestra ejercicios ordenados, series, peso y creador", async () => {
     const user = userEvent.setup();
     render(<RoutineCard routine={routine} isMine />);
 
     await user.click(screen.getByRole("button", { name: /Ver detalle/ }));
 
+    expect(routineService.getById).toHaveBeenCalledWith(7);
+    expect(await screen.findByText("Creada por Ana Pérez")).toBeInTheDocument();
     expect(screen.getByText("Detalle de ejercicios")).toBeInTheDocument();
     const names = screen
       .getAllByText(/^(Press banca|Fondos)$/)
@@ -55,6 +71,30 @@ describe("RoutineCard", () => {
 
     await user.click(screen.getByRole("button", { name: /Ocultar detalle/ }));
     expect(screen.queryByText("Detalle de ejercicios")).not.toBeInTheDocument();
+  });
+
+  it("solo pide el detalle una vez aunque se expanda varias veces", async () => {
+    const user = userEvent.setup();
+    render(<RoutineCard routine={routine} isMine />);
+
+    await user.click(screen.getByRole("button", { name: /Ver detalle/ }));
+    await screen.findByText("Creada por Ana Pérez");
+    await user.click(screen.getByRole("button", { name: /Ocultar detalle/ }));
+    await user.click(screen.getByRole("button", { name: /Ver detalle/ }));
+
+    expect(routineService.getById).toHaveBeenCalledTimes(1);
+  });
+
+  it("si falla la request avisa al usuario y muestra los datos que ya tenía", async () => {
+    routineService.getById.mockRejectedValue(new Error("Network Error"));
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const user = userEvent.setup();
+    render(<RoutineCard routine={routine} isMine />);
+
+    await user.click(screen.getByRole("button", { name: /Ver detalle/ }));
+
+    expect(await screen.findByRole("alert")).toHaveTextContent(/No se pudo actualizar el detalle/);
+    expect(screen.getByText("Press banca")).toBeInTheDocument();
   });
 
   it("en una rutina propia llama a onUpdate y onDelete con los datos correctos", async () => {
@@ -85,11 +125,12 @@ describe("RoutineCard", () => {
   });
 
   it("muestra un mensaje si la rutina no tiene ejercicios", async () => {
+    routineService.getById.mockResolvedValue({ id: 1, name: "Vacía", RoutineExercises: [] });
     const user = userEvent.setup();
     render(<RoutineCard routine={{ id: 1, name: "Vacía", RoutineExercises: [] }} />);
 
     await user.click(screen.getByRole("button", { name: /Ver detalle/ }));
 
-    expect(screen.getByText("Esta rutina no tiene ejercicios asignados.")).toBeInTheDocument();
+    expect(await screen.findByText("Esta rutina no tiene ejercicios asignados.")).toBeInTheDocument();
   });
 });

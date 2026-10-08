@@ -1,15 +1,14 @@
 import { useState } from "react";
-import axios from "axios";
 import * as Yup from 'yup';
+import userService from "../../../services/userService";
+import { getErrorMessage } from "../../../services/api";
 import "./UserProfileModal.css";
-
-const API_URL = "http://localhost:3000/api/user";
 
 const UserProfileModal = ({ currentUser, onClose, onUserUpdated }) => {
   const [name, setName] = useState(currentUser?.name || "");
   const [surname, setSurname] = useState(currentUser?.surname || "");
   const [age, setAge] = useState(currentUser?.age || "");
-  const [email, setEmail] = useState(currentUser?.email || "");
+  const [email] = useState(currentUser?.email || "");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -53,27 +52,23 @@ const UserProfileModal = ({ currentUser, onClose, onUserUpdated }) => {
 
     setLoading(true);
     try {
-      const payload = { name, surname, age, email };
+      const payload = { name, surname, age };
       if (password.trim() !== "") {
         payload.password = password;
       }
 
-      const res = await axios.put(`${API_URL}/${currentUser.id}`, payload);
+      const updatedUser = await userService.update(currentUser.id, payload);
 
       setMessage({ text: "¡Perfil actualizado con éxito!", type: "success" });
 
-      if (res.data && res.data.user) {
-        onUserUpdated(res.data.user);
-      } else {
-        onUserUpdated({ ...currentUser, name, surname, age, email });
-      }
+      onUserUpdated(updatedUser ?? { ...currentUser, name, surname, age, email });
 
       setPassword("");
       setConfirmPassword("");
     } catch (err) {
       console.error("Error al actualizar perfil:", err);
       setMessage({
-        text: err.response?.data?.mensaje || err.response?.data?.error || "Error al actualizar el perfil",
+        text: getErrorMessage(err, "Error al actualizar el perfil"),
         type: "error",
       });
     } finally {

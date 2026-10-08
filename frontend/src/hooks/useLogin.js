@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import * as Yup from 'yup';
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import authService from '../services/authService';
+import { getErrorMessage } from '../services/api';
 
 export function useLogin(onLoginSuccess) {
   const navigate = useNavigate();
@@ -24,18 +25,16 @@ export function useLogin(onLoginSuccess) {
   const onSubmit = async (values, { setSubmitting }) => {
     setLoginError("");
     try {
-      const response = await axios.post("http://localhost:3000/api/user/login", values);
-      if (response.data && response.data.user) {
-        if (onLoginSuccess) onLoginSuccess(response.data.user);
+      const { user, token } = await authService.login(values);
+      if (user && token) {
+        if (onLoginSuccess) onLoginSuccess(user, token);
         navigate('/routines');
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      const serverMessage =
-        error.response?.data?.mensaje ||
-        error.response?.data?.error ||
-        "Credenciales incorrectas. Verificá tu email y contraseña.";
-      setLoginError(serverMessage);
+      setLoginError(
+        getErrorMessage(error, "Credenciales incorrectas. Verificá tu email y contraseña."),
+      );
     } finally {
       setSubmitting(false);
     }

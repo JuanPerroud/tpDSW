@@ -29,7 +29,7 @@
 .exercises-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 1rem;
   background-color: var(--neutral-50);
   min-height: 100vh;
 }
@@ -40,9 +40,10 @@
 
 .exercises-header {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 2px solid var(--neutral-200);
   gap: 1rem;
@@ -50,7 +51,8 @@
 }
 
 .exercises-header h1 {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  width: 100%;
   font-weight: 700;
   color: var(--neutral-900);
   letter-spacing: -0.5px;
@@ -64,8 +66,10 @@
    ============================================================================ */
 
 .exercises-header button {
-  padding: 0.75rem 1.5rem;
-  font-size: 0.95rem;
+  width: 100%;
+  justify-content: center;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: white;
   background-color: var(--primary-color);
@@ -144,40 +148,42 @@
    Responsive Design
    ============================================================================ */
 
-@media (max-width: 768px) {
+/* SM */
+@media (min-width: 576px) {
   .exercises-page {
     padding: 1.5rem 1rem;
   }
 
-  .exercises-header {
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-  }
-
   .exercises-header h1 {
     font-size: 1.75rem;
-    width: 100%;
   }
 
   .exercises-header button {
-    width: 100%;
-    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
   }
 }
 
-@media (max-width: 480px) {
+/* LG */
+@media (min-width: 992px) {
   .exercises-page {
-    padding: 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .exercises-header {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 2rem;
   }
 
   .exercises-header h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    width: auto;
   }
 
   .exercises-header button {
-    font-size: 0.9rem;
-    padding: 0.65rem 1.25rem;
+    width: auto;
+    justify-content: normal;
   }
 }
 
@@ -226,12 +232,14 @@
 
 .exercises-content-layout {
   display: flex;
+  flex-direction: column;
   gap: 2rem;
   align-items: flex-start;
 }
 
 .exercises-sidebar {
-  flex: 0 0 250px;
+  width: 100%;
+  flex: none;
   background-color: #1e293b;
   padding: 1.5rem;
   border-radius: var(--border-radius);
@@ -328,14 +336,14 @@
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
-@media (max-width: 768px) {
+@media (min-width: 992px) {
   .exercises-content-layout {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .exercises-sidebar {
-    width: 100%;
-    flex: none;
+    width: auto;
+    flex: 0 0 250px;
   }
 }
 
