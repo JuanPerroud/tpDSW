@@ -103,5 +103,21 @@ En una **nueva terminal**:
 
 3. Abrir en el navegador la URL indicada por Vite (habitualmente `http://localhost:5173`).
 
+---
+
+## 🧪 Tests automáticos del backend
+
+Se usan **Jest** y **Supertest**; los modelos de Sequelize están mockeados, por lo que no se necesita MySQL.
+
+```bash
+cd backend
+npm test
+```
+
+* `tests/user.login.test.js`: login (usuario inexistente, cuenta desactivada, contraseña incorrecta y login correcto).
+* `tests/exercise.permissions.test.js`: permisos de edición y borrado de ejercicios (globales solo para admin, privados solo para su creador).
+
+> El servidor ahora arranca desde `backend/server.js` (`npm run dev` / `npm start`); `backend/app.js` solo exporta la app de Express.
+
 
 
