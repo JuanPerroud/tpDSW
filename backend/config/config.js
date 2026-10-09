@@ -15,7 +15,7 @@ module.exports = {
         ...common,
         dialectOptions:
             process.env.DB_SSL === 'true'
-                ? { ssl: { minVersion: 'TLSv1.2', rejectUnauthorized: true } }
+                ? { ssl: { minVersion: 'TLSv1.2', rejectUnauthorized: false } }
                 : {}
     }
 };

@@ -159,4 +159,3 @@ Guía de deploy gratuito (Aiven MySQL + Render + Vercel) en [docs/deploy.md](doc
 
 * **Frontend:** _(completar con la URL de Vercel)_
 * **Backend / Swagger:** _(completar con la URL de Render)_ `/api/docs`
-* **Video de demostración:** _(completar)_

@@ -2,13 +2,12 @@
 
 Resumen de la última ejecución (Windows, Node 24):
 
-| Suite | Herramienta | Tests | Resultado |
-|---|---|:-:|:-:|
-| Backend – unitarios | Jest + Supertest (modelos mockeados) | 18 | ✅ 18 / 18 |
-| Backend – integración | Jest + Supertest + SQLite en memoria (sin mocks) | 14 | ✅ 14 / 14 |
-| Frontend – unitario de componente | Vitest + React Testing Library | 7 | ✅ 7 / 7 |
-| Frontend – end-to-end | Playwright (Chromium) | 7 | ✅ 7 / 7 |
-| **Total** | | **46** | ✅ |
+| Suite | Herramienta | Tests |
+|---|---|:-:|
+| Backend – unitarios | Jest + Supertest (modelos mockeados) | 
+| Backend – integración | Jest + Supertest + SQLite en memoria | 
+| Frontend – unitario de componente | Vitest + React Testing Library | 
+| Frontend – end-to-end | Playwright (Chromium) | 
 
 Además se verificó el flujo completo contra un **MySQL real** con los seeders (registro → login → comunidad con detalle desde el backend → guardar rutina → crear ejercicio → rutas de admin) y los códigos 401/403/404 de la API.
 
@@ -47,11 +46,3 @@ No requieren MySQL: los unitarios mockean los modelos, la integración usa SQLit
 | `frontend/src/components/routines/RoutineCard/RoutineCard.test.jsx` | Unitario de componente | Render, detalle expandible que pide la rutina al backend (ejercicios ordenados, series, peso, creador), una sola request, error de red con mensaje amigable, acciones de rutina propia vs. comunidad, rutina vacía |
 | `frontend/e2e/auth-routines.spec.js` | End-to-end | Redirección sin sesión, error de login, usuario común sin acceso a `/admin/users`, admin con gestión de usuarios, 401 que cierra la sesión, listado de rutinas, detalle desde el backend con JWT, comunidad y cierre de sesión |
 
-## Distribución por integrante
-
-| Integrante | Test automatizado asignado |
-|---|---|
-| Integrante 1 | `backend/tests/user.login.test.js` |
-| Integrante 2 | `backend/tests/exercise.permissions.test.js` |
-
-_(Ajustar con los nombres reales del grupo.)_

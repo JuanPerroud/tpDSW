@@ -1,6 +1,4 @@
-# Cumplimiento de requisitos (Aprobación Directa)
 
-Referencia: <https://github.com/utnfrrodsw/tp>. ✅ cumplido · 🟡 requiere acción del grupo (no se puede resolver desde el código).
 
 ## Backend
 
@@ -57,7 +55,6 @@ Referencia: <https://github.com/utnfrrodsw/tp>. ✅ cumplido · 🟡 requiere ac
 | Proposal actualizada | 🟡 | [proposal.md](proposal.md) — completar legajos y links a los PR |
 | Documentación de la API | ✅ | [api.md](api.md) + Swagger |
 | Evidencia de tests automáticos | ✅ | [tests.md](tests.md) |
-| Minutas y tracking de features/bugs | 🟡 | Estructura en [gestion-proyecto.md](gestion-proyecto.md); cargar las minutas reales y usar GitHub Projects/Issues |
 | Deploy, links y credenciales | 🟡 | Configuración y pasos en [deploy.md](deploy.md); falta crear las cuentas y ejecutar el deploy |
 | Video explicando el sistema | 🟡 | Grabarlo y linkearlo en el README |
 | Formulario de entrega y contacto | 🟡 | <https://kutt.to/DSWEntregaSistemaFinal> |

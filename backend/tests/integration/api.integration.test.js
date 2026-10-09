@@ -1,10 +1,10 @@
 /**
- * Test de integración: app Express real + Sequelize + SQLite en memoria (sin mocks).
+ * Test de integración: app Express real + Sequelize + SQLite en memoria.
  * Recorre el flujo completo: registro → login → ejercicios → rutina → permisos.
  */
 const request = require("supertest");
 
-// Carga los modelos y registra las asociaciones (igual que server.js)
+// Carga los modelos y registra las asociaciones
 const { sequelize, User } = require("../../models");
 const app = require("../../app");
 const { hashPassword } = require("../../utils/password");

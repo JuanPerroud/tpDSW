@@ -41,17 +41,6 @@ flowchart LR
 3. `authenticate` valida el token **y consulta la BD**: si el usuario fue eliminado o desactivado, el token deja de servir al instante.
 4. Dos niveles: **usuario** (`isAdmin=false`) y **admin** (`isAdmin=true`).
 
-| Recurso | Anónimo | Usuario | Admin |
-|---|:-:|:-:|:-:|
-| Registro / login | ✅ | ✅ | ✅ |
-| Rutinas y ejercicios (lectura) | ❌ | ✅ | ✅ |
-| Crear rutina / ejercicio privado | ❌ | ✅ | ✅ (el ejercicio es global) |
-| Editar o borrar rutinas | ❌ | ✅ (solo propias) | ✅ (cualquiera) |
-| Editar o borrar ejercicios privados | ❌ | ✅ (solo propios) | ✅ (solo propios) |
-| Editar o borrar ejercicios globales | ❌ | ❌ | ✅ |
-| Listar, activar/desactivar y eliminar usuarios | ❌ | ❌ | ✅ |
-
-El rol nunca se toma del body: `isAdmin` solo puede asignarse en la base de datos.
 
 ## Frontend (`frontend/src/`)
 

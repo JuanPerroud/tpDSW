@@ -1,15 +1,12 @@
 # Deploy gratuito
 
-Stack elegido (todo con plan gratuito y sin tarjeta de crédito):
-
 | Parte | Servicio | Por qué |
 |---|---|---|
-| Base de datos MySQL | **Aiven** (plan Free MySQL) | MySQL real y externo (la cátedra no admite BD embebida ni local). 1 GB. |
-| Backend (Express) | **Render** (Web Service Free) | Despliega Node desde GitHub y lee `render.yaml`. Se "duerme" tras 15 min sin tráfico (la primera request tarda ~1 min). |
+| Base de datos MySQL | **Aiven** |
+| Backend (Express) | **Render** (Web Service Free) | 
 | Frontend (React + Vite) | **Vercel** (Hobby) | Build estático desde GitHub; `frontend/vercel.json` resuelve las rutas de la SPA. |
 
-> Los pasos requieren cuentas propias del grupo, por eso están documentados y no ejecutados desde el repositorio.
-> Los planes gratuitos pueden cambiar: verificá las condiciones vigentes en cada proveedor.
+
 
 ## 1. Base de datos (Aiven)
 
@@ -21,6 +18,7 @@ Stack elegido (todo con plan gratuito y sin tarjeta de crédito):
    ```powershell
    cd backend
    $env:DB_HOST="..."; $env:DB_PORT="..."; $env:DB_USER="..."; $env:DB_PASSWORD="..."; $env:DB_NAME="defaultdb"; $env:DB_SSL="true"
+   node -e "require('./models').sequelize.sync()"
    npx sequelize-cli db:seed:all --env production
    ```
 
@@ -52,4 +50,3 @@ Completar cuando el deploy esté listo:
 | Usuario administrador | `admin@gymroutines.com` / `adminpassword123` |
 | Usuario común | `carlos.gomez@example.com` / `password123` |
 
-> Cambiar las contraseñas de los usuarios seed en el entorno público si la aplicación se deja online después de la defensa.
