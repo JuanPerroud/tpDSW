@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import ExerciseList from "../../components/Exercises/ExerciseList/ExerciseList";
 import ExerciseForm from "../../components/Exercises/ExerciseForm/ExerciseForm";
-import FilterSidebar from "../../components/shared/FilterSidebar";
+import FilterSidebar from "../../components/Shared/FilterSideBar";
 import SortOptios from "../../constants/SortOptions";
 import { useExercises } from "../../hooks/useExercises";
 import "./Exercises.css";

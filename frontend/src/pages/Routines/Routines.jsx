@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import RoutineList from "../../components/Routines/RoutineList/RoutineList";
-import RoutineForm from "../../components/Routines/RoutineForm/RoutineForm";
-import FilterSidebar from "../../components/shared/FilterSidebar";
+import RoutineList from "../../components/routines/RoutineList/RoutineList";
+import RoutineForm from "../../components/routines/RoutineForm/RoutineForm";
+import FilterSidebar from "../../components/Shared/FilterSideBar";
 import SortOptions from "../../constants/SortOptions";
 import { useRoutines } from "../../hooks/useRoutines";
 import "./Routines.css";
