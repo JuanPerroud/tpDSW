@@ -32,6 +32,9 @@ const RoutineExercise = sequelize.define(
     {
         tableName: "RoutineExercise",
         timestamps: true,
+        indexes: [
+            { unique: true, fields: ["routineId", "exerciseId"] },
+        ],
     }
 );
 

@@ -22,6 +22,10 @@ const Routine = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    creatorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
   },
   {
     tableName: "Routine",

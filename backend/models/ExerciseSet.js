@@ -5,11 +5,6 @@ const sequelize = require("../config/db");
 const ExerciseSet = sequelize.define(
     "ExerciseSet",
     {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
         routineExerciseId: {
             type: DataTypes.INTEGER,
             allowNull: false,

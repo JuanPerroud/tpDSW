@@ -150,12 +150,3 @@ npm test                          # test unitario de componente (Vitest)
 npx playwright install chromium   # solo la primera vez
 npm run test:e2e                  # end-to-end (Playwright; levanta el frontend y simula la API)
 ```
-
----
-
-## 🚀 Deploy
-
-Guía de deploy gratuito (Aiven MySQL + Render + Vercel) en [docs/deploy.md](docs/deploy.md).
-
-* **Frontend:** _(completar con la URL de Vercel)_
-* **Backend / Swagger:** _(completar con la URL de Render)_ `/api/docs`

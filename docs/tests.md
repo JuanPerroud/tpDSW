@@ -9,7 +9,6 @@ Resumen de la última ejecución (Windows, Node 24):
 | Frontend – unitario de componente | Vitest + React Testing Library | 
 | Frontend – end-to-end | Playwright (Chromium) | 
 
-Además se verificó el flujo completo contra un **MySQL real** con los seeders (registro → login → comunidad con detalle desde el backend → guardar rutina → crear ejercicio → rutas de admin) y los códigos 401/403/404 de la API.
 
 ## Cómo ejecutarlos
 

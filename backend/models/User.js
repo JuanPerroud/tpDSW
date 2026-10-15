@@ -53,6 +53,11 @@ User.associate = (models) => {
     foreignKey: "creatorId",
     onDelete: "CASCADE",
   });
+  User.hasMany(models.Exercise, {
+    foreignKey: "creatorId",
+    as: "exercises",
+    onDelete: "SET NULL",
+  });
 };
 
 module.exports = User;

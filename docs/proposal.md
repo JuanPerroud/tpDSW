@@ -10,10 +10,10 @@
 
 ## Tema
 ### Descripción
-GymRoutines es una aplicación web para crear y gestionar rutinas de gimnasio. Los usuarios arman su catálogo de ejercicios, diseñan rutinas con series, repeticiones, peso y descanso, y descubren y guardan rutinas creadas por la comunidad. Un asistente de IA (Gemini) puede sugerir rutinas. Los administradores moderan usuarios y mantienen el catálogo global de ejercicios.
+GymRoutines es una aplicación web para crear y gestionar rutinas de gimnasio. Los usuarios cuentan con un catálogo de ejercicios creados por un admin y la posibilidad de crear sus propios ejercicios de forma privada, diseñan rutinas con series, repeticiones, peso y descanso.Descubren con la opcion de guardar rutinas creadas por la comunidad. Un asistente de IA puede sugerir rutinas segun tu objetivo. Los administradores moderan usuarios y mantienen el catálogo global de ejercicios.
 
 ### Modelo
-Ver el [diagrama entidad-relación](arquitectura.md#modelo-de-datos) (Mermaid) en la documentación de arquitectura.
+Ver el [diagrama entidad-relación](arquitectura.md#modelo-de-datos) en la documentación de arquitectura.
 
 ```mermaid
 erDiagram

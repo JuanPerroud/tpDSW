@@ -1,7 +1,3 @@
-/**
- * Modelos de datos del frontend (reflejan las respuestas de la API del backend).
- * Cada clase expone `fromApi(json)` para construir instancias desde una respuesta HTTP.
- */
 
 export class User {
   /**
