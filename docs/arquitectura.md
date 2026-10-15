@@ -60,5 +60,4 @@ flowchart LR
 
 ## Modelo de datos
 
-<img width="672" height="757" alt="DER imagen" src="https://github.com/user-attachments/assets/6776ce29-1fb0-4436-8288-6973d2e22906" />
-
+![DER imagen](https://github.com/user-attachments/assets/6776ce29-1fb0-4436-8288-6973d2e22906)
