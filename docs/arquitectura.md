@@ -60,50 +60,5 @@ flowchart LR
 
 ## Modelo de datos
 
-```mermaid
-erDiagram
-  User ||--o{ Routine : "creatorId"
-  User ||--o{ Exercise : "creatorId"
-  Routine ||--o{ RoutineExercise : "routineId"
-  Exercise ||--o{ RoutineExercise : "exerciseId"
-  RoutineExercise ||--o{ ExerciseSet : "routineExerciseId"
-  User {
-    int id PK
-    string name
-    string surname
-    int age
-    string email UK
-    string password "bcrypt"
-    bool isAdmin
-    bool status
-  }
-  Exercise {
-    int id PK
-    string name
-    text description
-    string muscleGroup
-    bool isPublic
-    int creatorId FK
-  }
-  Routine {
-    int id PK
-    string name
-    text description
-    string muscleGroup
-    int creatorId FK
-  }
-  RoutineExercise {
-    int id PK
-    int routineId FK
-    int exerciseId FK
-    int orderIndex
-    int restSeconds
-  }
-  ExerciseSet {
-    int id PK
-    int routineExerciseId FK
-    int setNumber
-    int reps
-    decimal weightKg
-  }
-```
+<img width="672" height="757" alt="DER imagen" src="https://github.com/user-attachments/assets/6776ce29-1fb0-4436-8288-6973d2e22906" />
+
