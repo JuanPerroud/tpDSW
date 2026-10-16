@@ -1,5 +1,6 @@
 import { useAdminUsers } from "../../../hooks/useAdminUsers";
 import SearchBar from "../../Shared/SearchBar";
+import ConfirmModal from "../../Shared/ConfirmModal/ConfirmModal";
 
 const AdminUserPanel = () => {
     const {
@@ -7,11 +8,12 @@ const AdminUserPanel = () => {
         loadingUsers,
         setSearchQuery,
         handleToggleActive,
-        handleDeleteUser
+        confirmModalProps,
     } = useAdminUsers();
 
     return (
-        <div className="admin-panel">
+        <>
+            <div className="admin-panel">
             <div className="admin-panel-header">
                 <h3>Gestión de Usuarios</h3>
                 <span className="admin-badge">Admin</span>
@@ -43,17 +45,10 @@ const AdminUserPanel = () => {
                             <div className="admin-user-actions">
                                 <button
                                     className={`admin-action-btn ${user.status ? 'btn-deactivate' : 'btn-activate'}`}
-                                    onClick={() => handleToggleActive(user.id)}
+                                    onClick={() => handleToggleActive(user.id, user.name, user.status)}
                                     title={user.status ? 'Desactivar' : 'Activar'}
                                 >
                                     {user.status ? '⏸' : '▶'}
-                                </button>
-                                <button
-                                    className="admin-action-btn btn-delete"
-                                    onClick={() => handleDeleteUser(user.id, user.name)}
-                                    title="Eliminar"
-                                >
-                                    🗑
                                 </button>
                             </div>
                         </li>
@@ -61,7 +56,9 @@ const AdminUserPanel = () => {
                 </ul>
             )}
         </div>
+        <ConfirmModal {...confirmModalProps} variant="warning" />
+        </>
     );
 };
 
-export default AdminUserPanel;
+export default AdminUserPanel;

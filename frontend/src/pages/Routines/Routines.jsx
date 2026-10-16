@@ -4,6 +4,7 @@ import RoutineForm from "../../components/routines/RoutineForm/RoutineForm";
 import FilterSidebar from "../../components/Shared/FilterSideBar";
 import SortOptions from "../../constants/SortOptions";
 import { useRoutines } from "../../hooks/useRoutines";
+import ConfirmModal from "../../components/Shared/ConfirmModal/ConfirmModal";
 import "./Routines.css";
 
 
@@ -25,6 +26,7 @@ const Routines = ({ mode = "my", currentUser }) => {
     onSubmit,
     onSubmitEdit,
     handleSaveCommunityRoutine,
+    confirmModalProps,
   } = useRoutines(mode, currentUser);
 
   const formRef = useRef(null);
@@ -41,7 +43,8 @@ const Routines = ({ mode = "my", currentUser }) => {
   };
 
   return (
-    <div className="routines-page">
+    <>
+      <div className="routines-page">
       {showForm ? (
         <div className="routine-form-wrapper" ref={formRef} style={{ scrollMarginTop: "20px" }}>
           <RoutineForm
@@ -95,7 +98,9 @@ const Routines = ({ mode = "my", currentUser }) => {
           </div>
         </section>
       )}
-    </div>
+      </div>
+      <ConfirmModal {...confirmModalProps} variant="danger" />
+    </>
   );
 }
 

@@ -93,10 +93,6 @@ const UserService = {
     await actor.update({ password: await hashPassword(password) });
   },
 
-  async remove(id) {
-    const target = await findManageableTarget(id, "eliminar");
-    await target.destroy();
-  },
 
   async toggleActive(id) {
     const target = await findManageableTarget(id, "desactivar");

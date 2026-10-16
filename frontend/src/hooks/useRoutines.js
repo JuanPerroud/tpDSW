@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import routineService from "../services/routineService";
 import exerciseService from "../services/exerciseService";
 import { getErrorMessage } from "../services/api";
+import { useConfirmModal } from "./useConfirmModal";
 
 const EMPTY_FILTERS = {
   cuadriceps: false,
@@ -48,20 +49,27 @@ export function useRoutines(mode, currentUser) {
       .catch((err) => console.error("Error al cargar ejercicios:", err));
   }, [currentUser?.id, fetchRoutines]);
 
+  const { modalProps: confirmModalProps, requestConfirm } = useConfirmModal();
+
   const handleDelete = (id) => {
-    if (!window.confirm("¿Estás seguro de que querés eliminar esta rutina?")) {
-      return;
-    }
-    routineService
-      .remove(id)
-      .then(() => {
-        setRoutines((prev) => prev.filter((routine) => routine.id !== id));
-        alert("Rutina eliminada correctamente");
-      })
-      .catch((error) => {
-        console.error("Error al eliminar la rutina:", error);
-        alert(getErrorMessage(error, "Ocurrió un error al intentar eliminar la rutina"));
-      });
+    requestConfirm(
+      () => {
+        routineService
+          .remove(id)
+          .then(() => {
+            setRoutines((prev) => prev.filter((routine) => routine.id !== id));
+          })
+          .catch((error) => {
+            console.error("Error al eliminar la rutina:", error);
+            alert(getErrorMessage(error, "Ocurrió un error al intentar eliminar la rutina"));
+          });
+      },
+      {
+        title: "Eliminar rutina",
+        message: "¿Estás seguro de que querés eliminar esta rutina? Esta acción no se puede deshacer.",
+        confirmLabel: "Eliminar",
+      }
+    );
   };
 
   // El dueño de la rutina lo define el backend a partir del token
@@ -187,5 +195,6 @@ export function useRoutines(mode, currentUser) {
     onSubmit,
     onSubmitEdit,
     handleSaveCommunityRoutine,
+    confirmModalProps,
   };
 }

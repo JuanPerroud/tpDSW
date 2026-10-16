@@ -16,9 +16,6 @@ const userService = {
     return api.patch(`/user/${id}/toggle-active`);
   },
 
-  remove(id) {
-    return api.delete(`/user/${id}`);
-  },
 };
 
 export default userService;

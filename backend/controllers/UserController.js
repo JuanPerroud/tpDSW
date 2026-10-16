@@ -21,10 +21,6 @@ const UserController = {
     res.json({ mensaje: "Usuario actualizado exitosamente", user });
   },
 
-  delete: async (req, res) => {
-    await UserService.remove(toId(req.params.id));
-    res.json({ mensaje: "Usuario eliminado" });
-  },
 
   toggleActive: async (req, res) => {
     const user = await UserService.toggleActive(toId(req.params.id));

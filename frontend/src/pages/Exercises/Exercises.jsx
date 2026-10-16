@@ -4,6 +4,7 @@ import ExerciseForm from "../../components/Exercises/ExerciseForm/ExerciseForm";
 import FilterSidebar from "../../components/Shared/FilterSideBar";
 import SortOptios from "../../constants/SortOptions";
 import { useExercises } from "../../hooks/useExercises";
+import ConfirmModal from "../../components/Shared/ConfirmModal/ConfirmModal";
 import "./Exercises.css";
 
 const Exercises = ({ currentUser }) => {
@@ -22,6 +23,7 @@ const Exercises = ({ currentUser }) => {
     saveExercise,
     deleteExercise,
     canModifyExercise,
+    confirmModalProps,
   } = useExercises(currentUser);
 
   // Ref para hacer scroll al formulario
@@ -63,7 +65,8 @@ const Exercises = ({ currentUser }) => {
   };
 
   return (
-    <div className="exercises-page">
+    <>
+      <div className="exercises-page">
       <div className="exercises-header">
         <h1>Mis Ejercicios</h1>
         <button onClick={handleToggleForm}>
@@ -107,7 +110,9 @@ const Exercises = ({ currentUser }) => {
           />
         </main>
       </div>
-    </div>
+      </div>
+      <ConfirmModal {...confirmModalProps} variant="danger" />
+    </>
   );
 }
 

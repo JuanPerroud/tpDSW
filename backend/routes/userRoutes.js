@@ -138,21 +138,9 @@ router.put("/change-password", authenticate, validateBody(changePasswordSchema),
  *       200: { description: Usuario actualizado }
  *       403: { description: Sin permisos, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
  *       404: { description: No encontrado, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
- *   delete:
- *     tags: [Usuarios]
- *     summary: Eliminar un usuario (solo admin; no se puede eliminar a otro admin)
- *     security: [{ bearerAuth: [] }]
- *     parameters:
- *       - { in: path, name: id, required: true, schema: { type: integer } }
- *     responses:
- *       200: { description: Usuario eliminado }
- *       400: { description: Es un administrador, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
- *       403: { description: No es administrador, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
- *       404: { description: No encontrado, content: { application/json: { schema: { $ref: '#/components/schemas/Error' } } } }
  */
 router.get("/:id", authenticate, UserController.getById);
 router.put("/:id", authenticate, validateBody(updateSchema), UserController.update);
-router.delete("/:id", authenticate, requireAdmin, UserController.delete);
 
 /**
  * @openapi

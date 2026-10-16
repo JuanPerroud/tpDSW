@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import userService from "../services/userService";
 import { getErrorMessage } from "../services/api";
 import { useDebounce } from "./useDebounce";
+import { useConfirmModal } from "./useConfirmModal";
 
 export const useAdminUsers = () => {
     const [users, setUsers] = useState([]);
     const [loadingUsers, setLoadingUsers] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
-    // Disparador para forzar recargas tras activar, desactivar o eliminar
+    // Disparador para forzar recargas tras activar o desactivar
     const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const debouncedSearchQuery = useDebounce(searchQuery, 400);
@@ -30,26 +31,27 @@ export const useAdminUsers = () => {
         fetchUsers();
     }, [debouncedSearchQuery, refreshTrigger]);
 
-    const handleToggleActive = async (userId) => {
-        try {
-            await userService.toggleActive(userId);
-            setRefreshTrigger(prev => prev + 1);
-        } catch (err) {
-            console.error("Error al cambiar estado:", err);
-            alert(getErrorMessage(err, "Error al cambiar estado del usuario"));
-        }
-    };
+    const { modalProps: confirmModalProps, requestConfirm } = useConfirmModal();
 
-    const handleDeleteUser = async (userId, userName) => {
-        if (!window.confirm(`¿Estás seguro de eliminar a "${userName}"? Esta acción no se puede deshacer.`)) return;
+    const handleToggleActive = async (userId, userName, currentStatus) => {
+        const action = currentStatus ? "desactivar" : "activar";
+        const title = currentStatus ? "Desactivar usuario" : "Activar usuario";
+        const message = currentStatus
+            ? `¿Estás seguro de que querés desactivar a "${userName}"? El usuario no podrá iniciar sesión.`
+            : `¿Estás seguro de que querés activar a "${userName}"?`;
 
-        try {
-            await userService.remove(userId);
-            setRefreshTrigger(prev => prev + 1);
-        } catch (err) {
-            console.error("Error al eliminar usuario:", err);
-            alert(getErrorMessage(err, "Error al eliminar usuario"));
-        }
+        requestConfirm(
+            async () => {
+                try {
+                    await userService.toggleActive(userId);
+                    setRefreshTrigger(prev => prev + 1);
+                } catch (err) {
+                    console.error(`Error al ${action} usuario:`, err);
+                    alert(getErrorMessage(err, `Error al ${action} el usuario`));
+                }
+            },
+            { title, message, confirmLabel: currentStatus ? "Desactivar" : "Activar" }
+        );
     };
 
     return {
@@ -58,6 +60,6 @@ export const useAdminUsers = () => {
         searchQuery,
         setSearchQuery,
         handleToggleActive,
-        handleDeleteUser
+        confirmModalProps,
     };
 };

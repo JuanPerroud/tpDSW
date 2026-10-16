@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import exerciseService from "../services/exerciseService";
 import { getErrorMessage } from "../services/api";
+import { useConfirmModal } from "./useConfirmModal";
 
 const EMPTY_FILTERS = {
   cuadriceps: false,
@@ -17,7 +18,7 @@ const EMPTY_FILTERS = {
 
 export function useExercises(currentUser) {
   const [exercises, setExercises] = useState([]);
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortOrder, setSortOrder] = useState("name-asc");
   const [muscularGroupSelected, setMuscularGroupSelected] = useState(EMPTY_FILTERS);
 
   const fetchExercises = () => {
@@ -70,20 +71,28 @@ export function useExercises(currentUser) {
       });
   };
 
+  const { modalProps: confirmModalProps, requestConfirm } = useConfirmModal();
+
   const deleteExercise = (id, onSuccess) => {
-    if (!window.confirm("¿Estás seguro de que querés eliminar este ejercicio?")) {
-      return;
-    }
-    exerciseService
-      .remove(id)
-      .then(() => {
-        fetchExercises();
-        if (onSuccess) onSuccess();
-      })
-      .catch((err) => {
-        console.error("Error al eliminar ejercicio:", err);
-        alert(getErrorMessage(err, "No se pudo eliminar el ejercicio."));
-      });
+    requestConfirm(
+      () => {
+        exerciseService
+          .remove(id)
+          .then(() => {
+            fetchExercises();
+            if (onSuccess) onSuccess();
+          })
+          .catch((err) => {
+            console.error("Error al eliminar ejercicio:", err);
+            alert(getErrorMessage(err, "No se pudo eliminar el ejercicio."));
+          });
+      },
+      {
+        title: "Eliminar ejercicio",
+        message: "¿Estás seguro de que querés eliminar este ejercicio? Esta acción no se puede deshacer.",
+        confirmLabel: "Eliminar",
+      }
+    );
   };
 
   const activeFilters = Object.keys(muscularGroupSelected).filter(
@@ -97,10 +106,8 @@ export function useExercises(currentUser) {
   });
 
   const sortedExercises = [...filteredExercises].sort((a, b) => {
-    const nameA = a.name.toUpperCase();
-    const nameB = b.name.toUpperCase();
-    if (nameA < nameB) return sortOrder === "asc" ? 1 : -1;
-    if (nameA > nameB) return sortOrder === "desc" ? 1 : -1;
+    if (sortOrder === "name-asc" || sortOrder === "asc") return (a.name || "").localeCompare(b.name || "");
+    if (sortOrder === "name-desc" || sortOrder === "desc") return (b.name || "").localeCompare(a.name || "");
     return 0;
   });
 
@@ -115,5 +122,6 @@ export function useExercises(currentUser) {
     saveExercise,
     deleteExercise,
     canModifyExercise,
+    confirmModalProps,
   };
 }
